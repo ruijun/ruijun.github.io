@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>使用Gradle上传aar到mavenCentral详细教程 | ruijun&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="折腾了几天，终于在Android Studio上使用了Gradle成功上传aar到mavenCentral。心情相当爽，决定总结上传的步骤以及遇到的问题。
+#具体步骤
+
+
+注册Sonatype帐号, 创建一个JIRA ticket
+使用GnuPG生成密钥
+配置Gradle脚本, 属性文件
+上传library
+部署release版本, 发布">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Gradle上传aar到mavenCentral详细教程">
+<meta property="og:url" content="http://yoursite.com/2015/06/05/使用Gradle上传aar到mavenCentral详细教程/index.html">
+<meta property="og:site_name" content="ruijun's blog">
+<meta property="og:description" content="折腾了几天，终于在Android Studio上使用了Gradle成功上传aar到mavenCentral。心情相当爽，决定总结上传的步骤以及遇到的问题。
+#具体步骤
+
+
+注册Sonatype帐号, 创建一个JIRA ticket
+使用GnuPG生成密钥
+配置Gradle脚本, 属性文件
+上传library
+部署release版本, 发布">
+<meta property="og:image" content="http://yoursite.com/img/maven_1.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_2.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_3.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_4.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_5.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_6.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_7.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_8.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_9.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_10.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_11.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_12.png">
+<meta property="og:updated_time" content="2015-06-05T14:30:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Gradle上传aar到mavenCentral详细教程">
+<meta name="twitter:description" content="折腾了几天，终于在Android Studio上使用了Gradle成功上传aar到mavenCentral。心情相当爽，决定总结上传的步骤以及遇到的问题。
+#具体步骤
+
+
+注册Sonatype帐号, 创建一个JIRA ticket
+使用GnuPG生成密钥
+配置Gradle脚本, 属性文件
+上传library
+部署release版本, 发布">
+  
+  
+    <link rel="icon" href="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img lazy-src="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200" class="js-avatar">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">liangruijun</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Code &amp;&amp; Share &amp;&amp; Learn</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/about">关于我</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/ruijun" title="github">github</a>
+					        
+								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/liangruijun" title="zhihu">zhihu</a>
+					        
+								<a class="mail" target="_blank" href="mailto:lingdududu@163.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android-M/" style="font-size: 15px;">Android M</a> <a href="/tags/Android-Studio/" style="font-size: 10px;">Android Studio</a> <a href="/tags/AndroidStudio/" style="font-size: 10px;">AndroidStudio</a> <a href="/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/Crash-Analysis/" style="font-size: 10px;">Crash Analysis</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Google-I-O/" style="font-size: 10px;">Google I/O</a> <a href="/tags/SQLiteException/" style="font-size: 10px;">SQLiteException</a> <a href="/tags/Sonatype/" style="font-size: 10px;">Sonatype</a> <a href="/tags/View/" style="font-size: 10px;">View</a> <a href="/tags/aar/" style="font-size: 10px;">aar</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/apktool/" style="font-size: 10px;">apktool</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/atom/" style="font-size: 10px;">atom</a> <a href="/tags/crash/" style="font-size: 10px;">crash</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/performance/" style="font-size: 10px;">performance</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/traces/" style="font-size: 10px;">traces</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/反编译/" style="font-size: 10px;">反编译</a> <a href="/tags/命令/" style="font-size: 10px;">命令</a> <a href="/tags/开源/" style="font-size: 20px;">开源</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/插件/" style="font-size: 10px;">插件</a> <a href="/tags/知乎/" style="font-size: 10px;">知乎</a> <a href="/tags/线程/" style="font-size: 10px;">线程</a> <a href="/tags/编辑器/" style="font-size: 10px;">编辑器</a> <a href="/tags/语法/" style="font-size: 10px;">语法</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.trinea.cn/">Trinea的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://stormzhang.com/">stormzhang的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://hukai.me/">胡凯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/luoshengyang">老罗Android之旅</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/lmj623565791">鸿洋的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.devtf.cn/">开发技术前线</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.androidweekly.cn/">Android开发技术周报</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.jcodecraeer.com/">泡在网上的日子</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">liangruijun</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">liangruijun</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Code &amp;&amp; Share &amp;&amp; Learn</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/about">关于我</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/ruijun" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/liangruijun" title="zhihu">zhihu</a>
+			        
+						<a class="mail" target="_blank" href="mailto:lingdududu@163.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="maven-使用Gradle上传aar到mavenCentral详细教程" class="article article-type-maven" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/05/使用Gradle上传aar到mavenCentral详细教程/" class="article-date">
+  	<time datetime="2015-06-05T14:23:02.000Z" itemprop="datePublished">2015-06-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用Gradle上传aar到mavenCentral详细教程
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Sonatype/">Sonatype</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/aar/">aar</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/">maven</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>折腾了几天，终于在Android Studio上使用了Gradle成功上传aar到mavenCentral。心情相当爽，决定总结上传的步骤以及遇到的问题。</p>
+<p>#具体步骤</p>
+<blockquote>
+<ul>
+<li>注册Sonatype帐号, 创建一个JIRA ticket</li>
+<li>使用GnuPG生成密钥</li>
+<li>配置Gradle脚本, 属性文件</li>
+<li>上传library</li>
+<li>部署release版本, 发布</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p>##注册Sonatype帐号, 创建一个JIRA ticket<br>在<a href="https://issues.sonatype.org/secure/Dashboard.jspa" target="_blank" rel="external">Sonatype JIRA</a>注册完帐号后打开<a href="https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&amp;pid=10134" target="_blank" rel="external">Create Issue</a>创建一个JIRA ticket。</p>
+<blockquote>
+<ul>
+<li>Summary:项目名称(Characterview)</li>
+<li>Description:项目描述（可不填）</li>
+<li>Group Id:(com.github.ruijun)</li>
+<li>Project URL：库的开源地址（<a href="https://github.com/ruijun/Characterview）" target="_blank" rel="external">https://github.com/ruijun/Characterview）</a></li>
+<li>SCM url：库的开源地址（<a href="https://github.com/ruijun/Characterview.git）" target="_blank" rel="external">https://github.com/ruijun/Characterview.git）</a></li>
+<li>Username(s)：填写自己的名字（ruijun）</li>
+</ul>
+</blockquote>
+<p>填完上面的内容，点击<code>create</code>就创建了属于你的<code>JIRA ticket</code>。这时候，你可以看到状态为UNRESOLVED，还不能正常使用。需要等待两个工作日的审核时间，等issue会变成RESOLVED才能正常使用。</p>
+<p>###遇到的问题<br>创建JIRA ticket，Group Id一定要填写正确，我第一次创建的时候，Group id填写为<code>com.ruijun</code>。后来审核没有通过，下面是没有通过的原因：</p>
+<p><img src="/img/maven_1.png" alt=""></p>
+<p>按照<a href="http://central.sonatype.org/pages/choosing-your-coordinates.html" target="_blank" rel="external">Choosing your Coordinates</a>域名反转的规则：</p>
+<blockquote>
+<ul>
+<li>www.springframework.org -&gt; org.springframework</li>
+<li>oness.sf.net -&gt; net.sf.oness</li>
+<li>github.com/yourusername -&gt; com.github.yourusername</li>
+</ul>
+</blockquote>
+<p>将Group Id改为com.github.ruijun，改完之后再等两天的时间了，issue变成RESOLVED。到这里第一个步骤完成了。</p>
+<p>##使用GnuPG生成密钥</p>
+<p>需要对上传的library加密和签名，GPG用于生成签名，管理密钥。</p>
+<ul>
+<li>下载<a href="http://gpg4win.org/" target="_blank" rel="external">GPG</a>， 安装， 验证<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpg --version&#10;gpg (GnuPG) 2.0.27 (Gpg4win 2.2.4)&#10;libgcrypt 1.6.3&#10;Copyright (C) 2015 Free Software Foundation, Inc.&#10;License GPLv3+: GNU GPL version 3 or later &#60;http://gnu.org/licenses/gpl.html&#62;&#10;This is free software: you are free to change and redistribute it.&#10;There is NO WARRANTY, to the extent permitted by law.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>如果出现上面版本信息，证明安装成功，否则。。。</p>
+<ul>
+<li>生成密钥<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpg --gen-key</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>生成密钥的时候，按照图里标注的填好就可以了。</p>
+<p><img src="/img/maven_2.png" alt=""></p>
+<p>最后会弹出一个对话框，需要输入<code>passphrase</code>，输入完成保存即可。一定要记住<code>passphrase</code>，后面配置Gradle脚本需要用到。</p>
+<p><img src="/img/maven_3.png" alt=""></p>
+<ul>
+<li>查看密钥<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// &#26597;&#30475;&#20844;&#38053;&#10;gpg --list-keys&#10;C:/Users/ruijun/AppData/Roaming/gnupg/pubring.gpg&#10;-------------------------------------------------&#10;pub   2048R/F445638E 2015-05-30&#10;uid       [ultimate] ruijun (letterplus) &#60;lingdududu@163.com&#62;&#10;sub   2048R/8567F9D3 2015-05-30&#10;&#10;// &#26597;&#30475;&#31169;&#38053;&#10;gpg --list-secret-keys&#10;C:/Users/ruijun/AppData/Roaming/gnupg/secring.gpg&#10;-------------------------------------------------&#10;sec   2048R/F445638E 2015-05-30&#10;uid                  ruijun (letterplus) &#60;lingdududu@163.com&#62;&#10;ssb   2048R/8567F9D3 2015-05-30</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>要记住<code>keyId F445638E</code>里面的<code>F445638E</code>和<code>私钥路径</code>，一会上传密钥和配置需要用到。</p>
+<ul>
+<li>上传公钥<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gpg --keyserver hkp://pool.sks-keyservers.net --send-keys F445638E&#10;&#10;gpg: sending key F874D485 to hkp server pool.sks-keyserver.net</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>##配置Gradle脚本, Gradle属性</p>
+<ul>
+<li><p>下载Chris<a href="https://github.com/chrisbanes/gradle-mvn-push.git" target="_blank" rel="external">gradle-mvn-push</a>脚本放到project根目录下</p>
+</li>
+<li><p>配置project下面的gradle.properties</p>
+</li>
+</ul>
+<p><img src="/img/maven_4.png" alt=""></p>
+<p>我配置是酱样子的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VERSION_NAME=1.0(&#29256;&#26412;&#21517;&#31216;)&#10;VERSION_CODE=1(&#29256;&#26412;&#21495;)&#10;GROUP=com.github.ruijun(&#21069;&#38754;&#21019;&#24314;JIRA ticket&#30340;Group id)&#10;&#10;POM_DESCRIPTION=Android Character View(library&#25551;&#36848;)&#10;POM_URL=https://github.com/ruijun/Characterview.git(library&#22320;&#22336;)&#10;POM_SCM_URL=https://github.com/ruijun/Characterview.git(library&#22320;&#22336;)&#10;POM_SCM_CONNECTION=scm:https://github.com/ruijun/Characterview.git(library&#22320;&#22336;)&#10;POM_SCM_DEV_CONNECTION=scm:https://github.com/ruijun/Characterview.git(library&#22320;&#22336;)&#10;POM_LICENCE_NAME=The Apache Software License, Version 2.0&#10;POM_LICENCE_URL=http://www.apache.org/licenses/LICENSE-2.0.txt&#10;POM_DEVELOPER_ID=ruijun(Sonatype&#24080;&#21495;username)&#10;POM_DEVELOPER_NAME=liangruijun(&#21517;&#23383;&#65292;&#21487;&#20197;&#38543;&#20415;&#22635;&#19968;&#20010;)&#10;POM_DEVELOPER_EMAIL=lingdududu@163.com(&#37038;&#31665;)&#10;POM_DEVELOPER_URL=http://blog.liangruijun.com(&#21487;&#20197;&#36873;&#25321;&#19981;&#22635;)&#10;&#10;(&#36825;&#20004;&#39033;&#21487;&#20197;&#19981;&#20889;)&#10;SNAPSHOT_REPOSITORY_URL=https://oss.sonatype.org/content/repositories/snapshots&#10;RELEASE_REPOSITORY_URL=https://oss.sonatype.org/service/local/staging/deploy/maven2</span><br></pre></td></tr></table></figure></p>
+<p>网上有些配置是POM_GROUP_ID而不是GROUP，其实这个名字自己可以修改，修改完后再在gradle-mvn-push.gradle做相应的修改即可。</p>
+<ul>
+<li>配置Project构建脚本</li>
+</ul>
+<p><img src="/img/maven_5.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;&#10;    repositories &#123;&#10;        jcenter()&#10;    &#125;&#10;    dependencies &#123;&#10;        classpath &#39;com.android.tools.build:gradle:1.2.3&#39;&#10;    &#125;&#10;&#125;&#10;&#10;allprojects &#123;&#10;    version = VERSION_NAME&#10;    group = GROUP&#10;&#10;    repositories &#123;&#10;        jcenter()&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置Module的gradle.properties</li>
+</ul>
+<p><img src="/img/maven_6.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">POM_NAME=Android CharacterView Library&#10;POM_ARTIFACT_ID=characterView&#10;POM_PACKAGING=aar</span><br></pre></td></tr></table></figure>
+<p>上面的配置就表明了这个library对应的依赖为</p>
+<blockquote>
+<p>GROUP:POM_ARTIFACT_ID:VERSION_NAME（com.github.ruijun:characterView:1.0）</p>
+</blockquote>
+<ul>
+<li>改Module目录的build.gradle</li>
+</ul>
+<p><img src="/img/maven_7.png" alt=""></p>
+<p>在末尾添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply from: &#39;../gradle-mvn-push.gradle&#39;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>配置全局属性<br>进入C:\Users\username\.gradle下，如果没有gradle.properties，可以新建一个，在文件里面添加</li>
+</ul>
+<p><img src="/img/maven_8.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NEXUS_USERNAME=ruijun(Sonatype&#24080;&#21495;username)&#10;NEXUS_PASSWORD=password(&#23494;&#30721;)&#10;&#10;signing.keyId=F445638E(&#23494;&#38053;&#30340;Key id)&#10;signing.password=passphrase(&#19978;&#38754;&#25552;&#21040;&#30340;passphrase)&#10;signing.secretKeyRingFile=C:/Users/ruijun/AppData/Roaming/gnupg/secring.gpg(&#31169;&#38053;&#25991;&#20214;&#36335;&#24452;)</span><br></pre></td></tr></table></figure>
+<p>##上传library<br>上面的配置都完成后，在Android Studio的Terminal输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradle uploadArchives</span><br></pre></td></tr></table></figure>
+<p>###遇到的问题<br>我在上传的过程中，出现了下面的问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Execution failed for task &#39;:library:uploadArchives&#39;.&#10;&#62; Could not publish configuration &#39;archives&#39;&#10;&#62; Error deploying artifact &#39;com.github.ruijun:characterview:aar&#39;: Error deploying artifact: Authorization failed: Access denied to: https://oss.sonatype.org/service/local/staging/deploy&#10;/maven2/com/github/ruijun/characterview/1.0/characterview-1.0.aar</span><br></pre></td></tr></table></figure></p>
+<p>谷歌好久都没有找到解决方法，最后在sonatype提问，发现是权限的问题。管理员帮我修复后，再次上传就成功了。</p>
+<p><img src="/img/maven_9.png" alt=""></p>
+<p>##部署release版本, 发布<br>登录<a href="https://oss.sonatype.org/#welcome" target="_blank" rel="external">Sonatype Nexus</a>，选择左侧面板选择Staging Repositories。</p>
+<p><img src="/img/maven_10.png" alt=""></p>
+<p>在出现的选项卡右上角的搜索框输入你的username或者group Id进行搜索<br>如果搜索结果Profile不是Group Id的话，后续的close，release操作都会失败。</p>
+<p><img src="/img/maven_11.png" alt=""></p>
+<p>出现这个原因是上面的GROUP配置有误。GROUP应该配置为Group Id,一定要记住。可以点击列表上面的Drop按钮删除这个repository，然后重新配置Group再上传。重新配置上传后，再次搜索，结果如下，证明已经正确，可以开始close。</p>
+<p><img src="/img/maven_12.png" alt=""></p>
+<p>成功close之后，可以点击Release按钮正式发布repository，没什么问题的话，两小时左右就可以在 <a href="http://search.maven.org/" target="_blank" rel="external">search.maven.org</a> 搜到你的library了。</p>
+<p>##备注<br>Library：<a href="https://github.com/ruijun/Characterview" target="_blank" rel="external">Characterview</a><br>JIRA ticket：<a href="https://issues.sonatype.org/browse/OSSRH-15833" target="_blank" rel="external">OSSRH-15833</a>（这个是成功的） <a href="https://issues.sonatype.org/browse/OSSRH-15808" target="_blank" rel="external">OSSRH-15808</a>(这个是失败的)</p>
+<p>##总结<br>审核过程会浪费点时间，也会遇到各种各样的问题，不过sonatype 服务绝对是五星级的，将遇到的问题在Comment描述，都会得到解决办法，注册邮箱也会收到相应的通知。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/06/07/Android-Studio-Tips-有用的插件/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Android Studio Tips: 好用的插件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/06/01/Google-I-O-2015-为-Android-开发者带来了哪些福利？/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Google I/O 2015 为 Android 开发者带来了哪些福利？</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="使用Gradle上传aar到mavenCentral详细教程" data-title="使用Gradle上传aar到mavenCentral详细教程" data-url="http://yoursite.com/2015/06/05/使用Gradle上传aar到mavenCentral详细教程/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 liangruijun
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/mobile.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?0b6be6bd2aa30eb47ed600c52cf2c168";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  </div>
+</body>
+</html>
