@@ -3,17 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: SQLiteException | ruijun&#39;s blog</title>
+  <title>JitPack的使用 | ruijun&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="What I’m doing right now, I’m chasing perfection.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="ruijun's blog">
-<meta property="og:url" content="http://yoursite.com/tags/SQLiteException/index.html">
+  <meta name="description" content="最近在Github发现很多开源项目开始使用JitPack进行发布。JitPack实际上是一个自定义的Maven仓库，使用流程非常简单，相对于mavenCentral很方便很快捷。之前我写过一遍关于mavenCentral可以看到mavenCentral步骤复杂，而且容易出错。
+发布流程在网站首页输入你的Github项目地址(以我的一个开源空间为例子Characterview)。点击Look up按">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JitPack的使用">
+<meta property="og:url" content="http://yoursite.com/2016/01/16/JitPack的使用/index.html">
 <meta property="og:site_name" content="ruijun's blog">
-<meta property="og:description" content="What I’m doing right now, I’m chasing perfection.">
+<meta property="og:description" content="最近在Github发现很多开源项目开始使用JitPack进行发布。JitPack实际上是一个自定义的Maven仓库，使用流程非常简单，相对于mavenCentral很方便很快捷。之前我写过一遍关于mavenCentral可以看到mavenCentral步骤复杂，而且容易出错。
+发布流程在网站首页输入你的Github项目地址(以我的一个开源空间为例子Characterview)。点击Look up按">
+<meta property="og:image" content="http://yoursite.com/img/jitpack_1.png">
+<meta property="og:image" content="http://yoursite.com/img/jitpack_2.png">
+<meta property="og:image" content="http://yoursite.com/img/jitpack_3.png">
+<meta property="og:updated_time" content="2016-01-16T04:30:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ruijun's blog">
-<meta name="twitter:description" content="What I’m doing right now, I’m chasing perfection.">
+<meta name="twitter:title" content="JitPack的使用">
+<meta name="twitter:description" content="最近在Github发现很多开源项目开始使用JitPack进行发布。JitPack实际上是一个自定义的Maven仓库，使用流程非常简单，相对于mavenCentral很方便很快捷。之前我写过一遍关于mavenCentral可以看到mavenCentral步骤复杂，而且容易出错。
+发布流程在网站首页输入你的Github项目地址(以我的一个开源空间为例子Characterview)。点击Look up按">
   
   
     <link rel="icon" href="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200">
@@ -182,51 +189,108 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-JitPack的使用" class="article article-type-post" itemscope itemprop="blogPost">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/07/21/no-such-column-carrier-presence错误/" class="archive-article-date">
-  	<time datetime="2015-07-21T14:40:43.000Z" itemprop="datePublished">7月 21</time>
+    <div class="article-meta">
+      <a href="/2016/01/16/JitPack的使用/" class="article-date">
+  	<time datetime="2016-01-16T04:07:30.000Z" itemprop="datePublished">2016-01-16</time>
 </a>
-        </div>
-    	 
+    </div>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/07/21/no-such-column-carrier-presence错误/">no such column: carrier_presence异常</a>
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JitPack的使用
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+      
+      <div class="article-info article-info-post">
+        
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android-M/">Android M</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQLiteException/">SQLiteException</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JitPack/">JitPack</a></li></ul>
 	</div>
 
-          
+        
 
-        </div>
         <div class="clearfix"></div>
-    </header>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在Github发现很多开源项目开始使用<a href="https://jitpack.io/" target="_blank" rel="external">JitPack</a>进行发布。JitPack实际上是一个自定义的Maven仓库，使用流程非常简单，相对于mavenCentral很方便很快捷。之前我写过一遍关于<a href="http://blog.liangruijun.com/2015/06/05/%E4%BD%BF%E7%94%A8Gradle%E4%B8%8A%E4%BC%A0aar%E5%88%B0mavenCentral%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/" target="_blank" rel="external">mavenCentral</a>可以看到mavenCentral步骤复杂，而且容易出错。</p>
+<h3 id="u53D1_u5E03_u6D41_u7A0B"><a href="#u53D1_u5E03_u6D41_u7A0B" class="headerlink" title="发布流程"></a>发布流程</h3><p>在网站首页输入你的Github项目地址(以我的一个开源空间为例子<a href="https://github.com/ruijun/Characterview" target="_blank" rel="external">Characterview</a>)。点击Look up按钮即可发布。<br><img src="/img/jitpack_1.png" alt="">  </p>
+<h3 id="u4F7F_u7528_u65B9_u6CD5"><a href="#u4F7F_u7528_u65B9_u6CD5" class="headerlink" title="使用方法"></a>使用方法</h3><ol>
+<li><p>在Project的build.gradle中加入JitPack repository<br><img src="/img/jitpack_2.png" alt="">  </p>
+</li>
+<li><p>在Module的build.gradle中加入依赖<br><img src="/img/jitpack_3.png" alt=""> </p>
+</li>
+</ol>
+
+      
+    </div>
+    
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/01/16/Android5.0 Button英文字符自动变成大写的问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android5.0 Button英文字符自动变成大写的问题</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="JitPack的使用" data-title="JitPack的使用" data-url="http://yoursite.com/2016/01/16/JitPack的使用/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
 </div>
       <footer id="footer">
   <div class="outer">
