@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android5.0 Button英文字符自动变成大写的问题 | ruijun&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="发现问题在5.0手机上调试的时候，发现Button上的英文字符全部变成了大写，5.0以下系统是正常的。布局文件中：界面显示：
+分析问题1.到这里只能从源码角度去分析问题了。在AndroidXRef上看了5.0系统TextView的源码(因为Button是继承TextView的，而且Button源码也没几行，直接看TextView就可以了。）在TexViw源码里面发现了两处关键的代码：    
+第一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android5.0 Button英文字符自动变成大写的问题">
+<meta property="og:url" content="http://yoursite.com/2016/01/16/Android5.0 Button英文字符自动变成大写的问题/index.html">
+<meta property="og:site_name" content="ruijun's blog">
+<meta property="og:description" content="发现问题在5.0手机上调试的时候，发现Button上的英文字符全部变成了大写，5.0以下系统是正常的。布局文件中：界面显示：
+分析问题1.到这里只能从源码角度去分析问题了。在AndroidXRef上看了5.0系统TextView的源码(因为Button是继承TextView的，而且Button源码也没几行，直接看TextView就可以了。）在TexViw源码里面发现了两处关键的代码：    
+第一">
+<meta property="og:image" content="http://yoursite.com/img/btn_1.jpg">
+<meta property="og:image" content="http://yoursite.com/img/btn_2.jpg">
+<meta property="og:image" content="http://yoursite.com/img/btn_3.jpg">
+<meta property="og:image" content="http://yoursite.com/img/btn_4.jpg">
+<meta property="og:image" content="http://yoursite.com/img/btn_5.jpg">
+<meta property="og:updated_time" content="2016-01-16T03:50:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android5.0 Button英文字符自动变成大写的问题">
+<meta name="twitter:description" content="发现问题在5.0手机上调试的时候，发现Button上的英文字符全部变成了大写，5.0以下系统是正常的。布局文件中：界面显示：
+分析问题1.到这里只能从源码角度去分析问题了。在AndroidXRef上看了5.0系统TextView的源码(因为Button是继承TextView的，而且Button源码也没几行，直接看TextView就可以了。）在TexViw源码里面发现了两处关键的代码：    
+第一">
+  
+  
+    <link rel="icon" href="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img lazy-src="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200" class="js-avatar">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">liangruijun</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">What I’m doing right now, I’m chasing perfection.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/about">关于我</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/ruijun" title="github">github</a>
+					        
+								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/liangruijun" title="zhihu">zhihu</a>
+					        
+								<a class="mail" target="_blank" href="mailto:lingdududu@163.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android-M/" style="font-size: 15px;">Android M</a> <a href="/tags/Android-Studio/" style="font-size: 10px;">Android Studio</a> <a href="/tags/Android5-0/" style="font-size: 10px;">Android5.0</a> <a href="/tags/AndroidStudio/" style="font-size: 10px;">AndroidStudio</a> <a href="/tags/Android问题/" style="font-size: 10px;">Android问题</a> <a href="/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/Crash-Analysis/" style="font-size: 10px;">Crash Analysis</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Google-I-O/" style="font-size: 10px;">Google I/O</a> <a href="/tags/SQLiteException/" style="font-size: 10px;">SQLiteException</a> <a href="/tags/Sonatype/" style="font-size: 10px;">Sonatype</a> <a href="/tags/View/" style="font-size: 10px;">View</a> <a href="/tags/aar/" style="font-size: 10px;">aar</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/apktool/" style="font-size: 10px;">apktool</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/atom/" style="font-size: 10px;">atom</a> <a href="/tags/crash/" style="font-size: 10px;">crash</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/performance/" style="font-size: 10px;">performance</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/traces/" style="font-size: 10px;">traces</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/反编译/" style="font-size: 10px;">反编译</a> <a href="/tags/命令/" style="font-size: 10px;">命令</a> <a href="/tags/开源/" style="font-size: 20px;">开源</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/插件/" style="font-size: 10px;">插件</a> <a href="/tags/知乎/" style="font-size: 10px;">知乎</a> <a href="/tags/线程/" style="font-size: 10px;">线程</a> <a href="/tags/编辑器/" style="font-size: 10px;">编辑器</a> <a href="/tags/语法/" style="font-size: 10px;">语法</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.trinea.cn/">Trinea的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://stormzhang.com/">stormzhang的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://hukai.me/">胡凯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/luoshengyang">老罗Android之旅</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/lmj623565791">鸿洋的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.devtf.cn/">开发技术前线</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.androidweekly.cn/">Android开发技术周报</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.jcodecraeer.com/">泡在网上的日子</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">liangruijun</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">liangruijun</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">What I’m doing right now, I’m chasing perfection.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/about">关于我</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/ruijun" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/liangruijun" title="zhihu">zhihu</a>
+			        
+						<a class="mail" target="_blank" href="mailto:lingdududu@163.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Android5.0 Button英文字符自动变成大写的问题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/01/16/Android5.0 Button英文字符自动变成大写的问题/" class="article-date">
+  	<time datetime="2016-01-16T03:15:32.000Z" itemprop="datePublished">2016-01-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android5.0 Button英文字符自动变成大写的问题
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android5-0/">Android5.0</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android问题/">Android问题</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="u53D1_u73B0_u95EE_u9898"><a href="#u53D1_u73B0_u95EE_u9898" class="headerlink" title="发现问题"></a>发现问题</h3><p>在5.0手机上调试的时候，发现Button上的英文字符全部变成了大写，5.0以下系统是正常的。<br>布局文件中：<br><img src="/img/btn_1.jpg" alt=""><br>界面显示：<br><img src="/img/btn_2.jpg" alt=""></p>
+<h2 id="u5206_u6790_u95EE_u9898"><a href="#u5206_u6790_u95EE_u9898" class="headerlink" title="分析问题"></a>分析问题</h2><p>1.到这里只能从源码角度去分析问题了。在<a href="http://androidxref.com/5.0.0_r2/xref/frameworks/base/core/java/android/widget/TextView.java" target="_blank" rel="external">AndroidXRef</a>上看了5.0系统TextView的源码(因为Button是继承TextView的，而且Button源码也没几行，直接看TextView就可以了。）在TexViw源码里面发现了两处关键的代码：    </p>
+<p>第一处：<img src="/img/btn_3.jpg" alt="">  </p>
+<p>第二处：<img src="/img/btn_4.jpg" alt=""></p>
+<p>2.到这里推测是因为5.0主题引起的,于是找了下主题文件，发现5.0里面frameworks/base/core/res/res/values/styles_material.xml  </p>
+<p><img src="/img/btn_5.jpg" alt=""></p>
+<h2 id="u89E3_u51B3_u65B9_u6CD5_uFF1A"><a href="#u89E3_u51B3_u65B9_u6CD5_uFF1A" class="headerlink" title="解决方法："></a>解决方法：</h2><ol>
+<li>在布局文件Button下增加<code>android:textAllCaps=&quot;false&quot;</code> </li>
+<li>在代码中，<code>mButton.setTransformationMethod(null)</code>  </li>
+<li><p>既然是主题引起的，我们可以自定义Button主题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;style name=&#34;MyButton&#34; parent=&#34;Widget.AppCompat.Button&#34;&#62;&#10;     &#60;item name=&#34;android:textAllCaps&#34;&#62;false&#60;/item&#62;&#10;   &#60;/style&#62;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自定义Button </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class MyButton extends Button &#123; &#10; public Button(Context context, AttributeSet attrs) &#123;&#10;     super(context, attrs);&#10;     setSupportAllCaps(false); &#10; &#125;  &#10; public Button(Context context, AttributeSet attrs, int defStyleAttr) &#123;&#10;     super(context, attrs, defStyleAttr);&#10;     setSupportAllCaps(false); &#10; &#125; &#10;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="u53C2_u8003_uFF1A"><a href="#u53C2_u8003_uFF1A" class="headerlink" title="参考："></a>参考：</h2><p><a href="http://stackoverflow.com/questions/26958909/why-is-my-button-text-coerced-to-all-caps-on-lollipop" target="_blank" rel="external">http://stackoverflow.com/questions/26958909/why-is-my-button-text-coerced-to-all-caps-on-lollipop</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/07/21/no-such-column-carrier-presence错误/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">no such column: carrier_presence异常</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Android5.0 Button英文字符自动变成大写的问题" data-title="Android5.0 Button英文字符自动变成大写的问题" data-url="http://yoursite.com/2016/01/16/Android5.0 Button英文字符自动变成大写的问题/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 liangruijun
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/mobile.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?0b6be6bd2aa30eb47ed600c52cf2c168";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  </div>
+</body>
+</html>
