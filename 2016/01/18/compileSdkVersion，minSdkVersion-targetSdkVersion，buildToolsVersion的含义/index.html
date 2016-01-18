@@ -3,29 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Android5.0 Button英文字符自动变成大写的问题 | ruijun&#39;s blog</title>
+  <title>compileSdkVersion，minSdkVersion, targetSdkVersion，buildToolsVersion的含义 | ruijun&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="发现问题在5.0手机上调试的时候，发现Button上的英文字符全部变成了大写，5.0以下系统是正常的。布局文件中：界面显示：
-分析问题1.到这里只能从源码角度去分析问题了。在AndroidXRef上看了5.0系统TextView的源码(因为Button是继承TextView的，而且Button源码也没几行，直接看TextView就可以了。）在TexViw源码里面发现了两处关键的代码：    
-第一">
+  <meta name="description" content="最近看了如何选择 compileSdkVersion, minSdkVersion 和 targetSdkVersion和Android targetSdkVersion 原理两篇关于compileSdkVersion、minSdkVersion、targetSdkVersion说明的文章。自己决定总结下，加深理解。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android5.0 Button英文字符自动变成大写的问题">
-<meta property="og:url" content="http://yoursite.com/2016/01/16/Android5.0 Button英文字符自动变成大写的问题/index.html">
+<meta property="og:title" content="compileSdkVersion，minSdkVersion, targetSdkVersion，buildToolsVersion的含义">
+<meta property="og:url" content="http://yoursite.com/2016/01/18/compileSdkVersion，minSdkVersion-targetSdkVersion，buildToolsVersion的含义/index.html">
 <meta property="og:site_name" content="ruijun's blog">
-<meta property="og:description" content="发现问题在5.0手机上调试的时候，发现Button上的英文字符全部变成了大写，5.0以下系统是正常的。布局文件中：界面显示：
-分析问题1.到这里只能从源码角度去分析问题了。在AndroidXRef上看了5.0系统TextView的源码(因为Button是继承TextView的，而且Button源码也没几行，直接看TextView就可以了。）在TexViw源码里面发现了两处关键的代码：    
-第一">
-<meta property="og:image" content="http://yoursite.com/img/btn_1.jpg">
-<meta property="og:image" content="http://yoursite.com/img/btn_2.jpg">
-<meta property="og:image" content="http://yoursite.com/img/btn_3.jpg">
-<meta property="og:image" content="http://yoursite.com/img/btn_4.jpg">
-<meta property="og:image" content="http://yoursite.com/img/btn_5.jpg">
-<meta property="og:updated_time" content="2016-01-16T03:50:23.000Z">
+<meta property="og:description" content="最近看了如何选择 compileSdkVersion, minSdkVersion 和 targetSdkVersion和Android targetSdkVersion 原理两篇关于compileSdkVersion、minSdkVersion、targetSdkVersion说明的文章。自己决定总结下，加深理解。">
+<meta property="og:image" content="http://yoursite.com/img/sdk_1.png">
+<meta property="og:image" content="http://yoursite.com/img/sdk_2.png">
+<meta property="og:updated_time" content="2016-01-18T13:44:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android5.0 Button英文字符自动变成大写的问题">
-<meta name="twitter:description" content="发现问题在5.0手机上调试的时候，发现Button上的英文字符全部变成了大写，5.0以下系统是正常的。布局文件中：界面显示：
-分析问题1.到这里只能从源码角度去分析问题了。在AndroidXRef上看了5.0系统TextView的源码(因为Button是继承TextView的，而且Button源码也没几行，直接看TextView就可以了。）在TexViw源码里面发现了两处关键的代码：    
-第一">
+<meta name="twitter:title" content="compileSdkVersion，minSdkVersion, targetSdkVersion，buildToolsVersion的含义">
+<meta name="twitter:description" content="最近看了如何选择 compileSdkVersion, minSdkVersion 和 targetSdkVersion和Android targetSdkVersion 原理两篇关于compileSdkVersion、minSdkVersion、targetSdkVersion说明的文章。自己决定总结下，加深理解。">
   
   
     <link rel="icon" href="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200">
@@ -194,11 +185,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-Android5.0 Button英文字符自动变成大写的问题" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-compileSdkVersion，minSdkVersion-targetSdkVersion，buildToolsVersion的含义" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/01/16/Android5.0 Button英文字符自动变成大写的问题/" class="article-date">
-  	<time datetime="2016-01-16T03:15:32.000Z" itemprop="datePublished">2016-01-16</time>
+      <a href="/2016/01/18/compileSdkVersion，minSdkVersion-targetSdkVersion，buildToolsVersion的含义/" class="article-date">
+  	<time datetime="2016-01-18T13:32:22.000Z" itemprop="datePublished">2016-01-18</time>
 </a>
     </div>
   
@@ -211,7 +202,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Android5.0 Button英文字符自动变成大写的问题
+      compileSdkVersion，minSdkVersion, targetSdkVersion，buildToolsVersion的含义
     </h1>
   
 
@@ -220,7 +211,7 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android5-0/">Android5.0</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android问题/">Android问题</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SdkVersion/">SdkVersion</a></li></ul>
 	</div>
 
         
@@ -231,23 +222,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="u53D1_u73B0_u95EE_u9898"><a href="#u53D1_u73B0_u95EE_u9898" class="headerlink" title="发现问题"></a>发现问题</h3><p>在5.0手机上调试的时候，发现Button上的英文字符全部变成了大写，5.0以下系统是正常的。<br>布局文件中：<br><img src="/img/btn_1.jpg" alt=""><br>界面显示：<br><img src="/img/btn_2.jpg" alt=""></p>
-<h2 id="u5206_u6790_u95EE_u9898"><a href="#u5206_u6790_u95EE_u9898" class="headerlink" title="分析问题"></a>分析问题</h2><p>1.到这里只能从源码角度去分析问题了。在<a href="http://androidxref.com/5.0.0_r2/xref/frameworks/base/core/java/android/widget/TextView.java" target="_blank" rel="external">AndroidXRef</a>上看了5.0系统TextView的源码(因为Button是继承TextView的，而且Button源码也没几行，直接看TextView就可以了。）在TexViw源码里面发现了两处关键的代码：    </p>
-<p>第一处：<img src="/img/btn_3.jpg" alt="">  </p>
-<p>第二处：<img src="/img/btn_4.jpg" alt=""></p>
-<p>2.到这里推测是因为5.0主题引起的,于是找了下主题文件，发现5.0里面frameworks/base/core/res/res/values/styles_material.xml  </p>
-<p><img src="/img/btn_5.jpg" alt=""></p>
-<h2 id="u89E3_u51B3_u65B9_u6CD5_uFF1A"><a href="#u89E3_u51B3_u65B9_u6CD5_uFF1A" class="headerlink" title="解决方法："></a>解决方法：</h2><ol>
-<li>在布局文件Button下增加<code>android:textAllCaps=&quot;false&quot;</code> </li>
-<li>在代码中，<code>mButton.setTransformationMethod(null)</code>  </li>
-<li><p>既然是主题引起的，我们可以自定义Button主题</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;style name=&#34;MyButton&#34; parent=&#34;Widget.AppCompat.Button&#34;&#62;&#10;     &#60;item name=&#34;android:textAllCaps&#34;&#62;false&#60;/item&#62;&#10;   &#60;/style&#62;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>自定义Button </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class MyButton extends Button &#123; &#10; public Button(Context context, AttributeSet attrs) &#123;&#10;     super(context, attrs);&#10;     setSupportAllCaps(false); &#10; &#125;  &#10; public Button(Context context, AttributeSet attrs, int defStyleAttr) &#123;&#10;     super(context, attrs, defStyleAttr);&#10;     setSupportAllCaps(false); &#10; &#125; &#10;&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="u53C2_u8003_uFF1A"><a href="#u53C2_u8003_uFF1A" class="headerlink" title="参考："></a>参考：</h2><p><a href="http://stackoverflow.com/questions/26958909/why-is-my-button-text-coerced-to-all-caps-on-lollipop" target="_blank" rel="external">http://stackoverflow.com/questions/26958909/why-is-my-button-text-coerced-to-all-caps-on-lollipop</a></p>
+        <p>   最近看了<a href="http://chinagdg.org/2016/01/picking-your-compilesdkversion-minsdkversion-targetsdkversion/" target="_blank" rel="external">如何选择 compileSdkVersion, minSdkVersion 和 targetSdkVersion</a>和<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2016/0118/3881.html" target="_blank" rel="external">Android targetSdkVersion 原理</a>两篇关于<strong>compileSdkVersion、minSdkVersion、targetSdkVersion</strong>说明的文章。自己决定总结下，加深理解。</p>
+<a id="more"></a>
+<p><img src="/img/sdk_1.png" alt="">  </p>
+<h2 id="compileSdkVersion"><a href="#compileSdkVersion" class="headerlink" title="compileSdkVersion"></a>compileSdkVersion</h2><blockquote>
+<p>  看名字compile就知道是编译时候使用的，主要是告诉Gradle用哪个Android SDK版本编译你的APP，它仅仅用于编译。比如Android6.0不支持Apache的httpClient，这时候可以修改compileSdkVersion为23，编译的时候，就能检查你的App是否有编译警告或者编译错误。   </p>
+</blockquote>
+<h2 id="minSdkVersion"><a href="#minSdkVersion" class="headerlink" title="minSdkVersion"></a>minSdkVersion</h2><blockquote>
+<p>是APP可以运行的最低要求。当minSdkVersion设定为15，这时候系统低于4.0.3就不能正常安装该APP了。</p>
+</blockquote>
+<p><strong>下面给出张android系统版本，API level(SDK)和版本代号之间的对应关系表</strong><br><img src="/img/sdk_2.png" alt="">  </p>
+<p><strong>完整版本的可以查看<a href="http://developer.android.com/intl/zh-cn/guide/topics/manifest/uses-sdk-element.html#provisional" target="_blank" rel="external">官网链接</a> </strong></p>
+<h2 id="targetSdkVersion"><a href="#targetSdkVersion" class="headerlink" title="targetSdkVersion"></a>targetSdkVersion</h2><blockquote>
+<p>  Android系统提供前向兼容的主要手段。这是什么意思呢？随着Android系统的升级，某个系统的API或者模块的行为可能会发生改变，但是为了保证老APK的行为还是和以前兼容。只要APK的targetSdkVersion不变，即使这个APK安装在新 Android 系统上，其行为还是保持老的系统上的行为，这样就保证了系统对老应用的前向兼容性。<br>  网上一些关于Android6.0权限管理教程，都会提到当APP的targetSdkVersion设置为23时，并且运行在Android6.0系统中，新权限管理功能就会生效。targetSdkVersion低于23，不管在什么版本的系统上，新权限管理功能都不会生效的。</p>
+</blockquote>
+<h2 id="buildToolsVersion"><a href="#buildToolsVersion" class="headerlink" title="buildToolsVersion"></a>buildToolsVersion</h2><blockquote>
+<p>构建工具的版本，其中包括了aapt、dx、aidl、zipalign等。可以到sdk下build-tools查看。            </p>
+</blockquote>
 
       
     </div>
@@ -257,18 +248,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/01/16/JitPack的使用/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          JitPack的使用
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/07/21/no-such-column-carrier-presence错误/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">no such column: carrier_presence异常</div>
+    <a href="/2016/01/16/JitPack的使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JitPack的使用</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -297,7 +279,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="Android5.0 Button英文字符自动变成大写的问题" data-title="Android5.0 Button英文字符自动变成大写的问题" data-url="http://yoursite.com/2016/01/16/Android5.0 Button英文字符自动变成大写的问题/"></div>
+	<div class="ds-thread" data-thread-key="compileSdkVersion，minSdkVersion-targetSdkVersion，buildToolsVersion的含义" data-title="compileSdkVersion，minSdkVersion, targetSdkVersion，buildToolsVersion的含义" data-url="http://yoursite.com/2016/01/18/compileSdkVersion，minSdkVersion-targetSdkVersion，buildToolsVersion的含义/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
