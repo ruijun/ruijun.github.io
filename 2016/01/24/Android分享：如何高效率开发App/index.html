@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android分享:如何高效率开发App | ruijun&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言&amp;emsp;&amp;emsp;关于如何高效率开发App，开发前需要做哪些准备呢？之前在知乎和segmentfault回到过类似的问题，在这里按划分功能模块—设计APP框架—APP质量把关—内测，正式发布的流程来总结。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android分享:如何高效率开发App">
+<meta property="og:url" content="http://yoursite.com/2016/01/24/Android分享：如何高效率开发App/index.html">
+<meta property="og:site_name" content="ruijun's blog">
+<meta property="og:description" content="前言&amp;emsp;&amp;emsp;关于如何高效率开发App，开发前需要做哪些准备呢？之前在知乎和segmentfault回到过类似的问题，在这里按划分功能模块—设计APP框架—APP质量把关—内测，正式发布的流程来总结。">
+<meta property="og:updated_time" content="2016-01-24T14:16:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android分享:如何高效率开发App">
+<meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;关于如何高效率开发App，开发前需要做哪些准备呢？之前在知乎和segmentfault回到过类似的问题，在这里按划分功能模块—设计APP框架—APP质量把关—内测，正式发布的流程来总结。">
+  
+  
+    <link rel="icon" href="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img lazy-src="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200" class="js-avatar">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">liangruijun</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">What I’m doing right now, I’m chasing perfection.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/about">关于我</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/ruijun" title="github">github</a>
+					        
+								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/liangruijun" title="zhihu">zhihu</a>
+					        
+								<a class="mail" target="_blank" href="mailto:lingdududu@163.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android-M/" style="font-size: 15px;">Android M</a> <a href="/tags/Android-Studio/" style="font-size: 10px;">Android Studio</a> <a href="/tags/Android5-0/" style="font-size: 10px;">Android5.0</a> <a href="/tags/AndroidStudio/" style="font-size: 10px;">AndroidStudio</a> <a href="/tags/Android分享/" style="font-size: 10px;">Android分享</a> <a href="/tags/Android问题/" style="font-size: 10px;">Android问题</a> <a href="/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/Crash-Analysis/" style="font-size: 10px;">Crash Analysis</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Google-I-O/" style="font-size: 10px;">Google I/O</a> <a href="/tags/JitPack/" style="font-size: 10px;">JitPack</a> <a href="/tags/SQLiteException/" style="font-size: 10px;">SQLiteException</a> <a href="/tags/SdkVersion/" style="font-size: 10px;">SdkVersion</a> <a href="/tags/Sonatype/" style="font-size: 10px;">Sonatype</a> <a href="/tags/View/" style="font-size: 10px;">View</a> <a href="/tags/aar/" style="font-size: 10px;">aar</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/apktool/" style="font-size: 10px;">apktool</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/atom/" style="font-size: 10px;">atom</a> <a href="/tags/crash/" style="font-size: 10px;">crash</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/performance/" style="font-size: 10px;">performance</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/traces/" style="font-size: 10px;">traces</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/反编译/" style="font-size: 10px;">反编译</a> <a href="/tags/命令/" style="font-size: 10px;">命令</a> <a href="/tags/开源/" style="font-size: 20px;">开源</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/插件/" style="font-size: 10px;">插件</a> <a href="/tags/知乎/" style="font-size: 10px;">知乎</a> <a href="/tags/线程/" style="font-size: 10px;">线程</a> <a href="/tags/编辑器/" style="font-size: 10px;">编辑器</a> <a href="/tags/语法/" style="font-size: 10px;">语法</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.trinea.cn/">Trinea的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://stormzhang.com/">stormzhang的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://hukai.me/">胡凯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/luoshengyang">老罗Android之旅</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/lmj623565791">鸿洋的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.devtf.cn/">开发技术前线</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.androidweekly.cn/">Android开发技术周报</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.jcodecraeer.com/">泡在网上的日子</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">liangruijun</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">liangruijun</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">What I’m doing right now, I’m chasing perfection.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/about">关于我</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/ruijun" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/liangruijun" title="zhihu">zhihu</a>
+			        
+						<a class="mail" target="_blank" href="mailto:lingdududu@163.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Android分享：如何高效率开发App" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/01/24/Android分享：如何高效率开发App/" class="article-date">
+  	<time datetime="2016-01-24T13:35:25.000Z" itemprop="datePublished">2016-01-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android分享:如何高效率开发App
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android分享/">Android分享</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp;关于如何高效率开发App，开发前需要做哪些准备呢？之前在知乎和segmentfault回到过类似的问题，在这里按划分功能模块—设计APP框架—APP质量把关—内测，正式发布的流程来总结。</p>
+<a id="more"></a>
+<h3 id="1_uFF09_u529F_u80FD_u6A21_u5757"><a href="#1_uFF09_u529F_u80FD_u6A21_u5757" class="headerlink" title="1）功能模块"></a>1）功能模块</h3><h4 id="u7F51_u7EDC_u6A21_u5757"><a href="#u7F51_u7EDC_u6A21_u5757" class="headerlink" title="网络模块"></a>网络模块</h4><ul>
+<li><a href="https://github.com/square/okhttp" target="_blank" rel="external">okhttp</a></li>
+<li><a href="https://github.com/loopj/android-async-http" target="_blank" rel="external">android-async-http</a></li>
+<li><a href="https://developer.android.com/intl/ja/training/volley/index.html" target="_blank" rel="external">volley</a></li>
+</ul>
+<h4 id="u4E8B_u4EF6_u603B_u7EBF"><a href="#u4E8B_u4EF6_u603B_u7EBF" class="headerlink" title="事件总线"></a>事件总线</h4><ul>
+<li><a href="https://github.com/square/otto" target="_blank" rel="external">otto</a></li>
+<li><a href="https://github.com/greenrobot/EventBus" target="_blank" rel="external">EventBus</a></li>
+</ul>
+<h4 id="u4F9D_u8D56_u6CE8_u5165"><a href="#u4F9D_u8D56_u6CE8_u5165" class="headerlink" title="依赖注入"></a>依赖注入</h4><ul>
+<li><a href="https://github.com/square/dagger" target="_blank" rel="external">Dagger</a></li>
+<li><a href="https://github.com/roboguice/roboguice" target="_blank" rel="external">RoboGuice</a></li>
+<li><a href="https://github.com/JakeWharton/butterknife" target="_blank" rel="external">ButterKnife</a></li>
+</ul>
+<h4 id="u56FE_u7247_u6A21_u5757"><a href="#u56FE_u7247_u6A21_u5757" class="headerlink" title="图片模块"></a>图片模块</h4><ul>
+<li><a href="https://github.com/facebook/fresco" target="_blank" rel="external">Fresco</a></li>
+<li><a href="https://github.com/bumptech/glide" target="_blank" rel="external">Glide</a></li>
+<li><a href="https://github.com/square/picasso" target="_blank" rel="external">picasso</a></li>
+</ul>
+<h4 id="u6570_u636E_u5E93_u6A21_u5757"><a href="#u6570_u636E_u5E93_u6A21_u5757" class="headerlink" title="数据库模块"></a>数据库模块</h4><ul>
+<li><a href="https://github.com/greenrobot/greenDAO" target="_blank" rel="external">greenDao</a></li>
+<li><a href="https://github.com/j256/ormlite-android" target="_blank" rel="external">ormlite</a></li>
+<li><a href="https://github.com/LitePalFramework/LitePal" target="_blank" rel="external">LitePal</a></li>
+</ul>
+<h4 id="u54CD_u5E94_u5F0F_u7F16_u7A0B"><a href="#u54CD_u5E94_u5F0F_u7F16_u7A0B" class="headerlink" title="响应式编程"></a>响应式编程</h4><ul>
+<li><a href="https://github.com/ReactiveX/RxJava" target="_blank" rel="external">RxJava</a></li>
+<li><a href="https://github.com/ReactiveX/RxAndroid" target="_blank" rel="external">RxAndroid</a></li>
+</ul>
+<h4 id="u65E5_u5FD7_u8F93_u51FA"><a href="#u65E5_u5FD7_u8F93_u51FA" class="headerlink" title="日志输出"></a>日志输出</h4><ul>
+<li><a href="https://github.com/orhanobut/logger" target="_blank" rel="external">logger</a></li>
+<li><a href="https://github.com/liaohuqiu/android-CLog" target="_blank" rel="external">android-CLog</a></li>
+<li><a href="https://github.com/ZhaoKaiQiang/KLog" target="_blank" rel="external">KLog</a></li>
+<li><a href="https://github.com/noties/Debug" target="_blank" rel="external">Debug</a></li>
+<li><a href="https://github.com/pengwei1024/LogUtils" target="_blank" rel="external">LogUtils</a></li>
+</ul>
+<h4 id="JSON_u89E3_u6790"><a href="#JSON_u89E3_u6790" class="headerlink" title="JSON解析"></a>JSON解析</h4><ul>
+<li><p><a href="https://github.com/alibaba/fastjson" target="_blank" rel="external">fastjson</a></p>
+</li>
+<li><p><a href="https://github.com/google/gson" target="_blank" rel="external">gson</a></p>
+</li>
+<li><p><a href="https://github.com/FasterXML/jackson" target="_blank" rel="external">jackson</a></p>
+</li>
+</ul>
+<h3 id="2_uFF09_u67B6_u6784_u8BBE_u8BA1"><a href="#2_uFF09_u67B6_u6784_u8BBE_u8BA1" class="headerlink" title="2）架构设计"></a>2）架构设计</h3><blockquote>
+<p>这个肯定得了解下MVC，MVP，MVVM还有设计模式这些，这里有几个开源项目推荐下</p>
+</blockquote>
+<ul>
+<li><a href="https://github.com/chrisbanes/philm" target="_blank" rel="external">philm</a><br>Movie collection and information app for Android.</li>
+</ul>
+<ul>
+<li><p><a href="https://github.com/liuling07/SimpleNews" target="_blank" rel="external">SimpleNews</a><br>基于Material Design和MVP的新闻客户端</p>
+</li>
+<li><p><a href="https://github.com/maoruibin/GankDaily" target="_blank" rel="external">GankDaily</a><br>A application show technical information every working days, use MVP pattern.</p>
+</li>
+<li><p><a href="https://github.com/SkillCollege/SimplifyReader" target="_blank" rel="external">SimplifyReader</a><br>一款基于Google Material Design设计开发的Android客户端</p>
+</li>
+<li><p><a href="https://github.com/SilenceDut/NBAPlus" target="_blank" rel="external">NBAPlus</a><br>A concise APP about NBA News and Event with RxJava and EventBus </p>
+</li>
+<li><p><a href="https://github.com/yydcdut/PhotoNoter" target="_blank" rel="external">PhotoNoter</a><br>Material Design风格的开源照片笔记。(MVP+Dagger2+RxJava+Dex分包异步加载)</p>
+</li>
+<li><p><a href="https://github.com/drakeet/Meizhi" target="_blank" rel="external">Meizhi</a><br>gank.io unofficial client, RxJava &amp; Retrofit</p>
+</li>
+</ul>
+<h3 id="3_uFF09_u5D29_u6E83_u7EDF_u8BA1_u5E73_u53F0"><a href="#3_uFF09_u5D29_u6E83_u7EDF_u8BA1_u5E73_u53F0" class="headerlink" title="3）崩溃统计平台"></a>3）崩溃统计平台</h3><blockquote>
+<p>对APP崩溃统计是必须的啦，Crittercism和Crashlytics有时候需要梯子，你懂的。ACRA需要自己来搭建。</p>
+</blockquote>
+<ul>
+<li><a href="http://bugly.qq.com/" target="_blank" rel="external">腾讯bugly</a></li>
+<li><a href="http://www.crasheye.cn/" target="_blank" rel="external">金山Crasheye</a></li>
+<li><a href="https://app.crittercism.com/" target="_blank" rel="external">Crittercism</a></li>
+<li><a href="http://try.crashlytics.com/" target="_blank" rel="external">Crashlytics</a></li>
+<li><a href="https://github.com/ACRA/acra" target="_blank" rel="external">ACRA</a>:<a href="https://github.com/bboyfeiyu/android-tech-frontier/tree/master/others/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAAndroid%E5%BA%94%E7%94%A8crashing%E8%B7%9F%E8%B8%AA%E7%B3%BB%E7%BB%9F%EF%BC%8DACRA" target="_blank" rel="external">搭建方法</a></li>
+</ul>
+<h3 id="4_uFF09_u6D4B_u8BD5_u76F8_u5173"><a href="#4_uFF09_u6D4B_u8BD5_u76F8_u5173" class="headerlink" title="4）测试相关"></a>4）测试相关</h3><ul>
+<li><p><a href="https://testerhome.com/" target="_blank" rel="external">testerhome</a><br>支付宝Monkey老师推荐的测试社区，里面有很多干货</p>
+</li>
+<li><p><a href="https://bugtags.com/" target="_blank" rel="external">bugtags</a><br>新一代的、专为移动测试而生的缺陷发现及管理工具</p>
+</li>
+<li><p><a href="http://www.testin.cn/" target="_blank" rel="external">testin</a><br>免费移动App真机云测试平台</p>
+</li>
+<li><p><a href="https://github.com/NetEase/Emmagee" target="_blank" rel="external">Emmagee</a><br>网易出品的，是监控指定被测应用在使用过程中占用机器的CPU、内存、流量资源的性能测试小工具。</p>
+</li>
+<li><p><a href="https://github.com/TencentOpen/GT" target="_blank" rel="external">GT</a><br>腾讯出品的，对APP进行快速的性能测试(CPU、内存、流量、电量、帧率/流畅度等等)、开发日志的查看、Crash日志查看、  网络数据包的抓取、APP内部参数的调试、真机代码耗时统计等</p>
+</li>
+<li><p><a href="https://github.com/hotchemi/awesome-android-testing" target="_blank" rel="external">awesome-android-testing</a><br>收集了不少测试用到的library.</p>
+</li>
+</ul>
+<h3 id="5_uFF09APP_u5185_u6D4B_uFF0C_u5206_u53D1"><a href="#5_uFF09APP_u5185_u6D4B_uFF0C_u5206_u53D1" class="headerlink" title="5）APP内测，分发"></a>5）APP内测，分发</h3><blockquote>
+<p>APP开发完成了，想通过链接方式发给别人使用测试，下面两个平台可以帮到你</p>
+</blockquote>
+<ul>
+<li><a href="http://fir.im/" target="_blank" rel="external">FIR.im</a></li>
+<li><a href="http://www.pgyer.com/" target="_blank" rel="external">蒲公英</a></li>
+</ul>
+<h3 id="6_uFF09_u5176_u4ED6"><a href="#6_uFF09_u5176_u4ED6" class="headerlink" title="6）其他"></a>6）其他</h3><ul>
+<li><p><a href="https://github.com/square/leakcanary" target="_blank" rel="external">leakcanary</a><br>检查内存泄露，square出名，必属精品</p>
+</li>
+<li><p><a href="https://github.com/moduth/blockcanary" target="_blank" rel="external">blockcanary</a><br>检测UI卡顿， 阿里工程师出品  </p>
+</li>
+<li><p><a href="https://github.com/palaima/DebugDrawer" target="_blank" rel="external">DebugDrawer</a><br>帮你快速的在debug版本分析，诊断问题 </p>
+</li>
+<li><p><a href="https://github.com/romainguy/ViewServer" target="_blank" rel="external">ViewServer</a><br>当你用真机调试连不上Hierarchy Viewer，它可以帮助你完美解决问题</p>
+</li>
+<li><p><a href="https://github.com/mortenjust/androidtool-mac" target="_blank" rel="external">androidtool-mac</a><br>可在mac上对Android手机和智能手表进行一键截屏、录制视频和安装APK等操作</p>
+</li>
+</ul>
+<h2 id="u540E_u8BDD"><a href="#u540E_u8BDD" class="headerlink" title="后话"></a>后话</h2><p>&emsp;&emsp;虽然这些开源库好用，能让你快速的开发出一款APP。但使用前最好要了它们存在的一些bug和坑，遇到问题可以给作者提issue，能摸索清楚原理更好了。还有就是不要过于追求开源库，过多引入会导致你的代码臃肿，更会造成65535方法数限制的问题，这时你得用<a href="http://developer.android.com/intl/zh-cn/reference/android/support/multidex/MultiDex.html" target="_blank" rel="external">Multidex</a>来解决问题了，在这里可以查询你apk的方法数<a href="http://inloop.github.io/apk-method-count/" target="_blank" rel="external">apk-method-count</a>。</p>
+<p>&emsp;&emsp;另外打个小广告，推荐下自己的：<a href="https://github.com/ruijun/Android-Dev-Favorites" target="_blank" rel="external">Android-Dev-Favorites</a>，里面收集了Android开发的干货，并且会不定期更新哦。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/01/18/compileSdkVersion,minSdkVersion,targetSdkVersion,buildToolsVersion含义/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">compileSdkVersion,minSdkVersion,targetSdkVersion,buildToolsVersion含义</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Android分享：如何高效率开发App" data-title="Android分享:如何高效率开发App" data-url="http://yoursite.com/2016/01/24/Android分享：如何高效率开发App/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 liangruijun
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/mobile.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?0b6be6bd2aa30eb47ed600c52cf2c168";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  </div>
+</body>
+</html>
