@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: Android Studio | ruijun&#39;s blog</title>
+  <title>Android分享：录制屏幕并制作GIF文件 | ruijun&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="What I’m doing right now, I’m chasing perfection.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="ruijun's blog">
-<meta property="og:url" content="http://yoursite.com/tags/Android-Studio/index.html">
+  <meta name="description" content="前言&amp;emsp;&amp;emsp;很多时候我们需要对手机屏幕进行录制，并制作成gif文件来对自己的APP或者开源项目进行介绍。这里总结几个常用的制作方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android分享：录制屏幕并制作GIF文件">
+<meta property="og:url" content="http://yoursite.com/2016/02/16/Android分享：录制屏幕并制作GIF文件/index.html">
 <meta property="og:site_name" content="ruijun's blog">
-<meta property="og:description" content="What I’m doing right now, I’m chasing perfection.">
+<meta property="og:description" content="前言&amp;emsp;&amp;emsp;很多时候我们需要对手机屏幕进行录制，并制作成gif文件来对自己的APP或者开源项目进行介绍。这里总结几个常用的制作方法。">
+<meta property="og:updated_time" content="2016-02-16T15:25:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ruijun's blog">
-<meta name="twitter:description" content="What I’m doing right now, I’m chasing perfection.">
+<meta name="twitter:title" content="Android分享：录制屏幕并制作GIF文件">
+<meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;很多时候我们需要对手机屏幕进行录制，并制作成gif文件来对自己的APP或者开源项目进行介绍。这里总结几个常用的制作方法。">
   
   
     <link rel="icon" href="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200">
@@ -186,51 +187,119 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-Android分享：录制屏幕并制作GIF文件" class="article article-type-post" itemscope itemprop="blogPost">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-android studio tips">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/06/07/Android分享：AndroidStudio有用的插件/" class="archive-article-date">
-  	<time datetime="2015-06-07T12:33:12.000Z" itemprop="datePublished">6月 7</time>
+    <div class="article-meta">
+      <a href="/2016/02/16/Android分享：录制屏幕并制作GIF文件/" class="article-date">
+  	<time datetime="2016-02-16T15:22:11.000Z" itemprop="datePublished">2016-02-16</time>
 </a>
-        </div>
-    	 
+    </div>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/06/07/Android分享：AndroidStudio有用的插件/">Android分享：AndroidStudio有用的插件</a>
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android分享：录制屏幕并制作GIF文件
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+      
+      <div class="article-info article-info-post">
+        
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android-Studio/">Android Studio</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android分享/">Android分享</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/插件/">插件</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android分享/">Android分享</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/制作GIF/">制作GIF</a></li></ul>
 	</div>
 
-          
+        
 
-        </div>
         <div class="clearfix"></div>
-    </header>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h3><p>&emsp;&emsp;很多时候我们需要对手机屏幕进行录制，并制作成gif文件来对自己的APP或者开源项目进行介绍。这里总结几个常用的制作方法。</p>
+<a id="more"></a>
+<h4 id="1_uFF09screenrecord"><a href="#1_uFF09screenrecord" class="headerlink" title="1）screenrecord"></a>1）screenrecord</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// &#24405;&#21046;&#40664;&#35748;&#20998;&#36776;&#29575;&#65292;&#40664;&#35748;4Mbps&#65292;&#40664;&#35748;180s&#30340;MP4&#35270;&#39057;&#65292;&#24182;&#19988;&#20445;&#23384;&#21040;sdcard&#19978;&#10;1. adb shell screenrecord  /sdcard/yourFileName.mp4&#10;&#10;// &#23558;&#35813;MP4&#25991;&#20214;&#20445;&#23384;&#21040;PC&#19978;&#10;2. adb pull /sdcard/yourFileName.mp4  ~/mp4File/</span><br></pre></td></tr></table></figure>
+<h5 id="+_GifGrabber"><a href="#+_GifGrabber" class="headerlink" title="+ GifGrabber"></a>+ <a href="http://ezgif.com/" target="_blank" rel="external">GifGrabber</a></h5><p>GifGrabber是一款mac系统上的gif录制软件，</p>
+<h5 id="u65B9_u6CD5"><a href="#u65B9_u6CD5" class="headerlink" title="方法"></a>方法</h5><p>使用<code>screenrecord</code>命令录制好mp4视频后，将mp4导出到pc上播放，再用GifGrabber进行录屏。这时候就可以得到你想要的gif文件了。</p>
+<h5 id="+_ezgif-com"><a href="#+_ezgif-com" class="headerlink" title="+ ezgif.com"></a>+ <a href="http://ezgif.com/" target="_blank" rel="external">ezgif.com</a></h5><p>GifGrabber是一款mac系统上的gif录制软件。</p>
+<h5 id="u65B9_u6CD5-1"><a href="#u65B9_u6CD5-1" class="headerlink" title="方法"></a>方法</h5><p>使用<code>screenrecord</code>命令录制好MP4视频后，将mp4导出到<a href="http://ezgif.com/" target="_blank" rel="external">ezgif.com</a>转换成gif文件。</p>
+<blockquote>
+<p>使用这种方式需要注意<code>screenrecord</code>命令只支持Android4.4以上系统,关于screenrecord更详细介绍，请戳这里<a href="http://developer.android.com/intl/zh-cn/tools/help/shell.html#screenrecord" target="_blank" rel="external">http://developer.android.com/intl/zh-cn/tools/help/shell.html#screenrecord</a></p>
+</blockquote>
+<h3 id="2_uFF09_Licecap_u6216gifcam"><a href="#2_uFF09_Licecap_u6216gifcam" class="headerlink" title="2） Licecap或gifcam"></a>2） <a href="http://www.appinn.com/licecap/" target="_blank" rel="external">Licecap</a>或<a href="http://www.appinn.com/gifcam/" target="_blank" rel="external">gifcam</a></h3><h5 id="+_Android_u6A21_u62DF_u5668_28genymotion_29"><a href="#+_Android_u6A21_u62DF_u5668_28genymotion_29" class="headerlink" title="+ Android模拟器(genymotion)"></a>+ Android模拟器(<a href="https://www.genymotion.com/" target="_blank" rel="external">genymotion</a>)</h5><h5 id="+_Chrome_u63D2_u4EF6_Vysor"><a href="#+_Chrome_u63D2_u4EF6_Vysor" class="headerlink" title="+ Chrome插件 Vysor"></a>+ Chrome插件 <a href="https://chrome.google.com/webstore/detail/vysor-beta/gidgenkbbabolejbgbpnhbimgjbffefm" target="_blank" rel="external">Vysor</a></h5><blockquote>
+<p>使用这种方式能直接导出gif文件</p>
+</blockquote>
+<h3 id="3_uFF09__u7B2C_u4E09_u65B9_u5E94_u7528"><a href="#3_uFF09__u7B2C_u4E09_u65B9_u5E94_u7528" class="headerlink" title="3） 第三方应用"></a>3） 第三方应用</h3><h5 id="androidtool-mac"><a href="#androidtool-mac" class="headerlink" title="androidtool-mac"></a><a href="https://github.com/mortenjust/androidtool-mac" target="_blank" rel="external">androidtool-mac</a></h5><p>可在mac上对Android手机和智能手表进行一键截屏、录制视频和安装APK等操作。</p>
+<h5 id="AZ_Screen_Recorder"><a href="#AZ_Screen_Recorder" class="headerlink" title="AZ Screen Recorder"></a><a href="https://play.google.com/store/apps/details?id=com.hecorat.screenrecorder.free&amp;hl=zh" target="_blank" rel="external">AZ Screen Recorder</a></h5><p>Android系统上最好用的屏幕录制软件无需Root，支持Android5.0以上系统。猜测这个应用的核心也是执行<code>screenrecord</code>命令。</p>
+<blockquote>
+<p>使用这种方式这里得到是mp4文件，按照上面的方法转成gif文件即可</p>
+</blockquote>
+<h3 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h3><p>秋百万: <a href="http://www.liaohuqiu.net/posts/make-gif-for-android-app/" target="_blank" rel="external">http://www.liaohuqiu.net/posts/make-gif-for-android-app/</a><br>qiujuer: <a href="http://blog.csdn.net/qiujuer/article/details/42506741" target="_blank" rel="external">http://blog.csdn.net/qiujuer/article/details/42506741</a></p>
+
+      
+    </div>
+    
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/01/24/随笔所想/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">随笔所想</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Android分享：录制屏幕并制作GIF文件" data-title="Android分享：录制屏幕并制作GIF文件" data-url="http://yoursite.com/2016/02/16/Android分享：录制屏幕并制作GIF文件/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
 </div>
       <footer id="footer">
   <div class="outer">
