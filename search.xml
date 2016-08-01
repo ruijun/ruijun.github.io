@@ -1,0 +1,742 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+    
+    <entry>
+      <title><![CDATA[Android分享：代码混淆那些事]]></title>
+      <url>http://yoursite.com/2016/02/18/Android%E5%88%86%E4%BA%AB%EF%BC%9A%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86%E9%82%A3%E4%BA%9B%E4%BA%8B/</url>
+      <content type="html"><![CDATA[<h3 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h3><p>&emsp;&emsp;<a href="http://proguard.sourceforge.net/" target="_blank" rel="external">ProGuard</a>是一个开源的Java代码混淆器。它可以混淆Android项目里面的java代码，对的，你没看错，仅仅是java代码。它是无法混淆Native代码，资源文件drawable、xml等。</p>
+<a id="more"></a>
+<h3 id="ProGuard_u4F5C_u7528"><a href="#ProGuard_u4F5C_u7528" class="headerlink" title="ProGuard作用"></a>ProGuard作用</h3><ul>
+<li>压缩: 移除无效的类、属性、方法等</li>
+<li>优化: 优化字节码，并删除未使用的结构</li>
+<li>混淆: 将类名、属性名、方法名混淆为难以读懂的字母，比如a,b,c</li>
+</ul>
+<h3 id="u6DF7_u6DC6_u6CE8_u610F_u4E8B_u9879"><a href="#u6DF7_u6DC6_u6CE8_u610F_u4E8B_u9879" class="headerlink" title="混淆注意事项"></a>混淆注意事项</h3><h4 id="u4E0D_u80FD_u6DF7_u6DC6"><a href="#u4E0D_u80FD_u6DF7_u6DC6" class="headerlink" title="不能混淆"></a>不能混淆</h4><ul>
+<li>在AndroidManifest中配置的类，比如四大组件</li>
+<li>JNI调用的方法</li>
+<li>反射用到的类</li>
+<li>WebView中JavaScript调用的方法</li>
+<li>Layout文件引用到的自定义View</li>
+<li>一些引入的第三方库（一般都会有混淆说明的）<br>这里推荐两个开源项目，里面收集了一些第三方库的混淆规则<br><a href="https://github.com/krschultz/android-proguard-snippets" target="_blank" rel="external">android-proguard-snippets</a> 和<br><a href="https://github.com/msdx/android-proguard-cn" target="_blank" rel="external">android-proguard-cn</a><blockquote>
+<p>不难理解，混淆之后，类名会变成a,b,c这种，通过包名+类名自然就会找不到该类了， 所以就会出现ClassNotFoundException异常<br><a href="http://www.itnose.net/detail/6043297.html" target="_blank" rel="external">http://www.itnose.net/detail/6043297.html</a></p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Log_u5904_u7406"><a href="#Log_u5904_u7406" class="headerlink" title="Log处理"></a>Log处理</h4><p>我们都知道，使用Log的时候，需要用到TAG，然而TAG我们一般都会写成：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">private static final String TAG = MainActivity.class.getSimpleName()</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">这时候MainActivity如何被混淆的话，log输出信息就会变成V/a:xxxxxxx，所以为了让log输出信息维持原状，可以将TAG处理成固定的字符串：  </span><br><span class="line">```java</span><br><span class="line">private static final String TAG = "MainActivity"</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">正好Android Studio里面的Live Templates</span><br><span class="line">![](/img/proguard_1.png)</span><br><span class="line"></span><br><span class="line">能让轻轻松松的声明TAG  </span><br><span class="line">![](/img/proguard_2.gif)</span><br><span class="line"></span><br><span class="line">关于Log处理，推荐一篇文章：https://www.zybuluo.com/shark0017/note/163330</span><br><span class="line"></span><br><span class="line">#### Crash信息处理</span><br><span class="line">代码混淆的时候记得加上在混淆文件里面记得加上这句：  </span><br><span class="line">``# keep住源文件以及行号``  </span><br><span class="line">``-keepattributes SourceFile,LineNumberTable``</span><br><span class="line"></span><br><span class="line">否则你看到的崩溃信息就会变成这样子（图片来自bugly）  </span><br><span class="line">![](/img/proguard_3.png)</span><br><span class="line"></span><br><span class="line">这里推荐bugly的一篇文章： http://bugly.qq.com/bbs/forum.php?mod=viewthread&amp;tid=26&amp;extra=page%3D1</span><br><span class="line"></span><br><span class="line">### ProGuard使用</span><br><span class="line">#### 常用语法</span><br><span class="line">1. 保留  </span><br><span class="line">-keep &#123;Modifier&#125; &#123;class_specification&#125; 保护指定的类文件和类的成员  </span><br><span class="line">-keepclassmembers &#123;modifier&#125; &#123;class_specification&#125; 保护指定类的成员，如果此类受到保护他们会保护的更好  </span><br><span class="line">-keepclasseswithmembers &#123;class_specification&#125; 保护指定的类和类的成员，但条件是所有指定的类和类成员是要存在。  </span><br><span class="line">-keepnames &#123;class_specification&#125; 保护指定的类和类的成员的名称（如果他们不会压缩步骤中删除）  </span><br><span class="line">-keepclassmembernames &#123;class_specification&#125; 保护指定的类的成员的名称（如果他们不会压缩步骤中删除）  </span><br><span class="line">-keepclasseswithmembernames &#123;class_specification&#125; 保护指定的类和类的成员的名称，如果所有指定的类成员出席（在压缩步骤之后）    </span><br><span class="line">-printseeds &#123;filename&#125; 列出类和类的成员-keep选项的清单，标准输出到给定的文件  </span><br><span class="line"></span><br><span class="line">2. 压缩  </span><br><span class="line">-dontshrink 不压缩输入的类文件  </span><br><span class="line">-printusage &#123;filename&#125;  </span><br><span class="line">-whyareyoukeeping &#123;class_specification&#125;  </span><br><span class="line"></span><br><span class="line">3. 优化  </span><br><span class="line">-dontoptimize 不优化输入的类文件  </span><br><span class="line">-assumenosideeffects &#123;class_specification&#125; 优化时假设指定的方法，没有任何副作用  </span><br><span class="line">-allowaccessmodification 优化时允许访问并修改有修饰符的类和类的成员</span><br><span class="line"></span><br><span class="line">4. 混淆  </span><br><span class="line">-dontobfuscate 不混淆输入的类文件  </span><br><span class="line">-obfuscationdictionary &#123;filename&#125; 使用给定文件中的关键字作为要混淆方法的名称  </span><br><span class="line">-overloadaggressively 混淆时应用侵入式重载  </span><br><span class="line">-useuniqueclassmembernames 确定统一的混淆类的成员名称来增加混淆  </span><br><span class="line">-flattenpackagehierarchy &#123;package_name&#125; 重新包装所有重命名的包并放在给定的单一包中  </span><br><span class="line">-repackageclass &#123;package_name&#125; 重新包装所有重命名的类文件中放在给定的单一包中   </span><br><span class="line">-dontusemixedcaseclassnames 混淆时不会产生形形色色的类名    </span><br><span class="line">-keepattributes &#123;attribute_name,…&#125; 保护给定的可选属性，例如LineNumberTable,   LocalVariableTable, SourceFile, Deprecated, Synthetic, Signature, and   InnerClasses.  </span><br><span class="line">-renamesourcefileattribute &#123;string&#125; 设置源文件中给定的字符串常量  </span><br><span class="line"></span><br><span class="line">5. 通配符匹配规则  </span><br><span class="line"></span><br><span class="line">| 通配符| 规则 |</span><br><span class="line">| -------- | -------- |</span><br><span class="line">| ？  | 匹配单个字符   |</span><br><span class="line">| *  | 匹配类名中的任何部分，但不包含额外的包名  |</span><br><span class="line">| **  | 匹配类名中的任何部分，并且可以包含额外的包名  |</span><br><span class="line">| %  | 匹配任何基础类型的类型名  |</span><br><span class="line">| *** | 匹配任意类型名 ,包含基础类型/非基础类型 |</span><br><span class="line">| ... | 匹配任意数量、任意类型的参数 |</span><br><span class="line">| &lt;init&gt;	| 匹配任何构造器 |</span><br><span class="line">| &lt;ifield&gt; | 匹配任何字段名|</span><br><span class="line">| &lt;imethod&gt; | 匹配任何方法|</span><br><span class="line">| *(当用在类内部时)	| 匹配任何字段和方法|</span><br><span class="line">| $	| 指内部类 |</span><br><span class="line"></span><br><span class="line">&gt; 更详细的语法请戳:http://proguard.sourceforge.net/manual/usage.html#classspecification</span><br><span class="line"></span><br><span class="line">#### Android Studio中使用方法</span><br><span class="line">按照上面的语法规则编写proguard-rules.pro后，需要在build.gradle中配置，需要混淆的时候，需要设置minifyEnabled为true</span><br><span class="line">```java</span><br><span class="line">buildTypes &#123;</span><br><span class="line">    debug &#123;</span><br><span class="line">        minifyEnabled false</span><br><span class="line">    &#125;</span><br><span class="line">    release &#123;</span><br><span class="line">        signingConfig signingConfigs.release</span><br><span class="line">        minifyEnabled true</span><br><span class="line">        proguardFiles 'proguard-rules.pro'</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="ProGuard_u7684_u8F93_u51FA_u6587_u4EF6_u8BF4_u660E"><a href="#ProGuard_u7684_u8F93_u51FA_u6587_u4EF6_u8BF4_u660E" class="headerlink" title="ProGuard的输出文件说明"></a>ProGuard的输出文件说明</h4><p>混淆后，会在/build/proguard/目录下输出下面的文件</p>
+<ul>
+<li>dump.txt 描述apk文件中所有类文件间的内部结构。</li>
+<li>mapping.txt 列出了原始的类，方法，和字段名与混淆后代码之间的映射。</li>
+<li>seeds.txt 列出了未被混淆的类和成员</li>
+<li>usage.txt 列出了从apk中删除的代码<br>当我们需要处理crash log的时候，就可以通过mapping.txt的映射关系找到对应的类，方法，字段等。方法如下：<br>sdk\tools\proguard\bin 目录下有个retrace工具可以将混淆后的报错堆栈解码成正常的类名<br>window下为retrace.bat，linux和mac为retrace.sh，</li>
+</ul>
+<p>使用方法如下：</p>
+<ol>
+<li>将crash log保存为yourfilename.txt</li>
+<li>拿到版本发布时生成的mapping.txt</li>
+<li>执行命令retrace.bat -verbose mapping.txt yourfilename.txt</li>
+</ol>
+<p>所以我们每次打包版本都需要保存最新的mapping.txt文件。如果要使用到第三方的crash统计平台，比如bugly，还需要我们上传APP版本对应的mapping.txt.每次都要保存最新的mapping文件，那不就很麻烦？放心，gradle会帮到你，只需要在bulid.gradle加入下面的一句。每次我们编译的时候，都会自动帮你保存mapping文件到本地的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">applicationVariants.all &#123; variant -&gt;</span><br><span class="line">        variant.outputs.each &#123; output -&gt;</span><br><span class="line">            <span class="keyword">if</span> (variant.getBuildType().isMinifyEnabled()) &#123;</span><br><span class="line">                variant.assemble.doLast&#123;</span><br><span class="line">                        copy &#123;</span><br><span class="line">                            from variant.mappingFile</span><br><span class="line">                            into <span class="string">"$&#123;projectDir&#125;/mappings"</span></span><br><span class="line">                            rename &#123; String fileName -&gt;</span><br><span class="line">                                <span class="string">"mapping-$&#123;variant.name&#125;.txt"</span></span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ......</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h3><p><a href="https://blog.gmem.cc/proguard-study-note" target="_blank" rel="external">https://blog.gmem.cc/proguard-study-note</a><br><a href="http://developer.android.com/intl/zh-cn/tools/help/proguard.html" target="_blank" rel="external">http://developer.android.com/intl/zh-cn/tools/help/proguard.html</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android分享：录制屏幕并制作GIF文件]]></title>
+      <url>http://yoursite.com/2016/02/16/Android%E5%88%86%E4%BA%AB%EF%BC%9A%E5%BD%95%E5%88%B6%E5%B1%8F%E5%B9%95%E5%B9%B6%E5%88%B6%E4%BD%9CGIF%E6%96%87%E4%BB%B6/</url>
+      <content type="html"><![CDATA[<h3 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h3><p>&emsp;&emsp;很多时候我们需要对手机屏幕进行录制，并制作成gif文件来对自己的APP或者开源项目进行介绍。这里总结几个常用的制作方法。</p>
+<a id="more"></a>
+<h4 id="1_uFF09screenrecord"><a href="#1_uFF09screenrecord" class="headerlink" title="1）screenrecord"></a>1）screenrecord</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 录制默认分辨率，默认4Mbps，默认180s的MP4视频，并且保存到sdcard上</span></span><br><span class="line"><span class="number">1</span>. adb shell screenrecord  /sdcard/yourFileName.mp4</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将该MP4文件保存到PC上</span></span><br><span class="line"><span class="number">2</span>. adb pull /sdcard/yourFileName.mp4  ~/mp4File/</span><br></pre></td></tr></table></figure>
+<h5 id="+_GifGrabber"><a href="#+_GifGrabber" class="headerlink" title="+ GifGrabber"></a>+ <a href="http://ezgif.com/" target="_blank" rel="external">GifGrabber</a></h5><p>GifGrabber是一款mac系统上的gif录制软件，</p>
+<h5 id="u65B9_u6CD5"><a href="#u65B9_u6CD5" class="headerlink" title="方法"></a>方法</h5><p>使用<code>screenrecord</code>命令录制好mp4视频后，将mp4导出到pc上播放，再用GifGrabber进行录屏。这时候就可以得到你想要的gif文件了。</p>
+<h5 id="+_ezgif-com"><a href="#+_ezgif-com" class="headerlink" title="+ ezgif.com"></a>+ <a href="http://ezgif.com/" target="_blank" rel="external">ezgif.com</a></h5><p>GifGrabber是一款mac系统上的gif录制软件。</p>
+<h5 id="u65B9_u6CD5-1"><a href="#u65B9_u6CD5-1" class="headerlink" title="方法"></a>方法</h5><p>使用<code>screenrecord</code>命令录制好MP4视频后，将mp4导出到<a href="http://ezgif.com/" target="_blank" rel="external">ezgif.com</a>转换成gif文件。</p>
+<blockquote>
+<p>使用这种方式需要注意<code>screenrecord</code>命令只支持Android4.4以上系统,关于screenrecord更详细介绍，请戳这里<a href="http://developer.android.com/intl/zh-cn/tools/help/shell.html#screenrecord" target="_blank" rel="external">http://developer.android.com/intl/zh-cn/tools/help/shell.html#screenrecord</a></p>
+</blockquote>
+<h3 id="2_uFF09_Licecap_u6216gifcam"><a href="#2_uFF09_Licecap_u6216gifcam" class="headerlink" title="2） Licecap或gifcam"></a>2） <a href="http://www.appinn.com/licecap/" target="_blank" rel="external">Licecap</a>或<a href="http://www.appinn.com/gifcam/" target="_blank" rel="external">gifcam</a></h3><h5 id="+_Android_u6A21_u62DF_u5668_28genymotion_29"><a href="#+_Android_u6A21_u62DF_u5668_28genymotion_29" class="headerlink" title="+ Android模拟器(genymotion)"></a>+ Android模拟器(<a href="https://www.genymotion.com/" target="_blank" rel="external">genymotion</a>)</h5><h5 id="+_Chrome_u63D2_u4EF6_Vysor"><a href="#+_Chrome_u63D2_u4EF6_Vysor" class="headerlink" title="+ Chrome插件 Vysor"></a>+ Chrome插件 <a href="https://chrome.google.com/webstore/detail/vysor-beta/gidgenkbbabolejbgbpnhbimgjbffefm" target="_blank" rel="external">Vysor</a></h5><blockquote>
+<p>使用这种方式能直接导出gif文件</p>
+</blockquote>
+<h3 id="3_uFF09__u7B2C_u4E09_u65B9_u5E94_u7528"><a href="#3_uFF09__u7B2C_u4E09_u65B9_u5E94_u7528" class="headerlink" title="3） 第三方应用"></a>3） 第三方应用</h3><h5 id="androidtool-mac"><a href="#androidtool-mac" class="headerlink" title="androidtool-mac"></a><a href="https://github.com/mortenjust/androidtool-mac" target="_blank" rel="external">androidtool-mac</a></h5><p>可在mac上对Android手机和智能手表进行一键截屏、录制视频和安装APK等操作。</p>
+<h5 id="AZ_Screen_Recorder"><a href="#AZ_Screen_Recorder" class="headerlink" title="AZ Screen Recorder"></a><a href="https://play.google.com/store/apps/details?id=com.hecorat.screenrecorder.free&amp;hl=zh" target="_blank" rel="external">AZ Screen Recorder</a></h5><p>Android系统上最好用的屏幕录制软件无需Root，支持Android5.0以上系统。猜测这个应用的核心也是执行<code>screenrecord</code>命令。</p>
+<blockquote>
+<p>使用这种方式这里得到是mp4文件，按照上面的方法转成gif文件即可</p>
+</blockquote>
+<h3 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h3><p>秋百万: <a href="http://www.liaohuqiu.net/posts/make-gif-for-android-app/" target="_blank" rel="external">http://www.liaohuqiu.net/posts/make-gif-for-android-app/</a><br>qiujuer: <a href="http://blog.csdn.net/qiujuer/article/details/42506741" target="_blank" rel="external">http://blog.csdn.net/qiujuer/article/details/42506741</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[随笔所想]]></title>
+      <url>http://yoursite.com/2016/01/24/%E9%9A%8F%E7%AC%94%E6%89%80%E6%83%B3/</url>
+      <content type="html"><![CDATA[<p>记录下工作，生活，学习点滴~~</p>
+<p>What I’m doing right now, I’m chasing perfection.</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android奇技淫巧：隐藏APP图标]]></title>
+      <url>http://yoursite.com/2016/01/24/Android%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7%EF%BC%9A%E9%9A%90%E8%97%8FAPP%E5%9B%BE%E6%A0%87/</url>
+      <content type="html"><![CDATA[<h3 id="u80CC_u666F"><a href="#u80CC_u666F" class="headerlink" title="背景"></a>背景</h3><p>最近碰到个需求，需要在桌面隐藏APP的图标。</p>
+<a id="more"></a>
+<h3 id="u4ECB_u7ECD"><a href="#u4ECB_u7ECD" class="headerlink" title="介绍"></a>介绍</h3><p>我在网上查查了，发现有几种方式  </p>
+<ol>
+<li>AndroidManifest.xml文件中在入口Activity的intent-filter里去掉category android:name=”android.intent.category.LAUNCHER或者将LAUNCHER改为DEFAULT  </li>
+<li>在程序中加入下面的代码<br>PackageManager p = getPackageManager();<br>p.setComponentEnabledSetting(getComponentName(), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);  </li>
+<li>去掉android:icon=”@drawable/ic_launcher”中的资源啊</li>
+</ol>
+<h4 id="u7136_u800C_u8BD5_u4E86_u4E4B_u540E_uFF0C_u53D1_u73B0_u8FD9_u51E0_u79CD_u65B9_u6CD5_u5E76_u6CA1_u6709_u4EC0_u4E48_u5375_u7528_uFF0C_u4F1A_u5E26_u6765_u542F_u52A8_u4E0D_u4E86_u7A0B_u5E8F_uFF0C_u7A0B_u5E8F_u65E0_u6CD5_u6B63_u5E38_u4F7F_u7528_u7684_u95EE_u9898_7E_7E"><a href="#u7136_u800C_u8BD5_u4E86_u4E4B_u540E_uFF0C_u53D1_u73B0_u8FD9_u51E0_u79CD_u65B9_u6CD5_u5E76_u6CA1_u6709_u4EC0_u4E48_u5375_u7528_uFF0C_u4F1A_u5E26_u6765_u542F_u52A8_u4E0D_u4E86_u7A0B_u5E8F_uFF0C_u7A0B_u5E8F_u65E0_u6CD5_u6B63_u5E38_u4F7F_u7528_u7684_u95EE_u9898_7E_7E" class="headerlink" title="然而试了之后，发现这几种方法并没有什么卵用，会带来启动不了程序，程序无法正常使用的问题~~"></a>然而试了之后，发现这几种方法并没有什么卵用，会带来启动不了程序，程序无法正常使用的问题~~</h4><h4 id="u6700_u540E_u53D1_u73B0_u4E86_u4E00_u79CD_u5B8C_u7F8E_u89E3_u51B3_u65B9_u6CD5"><a href="#u6700_u540E_u53D1_u73B0_u4E86_u4E00_u79CD_u5B8C_u7F8E_u89E3_u51B3_u65B9_u6CD5" class="headerlink" title="最后发现了一种完美解决方法"></a>最后发现了一种完美解决方法</h4><p>在manifest的入口activity里面intent-filter中设置data<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;data android:host=”ruijun.com” android:scheme=”http” /&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="u539F_u7406"><a href="#u539F_u7406" class="headerlink" title="原理"></a>原理</h3><p>研究过<code>Launcher</code>的童鞋应该都知道<code>LoaderTask.loadAllAppsByBatch</code>有那么一段<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">LoaderTask</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">	......</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">loadAllAppsByBatch</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		......</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 此处是关键代码</span></span><br><span class="line">		<span class="comment">// 设置Intent的action为ACTION_MAIN，category为CATEGORY_LAUNCHER  </span></span><br><span class="line">    		<span class="comment">// 这样就过滤出桌面上显示的启动项了</span></span><br><span class="line">    		<span class="comment">// 注意这里是没有匹配data的</span></span><br><span class="line">		<span class="keyword">final</span> Intent mainIntent = <span class="keyword">new</span> Intent(Intent.ACTION_MAIN, <span class="keyword">null</span>);</span><br><span class="line">		mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">final</span> PackageManager packageManager = mContext.getPackageManager();</span><br><span class="line">		List&lt;ResolveInfo&gt; apps = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> N = Integer.MAX_VALUE;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> startIndex;</span><br><span class="line">		<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">int</span> batchSize = -<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">while</span> (i &lt; N &amp;&amp; !mStopped) &#123;</span><br><span class="line">			<span class="keyword">if</span> (i == <span class="number">0</span>) &#123;</span><br><span class="line">				mAllAppsList.clear();</span><br><span class="line">				......</span><br><span class="line">				<span class="comment">// 查询得到结果</span></span><br><span class="line">				apps = packageManager.queryIntentActivities(mainIntent, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">				......</span><br><span class="line"></span><br><span class="line">				Collections.sort(apps,</span><br><span class="line">					<span class="keyword">new</span> ResolveInfo.DisplayNameComparator(packageManager));</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			startIndex = i;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; i&lt;N &amp;&amp; j&lt;batchSize; j++) &#123;</span><br><span class="line">				<span class="comment">// This builds the icon bitmaps.</span></span><br><span class="line">				mAllAppsList.add(<span class="keyword">new</span> ApplicationInfo(apps.get(i), mIconCache));</span><br><span class="line">				i++;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">final</span> <span class="keyword">boolean</span> first = i &lt;= batchSize;</span><br><span class="line">			<span class="keyword">final</span> Callbacks callbacks = tryGetCallbacks(oldCallbacks);</span><br><span class="line">			<span class="keyword">final</span> ArrayList&lt;ApplicationInfo&gt; added = mAllAppsList.added;</span><br><span class="line">			mAllAppsList.added = <span class="keyword">new</span> ArrayList&lt;ApplicationInfo&gt;();</span><br><span class="line"></span><br><span class="line">			mHandler.post(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">					<span class="keyword">final</span> <span class="keyword">long</span> t = SystemClock.uptimeMillis();</span><br><span class="line">					<span class="keyword">if</span> (callbacks != <span class="keyword">null</span>) &#123;</span><br><span class="line">						<span class="keyword">if</span> (first) &#123;</span><br><span class="line">							callbacks.bindAllApplications(added);</span><br><span class="line">						&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">							callbacks.bindAppsAdded(added);</span><br><span class="line">						&#125;</span><br><span class="line">						......</span><br><span class="line">					&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">						......</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line"></span><br><span class="line">			......</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		......</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>因为入口Activity加入了data，这里只是匹配了Action，Category。所以就匹配不了该Activity了，下面的apps就不含这个该Activity的信息。  </p>
+<p><code>Launcher</code>还有那么一段：<code>Launcher.bindAllApplications</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * A package was installed.</span><br><span class="line"> *</span><br><span class="line"> * Implementation of the method from LauncherModel.Callbacks.</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bindAppsAdded</span><span class="params">(ArrayList&lt;ApplicationInfo&gt; apps)</span> </span>&#123;</span><br><span class="line">    setLoadOnResume();</span><br><span class="line">    removeDialog(DIALOG_CREATE_SHORTCUT);</span><br><span class="line">    mAllAppsGrid.addApps(apps);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>由于满足不了上面的过滤匹配条件，mAllAppsGrid.setApps(apps)apps中不含有该入口Activity，桌面也就看不到我们的APP图标了。</p>
+<h3 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h3><p>关于Launcher分析，可以看下这几篇文章<br><a href="http://blog.csdn.net/chenshaoyang0011/article/details/7831617" target="_blank" rel="external">Android系统默认Home应用程序（Launcher）的启动过程源代码分析</a><br><a href="http://blog.csdn.net/yanbober/article/details/50525559" target="_blank" rel="external">Android M Launcher3主流程源码浅析</a><br><a href="http://blog.csdn.net/chenshaoyang0011/article/details/7831617" target="_blank" rel="external">Android 4.0 Launcher2源码分析——Launcher内容加载详细过程</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android分享：如何高效率开发App]]></title>
+      <url>http://yoursite.com/2016/01/24/Android%E5%88%86%E4%BA%AB%EF%BC%9A%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E7%8E%87%E5%BC%80%E5%8F%91App/</url>
+      <content type="html"><![CDATA[<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp;关于如何高效率开发App，开发前需要做哪些准备呢？之前在知乎和segmentfault回到过类似的问题，在这里按划分功能模块—设计APP框架—APP质量把关—内测，正式发布的流程来总结。</p>
+<a id="more"></a>
+<h3 id="1_uFF09_u529F_u80FD_u6A21_u5757"><a href="#1_uFF09_u529F_u80FD_u6A21_u5757" class="headerlink" title="1）功能模块"></a>1）功能模块</h3><h4 id="u7F51_u7EDC_u6A21_u5757"><a href="#u7F51_u7EDC_u6A21_u5757" class="headerlink" title="网络模块"></a>网络模块</h4><ul>
+<li><a href="https://github.com/square/okhttp" target="_blank" rel="external">okhttp</a></li>
+<li><a href="https://github.com/loopj/android-async-http" target="_blank" rel="external">android-async-http</a></li>
+<li><a href="https://developer.android.com/intl/ja/training/volley/index.html" target="_blank" rel="external">volley</a></li>
+<li><a href="https://github.com/square/retrofit" target="_blank" rel="external">retrofit</a></li>
+</ul>
+<h4 id="u4E8B_u4EF6_u603B_u7EBF"><a href="#u4E8B_u4EF6_u603B_u7EBF" class="headerlink" title="事件总线"></a>事件总线</h4><ul>
+<li><a href="https://github.com/square/otto" target="_blank" rel="external">otto</a></li>
+<li><a href="https://github.com/greenrobot/EventBus" target="_blank" rel="external">EventBus</a></li>
+</ul>
+<h4 id="u4F9D_u8D56_u6CE8_u5165"><a href="#u4F9D_u8D56_u6CE8_u5165" class="headerlink" title="依赖注入"></a>依赖注入</h4><ul>
+<li><a href="https://github.com/square/dagger" target="_blank" rel="external">Dagger</a></li>
+<li><a href="https://github.com/roboguice/roboguice" target="_blank" rel="external">RoboGuice</a></li>
+<li><a href="https://github.com/JakeWharton/butterknife" target="_blank" rel="external">ButterKnife</a></li>
+</ul>
+<h4 id="u56FE_u7247_u6A21_u5757"><a href="#u56FE_u7247_u6A21_u5757" class="headerlink" title="图片模块"></a>图片模块</h4><ul>
+<li><a href="https://github.com/facebook/fresco" target="_blank" rel="external">Fresco</a></li>
+<li><a href="https://github.com/bumptech/glide" target="_blank" rel="external">Glide</a></li>
+<li><a href="https://github.com/square/picasso" target="_blank" rel="external">picasso</a></li>
+<li><a href="https://github.com/nostra13/Android-Universal-Image-Loader" target="_blank" rel="external">Android-Universal-Image-Loader</a></li>
+</ul>
+<h4 id="u6570_u636E_u5E93_u6A21_u5757"><a href="#u6570_u636E_u5E93_u6A21_u5757" class="headerlink" title="数据库模块"></a>数据库模块</h4><ul>
+<li><a href="https://github.com/greenrobot/greenDAO" target="_blank" rel="external">greenDao</a></li>
+<li><a href="https://github.com/j256/ormlite-android" target="_blank" rel="external">ormlite</a></li>
+<li><a href="https://github.com/LitePalFramework/LitePal" target="_blank" rel="external">LitePal</a></li>
+</ul>
+<h4 id="u54CD_u5E94_u5F0F_u7F16_u7A0B"><a href="#u54CD_u5E94_u5F0F_u7F16_u7A0B" class="headerlink" title="响应式编程"></a>响应式编程</h4><ul>
+<li><a href="https://github.com/ReactiveX/RxJava" target="_blank" rel="external">RxJava</a></li>
+<li><a href="https://github.com/ReactiveX/RxAndroid" target="_blank" rel="external">RxAndroid</a></li>
+</ul>
+<h4 id="u65E5_u5FD7_u8F93_u51FA"><a href="#u65E5_u5FD7_u8F93_u51FA" class="headerlink" title="日志输出"></a>日志输出</h4><ul>
+<li><a href="https://github.com/orhanobut/logger" target="_blank" rel="external">logger</a></li>
+<li><a href="https://github.com/liaohuqiu/android-CLog" target="_blank" rel="external">android-CLog</a></li>
+<li><a href="https://github.com/ZhaoKaiQiang/KLog" target="_blank" rel="external">KLog</a></li>
+<li><a href="https://github.com/noties/Debug" target="_blank" rel="external">Debug</a></li>
+<li><a href="https://github.com/pengwei1024/LogUtils" target="_blank" rel="external">LogUtils</a></li>
+</ul>
+<h4 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h4><ul>
+<li><a href="https://github.com/alibaba/fastjson" target="_blank" rel="external">fastjson</a></li>
+<li><a href="https://github.com/google/gson" target="_blank" rel="external">gson</a></li>
+<li><a href="https://github.com/FasterXML/jackson" target="_blank" rel="external">jackson</a></li>
+<li><a href="https://github.com/bluelinelabs/LoganSquare" target="_blank" rel="external">LoganSquare</a></li>
+</ul>
+<h3 id="2_uFF09_u67B6_u6784_u8BBE_u8BA1"><a href="#2_uFF09_u67B6_u6784_u8BBE_u8BA1" class="headerlink" title="2）架构设计"></a>2）架构设计</h3><blockquote>
+<p>这个肯定得了解下MVC，MVP，MVVM还有设计模式这些，这里有几个开源项目推荐下</p>
+</blockquote>
+<ul>
+<li><a href="https://github.com/chrisbanes/philm" target="_blank" rel="external">philm</a><br>Movie collection and information app for Android.</li>
+</ul>
+<ul>
+<li><p><a href="https://github.com/liuling07/SimpleNews" target="_blank" rel="external">SimpleNews</a><br>基于Material Design和MVP的新闻客户端</p>
+</li>
+<li><p><a href="https://github.com/maoruibin/GankDaily" target="_blank" rel="external">GankDaily</a><br>A application show technical information every working days, use MVP pattern.</p>
+</li>
+<li><p><a href="https://github.com/SkillCollege/SimplifyReader" target="_blank" rel="external">SimplifyReader</a><br>一款基于Google Material Design设计开发的Android客户端</p>
+</li>
+<li><p><a href="https://github.com/SilenceDut/NBAPlus" target="_blank" rel="external">NBAPlus</a><br>A concise APP about NBA News and Event with RxJava and EventBus </p>
+</li>
+<li><p><a href="https://github.com/yydcdut/PhotoNoter" target="_blank" rel="external">PhotoNoter</a><br>Material Design风格的开源照片笔记。(MVP+Dagger2+RxJava+Dex分包异步加载)</p>
+</li>
+<li><p><a href="https://github.com/drakeet/Meizhi" target="_blank" rel="external">Meizhi</a><br>gank.io unofficial client, RxJava &amp; Retrofit</p>
+</li>
+</ul>
+<h3 id="3_uFF09_u5D29_u6E83_u7EDF_u8BA1_u5E73_u53F0"><a href="#3_uFF09_u5D29_u6E83_u7EDF_u8BA1_u5E73_u53F0" class="headerlink" title="3）崩溃统计平台"></a>3）崩溃统计平台</h3><blockquote>
+<p>对APP崩溃统计是必须的啦，Crittercism和Crashlytics有时候需要梯子，你懂的。ACRA需要自己来搭建。</p>
+</blockquote>
+<ul>
+<li><a href="http://bugly.qq.com/" target="_blank" rel="external">腾讯bugly</a></li>
+<li><a href="http://www.crasheye.cn/" target="_blank" rel="external">金山Crasheye</a></li>
+<li><a href="https://app.crittercism.com/" target="_blank" rel="external">Crittercism</a></li>
+<li><a href="http://try.crashlytics.com/" target="_blank" rel="external">Crashlytics</a></li>
+<li><a href="https://github.com/ACRA/acra" target="_blank" rel="external">ACRA</a>:<a href="https://github.com/bboyfeiyu/android-tech-frontier/tree/master/others/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAAndroid%E5%BA%94%E7%94%A8crashing%E8%B7%9F%E8%B8%AA%E7%B3%BB%E7%BB%9F%EF%BC%8DACRA" target="_blank" rel="external">搭建方法</a></li>
+</ul>
+<h3 id="4_uFF09_u6D4B_u8BD5_u76F8_u5173"><a href="#4_uFF09_u6D4B_u8BD5_u76F8_u5173" class="headerlink" title="4）测试相关"></a>4）测试相关</h3><ul>
+<li><p><a href="https://testerhome.com/" target="_blank" rel="external">testerhome</a><br>支付宝Monkey老师推荐的测试社区，里面有很多干货</p>
+</li>
+<li><p><a href="https://bugtags.com/" target="_blank" rel="external">bugtags</a><br>新一代的、专为移动测试而生的缺陷发现及管理工具</p>
+</li>
+<li><p><a href="http://www.testin.cn/" target="_blank" rel="external">testin</a><br>免费移动App真机云测试平台</p>
+</li>
+<li><p><a href="https://github.com/NetEase/Emmagee" target="_blank" rel="external">Emmagee</a><br>网易出品的，是监控指定被测应用在使用过程中占用机器的CPU、内存、流量资源的性能测试小工具。</p>
+</li>
+<li><p><a href="https://github.com/TencentOpen/GT" target="_blank" rel="external">GT</a><br>腾讯出品的，对APP进行快速的性能测试(CPU、内存、流量、电量、帧率/流畅度等等)、开发日志的查看、Crash日志查看、  网络数据包的抓取、APP内部参数的调试、真机代码耗时统计等</p>
+</li>
+<li><p><a href="https://github.com/hotchemi/awesome-android-testing" target="_blank" rel="external">awesome-android-testing</a><br>收集了不少测试用到的library.</p>
+</li>
+</ul>
+<h3 id="5_uFF09APP_u5185_u6D4B_uFF0C_u5206_u53D1"><a href="#5_uFF09APP_u5185_u6D4B_uFF0C_u5206_u53D1" class="headerlink" title="5）APP内测，分发"></a>5）APP内测，分发</h3><blockquote>
+<p>APP开发完成了，想通过链接方式发给别人使用测试，下面两个平台可以帮到你</p>
+</blockquote>
+<ul>
+<li><a href="http://fir.im/" target="_blank" rel="external">FIR.im</a></li>
+<li><a href="http://www.pgyer.com/" target="_blank" rel="external">蒲公英</a></li>
+</ul>
+<h3 id="6_uFF09_u5176_u4ED6"><a href="#6_uFF09_u5176_u4ED6" class="headerlink" title="6）其他"></a>6）其他</h3><ul>
+<li><p><a href="https://github.com/square/leakcanary" target="_blank" rel="external">leakcanary</a><br>检查内存泄露，square出名，必属精品</p>
+</li>
+<li><p><a href="https://github.com/moduth/blockcanary" target="_blank" rel="external">blockcanary</a><br>检测UI卡顿， 阿里工程师出品  </p>
+</li>
+<li><p><a href="https://github.com/palaima/DebugDrawer" target="_blank" rel="external">DebugDrawer</a><br>帮你快速的在debug版本分析，诊断问题 </p>
+</li>
+<li><p><a href="https://github.com/romainguy/ViewServer" target="_blank" rel="external">ViewServer</a><br>当你用真机调试连不上Hierarchy Viewer，它可以帮助你完美解决问题</p>
+</li>
+<li><p><a href="https://github.com/mortenjust/androidtool-mac" target="_blank" rel="external">androidtool-mac</a><br>可在mac上对Android手机和智能手表进行一键截屏、录制视频和安装APK等操作</p>
+</li>
+</ul>
+<h2 id="u540E_u8BDD"><a href="#u540E_u8BDD" class="headerlink" title="后话"></a>后话</h2><p>&emsp;&emsp;虽然这些开源库好用，能让你快速的开发出一款APP。但使用前最好要了它们存在的一些bug和坑，遇到问题可以给作者提issue，能摸索清楚原理更好了。还有就是不要过于追求开源库，过多引入会导致你的代码臃肿，更会造成65535方法数限制的问题，这时你得用<a href="http://developer.android.com/intl/zh-cn/reference/android/support/multidex/MultiDex.html" target="_blank" rel="external">Multidex</a>来解决问题了，在这里可以查询你apk的方法数<a href="http://inloop.github.io/apk-method-count/" target="_blank" rel="external">apk-method-count</a>。</p>
+<p>&emsp;&emsp;另外打个小广告，推荐下自己的：<a href="https://github.com/ruijun/Android-Dev-Favorites" target="_blank" rel="external">Android-Dev-Favorites</a>，里面收集了Android开发的干货，并且会不定期更新哦。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android Tips：compileSdkVersion,minSdkVersion,targetSdkVersion,buildToolsVersion含义]]></title>
+      <url>http://yoursite.com/2016/01/18/Android%20Tips%EF%BC%9AcompileSdkVersion,minSdkVersion,targetSdkVersion,buildToolsVersion%E5%90%AB%E4%B9%89/</url>
+      <content type="html"><![CDATA[<p>   最近看了<a href="http://chinagdg.org/2016/01/picking-your-compilesdkversion-minsdkversion-targetsdkversion/" target="_blank" rel="external">如何选择 compileSdkVersion, minSdkVersion 和 targetSdkVersion</a>和<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2016/0118/3881.html" target="_blank" rel="external">Android targetSdkVersion 原理</a>两篇关于<strong>compileSdkVersion、minSdkVersion、targetSdkVersion</strong>说明的文章。自己决定总结下，加深理解。</p>
+<a id="more"></a>
+<p><img src="/img/sdk_1.png" alt="">  </p>
+<h2 id="compileSdkVersion"><a href="#compileSdkVersion" class="headerlink" title="compileSdkVersion"></a>compileSdkVersion</h2><blockquote>
+<p>  看名字compile就知道是编译时候使用的，主要是告诉Gradle用哪个Android SDK版本编译你的APP，它仅仅用于编译。比如Android6.0不支持Apache的httpClient，这时候可以修改compileSdkVersion为23，编译的时候，就能检查你的App是否有编译警告或者编译错误。   </p>
+</blockquote>
+<h2 id="minSdkVersion"><a href="#minSdkVersion" class="headerlink" title="minSdkVersion"></a>minSdkVersion</h2><blockquote>
+<p>是APP可以运行的最低要求。当minSdkVersion设定为15，这时候系统低于4.0.3就不能正常安装该APP了。</p>
+</blockquote>
+<p><strong>下面给出张android系统版本，API level(SDK)和版本代号之间的对应关系表</strong><br><img src="/img/sdk_2.png" alt="">  </p>
+<p><strong>完整版本的可以查看<a href="http://developer.android.com/intl/zh-cn/guide/topics/manifest/uses-sdk-element.html#provisional" target="_blank" rel="external">官网链接</a> </strong></p>
+<h2 id="targetSdkVersion"><a href="#targetSdkVersion" class="headerlink" title="targetSdkVersion"></a>targetSdkVersion</h2><blockquote>
+<p>  Android系统提供前向兼容的主要手段。这是什么意思呢？随着Android系统的升级，某个系统的API或者模块的行为可能会发生改变，但是为了保证老APK的行为还是和以前兼容。只要APK的targetSdkVersion不变，即使这个APK安装在新 Android 系统上，其行为还是保持老的系统上的行为，这样就保证了系统对老应用的前向兼容性。<br>  网上一些关于Android6.0权限管理教程，都会提到当APP的targetSdkVersion设置为23时，并且运行在Android6.0系统中，新权限管理功能就会生效。targetSdkVersion低于23，不管在什么版本的系统上，新权限管理功能都不会生效的。</p>
+</blockquote>
+<h2 id="buildToolsVersion"><a href="#buildToolsVersion" class="headerlink" title="buildToolsVersion"></a>buildToolsVersion</h2><blockquote>
+<p>构建工具的版本，其中包括了aapt、dx、aidl、zipalign等。可以到sdk下build-tools查看。            </p>
+</blockquote>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[JitPack的使用]]></title>
+      <url>http://yoursite.com/2016/01/16/JitPack%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+      <content type="html"><![CDATA[<p>最近在Github发现很多开源项目开始使用<a href="https://jitpack.io/" target="_blank" rel="external">JitPack</a>进行发布。JitPack实际上是一个自定义的Maven仓库，使用流程非常简单，相对于mavenCentral很方便很快捷。之前我写过一遍关于<a href="http://blog.liangruijun.com/2015/06/05/%E4%BD%BF%E7%94%A8Gradle%E4%B8%8A%E4%BC%A0aar%E5%88%B0mavenCentral%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/" target="_blank" rel="external">mavenCentral</a>可以看到mavenCentral步骤复杂，而且容易出错。</p>
+<h3 id="u53D1_u5E03_u6D41_u7A0B"><a href="#u53D1_u5E03_u6D41_u7A0B" class="headerlink" title="发布流程"></a>发布流程</h3><p>在<a href="https://jitpack.io/" target="_blank" rel="external">JitPack</a>首页输入你的Github项目地址(以我的一个开源控件为例子<a href="https://github.com/ruijun/Characterview" target="_blank" rel="external">Characterview</a>)。点击Look up按钮即可发布。<br><img src="/img/jitpack_1.png" alt="">  </p>
+<h3 id="u4F7F_u7528_u65B9_u6CD5"><a href="#u4F7F_u7528_u65B9_u6CD5" class="headerlink" title="使用方法"></a>使用方法</h3><ol>
+<li><p>在Project的build.gradle中加入JitPack repository<br><img src="/img/jitpack_2.png" alt="">  </p>
+</li>
+<li><p>在Module的build.gradle中加入依赖<br><img src="/img/jitpack_3.png" alt=""> </p>
+</li>
+</ol>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android填坑：Android5.0 Button英文字符自动变成大写的问题]]></title>
+      <url>http://yoursite.com/2016/01/16/Android%E5%A1%AB%E5%9D%91%EF%BC%9AAndroid5.0%20Button%E8%8B%B1%E6%96%87%E5%AD%97%E7%AC%A6%E8%87%AA%E5%8A%A8%E5%8F%98%E6%88%90%E5%A4%A7%E5%86%99%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+      <content type="html"><![CDATA[<h3 id="u53D1_u73B0_u95EE_u9898"><a href="#u53D1_u73B0_u95EE_u9898" class="headerlink" title="发现问题"></a>发现问题</h3><p>在5.0手机上调试的时候，发现Button上的英文字符全部变成了大写，5.0以下系统是正常的。<br>布局文件中：<br><img src="/img/btn_1.jpg" alt=""><br>界面显示：<br><img src="/img/btn_2.jpg" alt=""></p>
+<h2 id="u5206_u6790_u95EE_u9898"><a href="#u5206_u6790_u95EE_u9898" class="headerlink" title="分析问题"></a>分析问题</h2><p>1.到这里只能从源码角度去分析问题了。在<a href="http://androidxref.com/5.0.0_r2/xref/frameworks/base/core/java/android/widget/TextView.java" target="_blank" rel="external">AndroidXRef</a>上看了5.0系统TextView的源码(因为Button是继承TextView的，而且Button源码也没几行，直接看TextView就可以了。）在TexViw源码里面发现了两处关键的代码：    </p>
+<p>第一处：<img src="/img/btn_3.jpg" alt="">  </p>
+<p>第二处：<img src="/img/btn_4.jpg" alt=""></p>
+<p>2.到这里推测是因为5.0主题引起的,于是找了下主题文件，发现5.0里面frameworks/base/core/res/res/values/styles_material.xml  </p>
+<p><img src="/img/btn_5.jpg" alt=""></p>
+<h2 id="u89E3_u51B3_u65B9_u6CD5_uFF1A"><a href="#u89E3_u51B3_u65B9_u6CD5_uFF1A" class="headerlink" title="解决方法："></a>解决方法：</h2><ol>
+<li>在布局文件Button下增加<code>android:textAllCaps=&quot;false&quot;</code></li>
+<li>在代码中，<code>mButton.setTransformationMethod(null)</code>  </li>
+<li><p>既然是主题引起的，我们可以自定义Button主题</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;style name="MyButton" parent="Widget.AppCompat.Button"&gt;</span><br><span class="line">    &lt;item name="android:textAllCaps"&gt;false&lt;/item&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自定义Button</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyButton</span> <span class="keyword">extends</span> <span class="title">Button</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="title">Button</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">super</span>(context, attrs);</span><br><span class="line">     setSupportAllCaps(<span class="keyword">false</span>);</span><br><span class="line"> &#125;  </span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="title">Button</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">     setSupportAllCaps(<span class="keyword">false</span>);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="u53C2_u8003_uFF1A"><a href="#u53C2_u8003_uFF1A" class="headerlink" title="参考："></a>参考：</h2><p><a href="http://stackoverflow.com/questions/26958909/why-is-my-button-text-coerced-to-all-caps-on-lollipop" target="_blank" rel="external">http://stackoverflow.com/questions/26958909/why-is-my-button-text-coerced-to-all-caps-on-lollipop</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android填坑：no such column: carrier_presence异常]]></title>
+      <url>http://yoursite.com/2015/07/21/Android%E5%A1%AB%E5%9D%91%EF%BC%9Ano-such-column-carrier-presence%E9%94%99%E8%AF%AF/</url>
+      <content type="html"><![CDATA[<p>今天从Android M preview 1 OTA升级到M preview 2的时候，查询联系人的时候出现下面的异常</p>
+<p><code>android.database.sqlite.SQLiteException: no such column: carrier_presence (code 1)</code> </p>
+<h1 id="u95EE_u9898_u539F_u56E0_uFF1A"><a href="#u95EE_u9898_u539F_u56E0_uFF1A" class="headerlink" title="问题原因："></a>问题原因：</h1><p>出现这个问题因为OTA后，联系人数据不兼容导致的问题</p>
+<h1 id="u89E3_u51B3_u65B9_u6CD5_uFF1A"><a href="#u89E3_u51B3_u65B9_u6CD5_uFF1A" class="headerlink" title="解决方法："></a>解决方法：</h1><p>系统–应用–显示系统进程–联系人存储–存储空间–清除数据/缓存</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Atom干货汇总]]></title>
+      <url>http://yoursite.com/2015/06/28/Atom%E5%B9%B2%E8%B4%A7%E6%B1%87%E6%80%BB/</url>
+      <content type="html"><![CDATA[<p>21世纪的代码编辑器-Atom，终于发布了1.0版本。必须要收集一些，方便以后体验学习。</p>
+<p><img src="/img/atom.png" alt=""></p>
+<p><img src="/img/atom_2.png" alt=""></p>
+<h2 id="u535A_u5BA2_u793E_u533A"><a href="#u535A_u5BA2_u793E_u533A" class="headerlink" title="博客社区"></a>博客社区</h2><ul>
+<li><a href="https://github.com/atom" target="_blank" rel="external">Github</a></li>
+<li><a href="http://twitter.com/atomeditor" target="_blank" rel="external">官方Twitter</a></li>
+<li><a href="http://atom-china.org/" target="_blank" rel="external">Atom 中文社区</a></li>
+<li><a href="http://discuss.atom.io" target="_blank" rel="external">讨论区</a></li>
+<li><a href="http://blog.csdn.net/column/details/atom.html" target="_blank" rel="external">Atom编辑器折腾记</a></li>
+<li><a href="https://github.com/turingou/atom-guide" target="_blank" rel="external">atom-guide</a></li>
+</ul>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android分享：AndroidStudio有用的插件]]></title>
+      <url>http://yoursite.com/2015/06/07/Android%E5%88%86%E4%BA%AB%EF%BC%9AAndroidStudio%E6%9C%89%E7%94%A8%E7%9A%84%E6%8F%92%E4%BB%B6/</url>
+      <content type="html"><![CDATA[<p>依次点击Studio面板上File - Plugins<br>输入插件名称搜索，安装完成重启Studio就可以了</p>
+<p><img src="/img/plugin.png" alt=""></p>
+<ul>
+<li><code>ADB Idea ADB</code>操作快捷菜单，快速清除数据，重启应用，卸载应用等操作</li>
+<li><code>Annotations</code> 配合Annotation框架快速生成控件绑定代码，同Android ButterKnife Zeleny ，本来都是用ButterKnife，生成快速绑定代码，后面开发的都是Lib库没办法使用ButterKnife只好转Annotations库</li>
+<li><code>Drawable Importer</code> 需要配合google/material-design-icons · GitHub、Android Icons使用，安装后在设置菜单多出来的选项中设置</li>
+<li><code>Parcelable Code Generator</code> 快速生成Parcelable代码</li>
+<li><code>Accessors</code> 按照Google官方的开发规范，类的成员变量以m开头，此插件可快速生成成员变量的set/get方法但是不带m</li>
+<li><code>SelectorChapek</code> 插件库好多生成Selector的插件，还是这个用的最顺，按照不同状态(normal、pressed)的标准命名后，右键文件树Generate Android </li>
+<li><code>utterKnife Zelezny</code>ButterKnife 生成器</li>
+<li><code>GsonFormat</code> 根json数据格式生成相应的实体类</li>
+<li><code>Genymotion</code> 强大的模拟器</li>
+<li><code>Settings Repository</code> 不同设备之间同步Android Studio的配置</li>
+</ul>
+<p>备注：<br><a href="http://www.quora.com/What-are-some-of-the-best-Android-Studio-plugins" target="_blank" rel="external">What are some of the best Android Studio plugins?</a><br><a href="http://www.sitepoint.com/top-8-plugins-android-studio/" target="_blank" rel="external">The Top 8 Plugins for Android Studio</a><br><a href="https://plugins.jetbrains.com/?androidstudio" target="_blank" rel="external">Android Studio Plugins</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[使用Gradle上传aar到mavenCentral详细教程]]></title>
+      <url>http://yoursite.com/2015/06/05/%E4%BD%BF%E7%94%A8Gradle%E4%B8%8A%E4%BC%A0aar%E5%88%B0mavenCentral%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/</url>
+      <content type="html"><![CDATA[<p>折腾了几天，终于在Android Studio上使用了Gradle成功上传aar到mavenCentral。心情相当爽，决定总结上传的步骤以及遇到的问题。</p>
+<h1 id="u5177_u4F53_u6B65_u9AA4"><a href="#u5177_u4F53_u6B65_u9AA4" class="headerlink" title="具体步骤"></a>具体步骤</h1><ul>
+<li>注册Sonatype帐号, 创建一个JIRA ticket</li>
+<li>使用GnuPG生成密钥</li>
+<li>配置Gradle脚本, 属性文件</li>
+<li>上传library</li>
+<li>部署release版本, 发布</li>
+</ul>
+<a id="more"></a>
+<h2 id="u6CE8_u518CSonatype_u5E10_u53F7_2C__u521B_u5EFA_u4E00_u4E2AJIRA_ticket"><a href="#u6CE8_u518CSonatype_u5E10_u53F7_2C__u521B_u5EFA_u4E00_u4E2AJIRA_ticket" class="headerlink" title="注册Sonatype帐号, 创建一个JIRA ticket"></a>注册Sonatype帐号, 创建一个JIRA ticket</h2><p>在<a href="https://issues.sonatype.org/secure/Dashboard.jspa" target="_blank" rel="external">Sonatype JIRA</a>注册完帐号后打开<a href="https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&amp;pid=10134" target="_blank" rel="external">Create Issue</a>创建一个JIRA ticket。</p>
+<ul>
+<li>Summary:项目名称(Characterview)</li>
+<li>Description:项目描述（可不填）</li>
+<li>Group Id:(com.github.ruijun)</li>
+<li>Project URL：库的开源地址（<a href="https://github.com/ruijun/Characterview）" target="_blank" rel="external">https://github.com/ruijun/Characterview）</a></li>
+<li>SCM url：库的开源地址（<a href="https://github.com/ruijun/Characterview.git）" target="_blank" rel="external">https://github.com/ruijun/Characterview.git）</a></li>
+<li>Username(s)：填写自己的名字（ruijun）</li>
+</ul>
+<p>填完上面的内容，点击<code>create</code>就创建了属于你的<code>JIRA ticket</code>。这时候，你可以看到状态为UNRESOLVED，还不能正常使用。需要等待两个工作日的审核时间，等issue会变成RESOLVED才能正常使用。</p>
+<h3 id="u9047_u5230_u7684_u95EE_u9898"><a href="#u9047_u5230_u7684_u95EE_u9898" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>创建JIRA ticket，Group Id一定要填写正确，我第一次创建的时候，Group id填写为<code>com.ruijun</code>。后来审核没有通过，下面是没有通过的原因：</p>
+<p><img src="/img/maven_1.png" alt=""></p>
+<p>按照<a href="http://central.sonatype.org/pages/choosing-your-coordinates.html" target="_blank" rel="external">Choosing your Coordinates</a>域名反转的规则：</p>
+<ul>
+<li>www.springframework.org -&gt; org.springframework</li>
+<li>oness.sf.net -&gt; net.sf.oness</li>
+<li>github.com/yourusername -&gt; com.github.yourusername</li>
+</ul>
+<p>将Group Id改为com.github.ruijun，改完之后再等两天的时间了，issue变成RESOLVED。到这里第一个步骤完成了。</p>
+<h2 id="u4F7F_u7528GnuPG_u751F_u6210_u5BC6_u94A5"><a href="#u4F7F_u7528GnuPG_u751F_u6210_u5BC6_u94A5" class="headerlink" title="使用GnuPG生成密钥"></a>使用GnuPG生成密钥</h2><p>需要对上传的library加密和签名，GPG用于生成签名，管理密钥。</p>
+<ul>
+<li>下载<a href="http://gpg4win.org/" target="_blank" rel="external">GPG</a>， 安装， 验证<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpg --version&#10;gpg (GnuPG) 2.0.27 (Gpg4win 2.2.4)&#10;libgcrypt 1.6.3&#10;Copyright (C) 2015 Free Software Foundation, Inc.&#10;License GPLv3+: GNU GPL version 3 or later &#60;http://gnu.org/licenses/gpl.html&#62;&#10;This is free software: you are free to change and redistribute it.&#10;There is NO WARRANTY, to the extent permitted by law.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>如果出现上面版本信息，证明安装成功，否则。。。</p>
+<ul>
+<li>生成密钥<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpg --gen-key</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>生成密钥的时候，按照图里标注的填好就可以了。</p>
+<p><img src="/img/maven_2.png" alt=""></p>
+<p>最后会弹出一个对话框，需要输入<code>passphrase</code>，输入完成保存即可。一定要记住<code>passphrase</code>，后面配置Gradle脚本需要用到。</p>
+<p><img src="/img/maven_3.png" alt=""></p>
+<ul>
+<li>查看密钥  </li>
+</ul>
+<p>// 查看公钥<br>gpg –list-keys</p>
+<h2 id="C_3A/Users/ruijun/AppData/Roaming/gnupg/pubring-gpg"><a href="#C_3A/Users/ruijun/AppData/Roaming/gnupg/pubring-gpg" class="headerlink" title="C:/Users/ruijun/AppData/Roaming/gnupg/pubring.gpg"></a>C:/Users/ruijun/AppData/Roaming/gnupg/pubring.gpg</h2><p>pub   2048R/F445638E 2015-05-30<br>uid       [ultimate] ruijun (letterplus) <a href="/&#109;&#x61;&#105;&#108;&#x74;&#111;&#58;&#108;&#105;&#110;&#x67;&#100;&#117;&#x64;&#117;&#100;&#x75;&#x40;&#49;&#54;&#x33;&#46;&#99;&#x6f;&#x6d;">&#108;&#105;&#110;&#x67;&#100;&#117;&#x64;&#117;&#100;&#x75;&#x40;&#49;&#54;&#x33;&#46;&#99;&#x6f;&#x6d;</a><br>sub   2048R/8567F9D3 2015-05-30</p>
+<p>// 查看私钥<br>gpg –list-secret-keys</p>
+<h2 id="C_3A/Users/ruijun/AppData/Roaming/gnupg/secring-gpg"><a href="#C_3A/Users/ruijun/AppData/Roaming/gnupg/secring-gpg" class="headerlink" title="C:/Users/ruijun/AppData/Roaming/gnupg/secring.gpg"></a>C:/Users/ruijun/AppData/Roaming/gnupg/secring.gpg</h2><p>sec   2048R/F445638E 2015-05-30<br>uid                  ruijun (letterplus) <a href="/&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#x6c;&#x69;&#x6e;&#x67;&#100;&#117;&#x64;&#x75;&#x64;&#117;&#64;&#x31;&#54;&#51;&#x2e;&#99;&#111;&#109;">&#x6c;&#x69;&#x6e;&#x67;&#100;&#117;&#x64;&#x75;&#x64;&#117;&#64;&#x31;&#54;&#51;&#x2e;&#99;&#111;&#109;</a><br>ssb   2048R/8567F9D3 2015-05-30<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#35201;&#35760;&#20303;`keyId F445638E`&#37324;&#38754;&#30340;`F445638E`&#21644;`&#31169;&#38053;&#36335;&#24452;`&#65292;&#19968;&#20250;&#19978;&#20256;&#23494;&#38053;&#21644;&#37197;&#32622;&#38656;&#35201;&#29992;&#21040;&#12290;&#10;&#10;* &#19978;&#20256;&#20844;&#38053;</span><br></pre></td></tr></table></figure></p>
+<p>$ gpg –keyserver hkp://pool.sks-keyservers.net –send-keys F445638E</p>
+<p>gpg: sending key F874D485 to hkp server pool.sks-keyserver.net<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;## &#37197;&#32622;Gradle&#33050;&#26412;, Gradle&#23646;&#24615;&#10;* &#19979;&#36733;Chris[gradle-mvn-push](https://github.com/chrisbanes/gradle-mvn-push.git)&#33050;&#26412;&#25918;&#21040;project&#26681;&#30446;&#24405;&#19979;&#10;&#10;* &#37197;&#32622;project&#19979;&#38754;&#30340;gradle.properties&#10;&#10;![](/img/maven_4.png)&#10;&#10;&#25105;&#37197;&#32622;&#26159;&#37233;&#26679;&#23376;&#30340;</span><br></pre></td></tr></table></figure></p>
+<p>VERSION_NAME=1.0(版本名称)<br>VERSION_CODE=1(版本号)<br>GROUP=com.github.ruijun(前面创建JIRA ticket的Group id)</p>
+<p>POM_DESCRIPTION=Android Character View(library描述)<br>POM_URL=<a href="https://github.com/ruijun/Characterview.git(library地址" target="_blank" rel="external">https://github.com/ruijun/Characterview.git(library地址</a>)<br>POM_SCM_URL=<a href="https://github.com/ruijun/Characterview.git(library地址" target="_blank" rel="external">https://github.com/ruijun/Characterview.git(library地址</a>)<br>POM_SCM_CONNECTION=scm:<a href="https://github.com/ruijun/Characterview.git(library地址" target="_blank" rel="external">https://github.com/ruijun/Characterview.git(library地址</a>)<br>POM_SCM_DEV_CONNECTION=scm:<a href="https://github.com/ruijun/Characterview.git(library地址" target="_blank" rel="external">https://github.com/ruijun/Characterview.git(library地址</a>)<br>POM_LICENCE_NAME=The Apache Software License, Version 2.0<br>POM_LICENCE_URL=<a href="http://www.apache.org/licenses/LICENSE-2.0.txt" target="_blank" rel="external">http://www.apache.org/licenses/LICENSE-2.0.txt</a><br>POM_DEVELOPER_ID=ruijun(Sonatype帐号username)<br>POM_DEVELOPER_NAME=liangruijun(名字，可以随便填一个)<br>POM_DEVELOPER_EMAIL=lingdududu@163.com(邮箱)<br>POM_DEVELOPER_URL=<a href="http://blog.liangruijun.com(可以选择不填" target="_blank" rel="external">http://blog.liangruijun.com(可以选择不填</a>)</p>
+<p>(这两项可以不写)<br>SNAPSHOT_REPOSITORY_URL=<a href="https://oss.sonatype.org/content/repositories/snapshots" target="_blank" rel="external">https://oss.sonatype.org/content/repositories/snapshots</a><br>RELEASE_REPOSITORY_URL=<a href="https://oss.sonatype.org/service/local/staging/deploy/maven2" target="_blank" rel="external">https://oss.sonatype.org/service/local/staging/deploy/maven2</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#32593;&#19978;&#26377;&#20123;&#37197;&#32622;&#26159;POM_GROUP_ID&#32780;&#19981;&#26159;GROUP&#65292;&#20854;&#23454;&#36825;&#20010;&#21517;&#23383;&#33258;&#24049;&#21487;&#20197;&#20462;&#25913;&#65292;&#20462;&#25913;&#23436;&#21518;&#20877;&#22312;gradle-mvn-push.gradle&#20570;&#30456;&#24212;&#30340;&#20462;&#25913;&#21363;&#21487;&#12290;&#10;&#10;* &#37197;&#32622;Project&#26500;&#24314;&#33050;&#26412;&#10;&#10;![](/img/maven_5.png)</span><br></pre></td></tr></table></figure></p>
+<p>buildscript {<br>    repositories {<br>        jcenter()<br>    }<br>    dependencies {<br>        classpath ‘com.android.tools.build:gradle:1.2.3’<br>    }<br>}</p>
+<p>allprojects {<br>    version = VERSION_NAME<br>    group = GROUP</p>
+<pre><code>repositories {
+    jcenter()
+}
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;* &#37197;&#32622;Module&#30340;gradle.properties&#10;&#10;![](/img/maven_6.png)</span><br></pre></td></tr></table></figure></p>
+<p>POM_NAME=Android CharacterView Library<br>POM_ARTIFACT_ID=characterView<br>POM_PACKAGING=aar<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#19978;&#38754;&#30340;&#37197;&#32622;&#23601;&#34920;&#26126;&#20102;&#36825;&#20010;library&#23545;&#24212;&#30340;&#20381;&#36182;&#20026;&#10;&#10;&#62; GROUP:POM_ARTIFACT_ID:VERSION_NAME&#65288;com.github.ruijun:characterView:1.0&#65289;&#10;&#10;&#10;* &#25913;Module&#30446;&#24405;&#30340;build.gradle&#10;&#10;![](/img/maven_7.png)&#10;&#10;&#22312;&#26411;&#23614;&#28155;&#21152;</span><br></pre></td></tr></table></figure></p>
+<p>apply from: ‘../gradle-mvn-push.gradle’<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;* &#37197;&#32622;&#20840;&#23616;&#23646;&#24615;&#10;&#36827;&#20837;C:\Users\username\\.gradle&#19979;&#65292;&#22914;&#26524;&#27809;&#26377;gradle.properties&#65292;&#21487;&#20197;&#26032;&#24314;&#19968;&#20010;&#65292;&#22312;&#25991;&#20214;&#37324;&#38754;&#28155;&#21152;&#10;&#10;![](/img/maven_8.png)</span><br></pre></td></tr></table></figure></p>
+<p>NEXUS_USERNAME=ruijun(Sonatype帐号username)<br>NEXUS_PASSWORD=password(密码)</p>
+<p>signing.keyId=F445638E(密钥的Key id)<br>signing.password=passphrase(上面提到的passphrase)<br>signing.secretKeyRingFile=C:/Users/ruijun/AppData/Roaming/gnupg/secring.gpg(私钥文件路径)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## &#19978;&#20256;library&#10;&#19978;&#38754;&#30340;&#37197;&#32622;&#37117;&#23436;&#25104;&#21518;&#65292;&#22312;Android Studio&#30340;Terminal&#36755;&#20837;&#65306;</span><br></pre></td></tr></table></figure></p>
+<p>gradle uploadArchives<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;### &#36935;&#21040;&#30340;&#38382;&#39064;&#10;&#25105;&#22312;&#19978;&#20256;&#30340;&#36807;&#31243;&#20013;&#65292;&#20986;&#29616;&#20102;&#19979;&#38754;&#30340;&#38382;&#39064;</span><br></pre></td></tr></table></figure></p>
+<p>Execution failed for task ‘:library:uploadArchives’.</p>
+<blockquote>
+<p>Could not publish configuration ‘archives’<br>Error deploying artifact ‘com.github.ruijun:characterview:aar’: Error deploying artifact: Authorization failed: Access denied to: <a href="https://oss.sonatype.org/service/local/staging/deploy" target="_blank" rel="external">https://oss.sonatype.org/service/local/staging/deploy</a><br>/maven2/com/github/ruijun/characterview/1.0/characterview-1.0.aar<br>```<br>谷歌好久都没有找到解决方法，最后在sonatype提问，发现是权限的问题。管理员帮我修复后，再次上传就成功了。</p>
+</blockquote>
+<p><img src="/img/maven_9.png" alt=""></p>
+<h2 id="u90E8_u7F72release_u7248_u672C_2C__u53D1_u5E03"><a href="#u90E8_u7F72release_u7248_u672C_2C__u53D1_u5E03" class="headerlink" title="部署release版本, 发布"></a>部署release版本, 发布</h2><p>登录<a href="https://oss.sonatype.org/#welcome" target="_blank" rel="external">Sonatype Nexus</a>，选择左侧面板选择Staging Repositories。</p>
+<p><img src="/img/maven_10.png" alt=""></p>
+<p>在出现的选项卡右上角的搜索框输入你的username或者group Id进行搜索<br>如果搜索结果Profile不是Group Id的话，后续的close，release操作都会失败。</p>
+<p><img src="/img/maven_11.png" alt=""></p>
+<p>出现这个原因是上面的GROUP配置有误。GROUP应该配置为Group Id,一定要记住。可以点击列表上面的Drop按钮删除这个repository，然后重新配置Group再上传。重新配置上传后，再次搜索，结果如下，证明已经正确，可以开始close。</p>
+<p><img src="/img/maven_12.png" alt=""></p>
+<p>成功close之后，可以点击Release按钮正式发布repository，没什么问题的话，两小时左右就可以在 <a href="http://search.maven.org/" target="_blank" rel="external">search.maven.org</a> 搜到你的library了。</p>
+<h2 id="u5907_u6CE8"><a href="#u5907_u6CE8" class="headerlink" title="备注"></a>备注</h2><p>Library：<a href="https://github.com/ruijun/Characterview" target="_blank" rel="external">Characterview</a><br>JIRA ticket：<a href="https://issues.sonatype.org/browse/OSSRH-15833" target="_blank" rel="external">OSSRH-15833</a>（这个是成功的） <a href="https://issues.sonatype.org/browse/OSSRH-15808" target="_blank" rel="external">OSSRH-15808</a>(这个是失败的)</p>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p>审核过程会浪费点时间，也会遇到各种各样的问题，不过sonatype 服务绝对是五星级的，将遇到的问题在Comment描述，都会得到解决办法，注册邮箱也会收到相应的通知。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android Tips：Google I/O 2015 为 Android 开发者带来了哪些福利？]]></title>
+      <url>http://yoursite.com/2015/06/01/Android%E5%88%86%E4%BA%AB%EF%BC%9AGoogle-I-O-2015-%E4%B8%BA-Android-%E5%BC%80%E5%8F%91%E8%80%85%E5%B8%A6%E6%9D%A5%E4%BA%86%E5%93%AA%E4%BA%9B%E7%A6%8F%E5%88%A9%EF%BC%9F/</url>
+      <content type="html"><![CDATA[<p>转自 <a href="http://www.jianshu.com/p/4f7f55471da2" target="_blank" rel="external">代码家的博客</a><br>昨天，在车库咖啡，和一群老朋友一起度过了一个愉快的 Google 之夜。<br>首先得说的便是，今年的更新有些不给力，至少显得不够 Geek。我也不打算接着盘点一些在 Keynote 中的资讯，想必很多人在各个站点已经看过不知道多少遍了，我接下来想说的一些是关于这次 Google I/O 为 Android 开发者们带来了怎样的福利。</p>
+<ul>
+<li>福利一：</li>
+</ul>
+<p>推出了 8 个<a href="http://developer.android.com/reference/android/support/design/widget/package-summary.html" target="_blank" rel="external">新的组件</a>，同时向后兼容，新推出的这几个官方组件多是在 GitHub 上很火热的一些项目。</p>
+<p><img src="/img/Google_IO_1.jpg" alt=""></p>
+<p><a href="http://developer.android.com/reference/android/support/design/widget/AppBarLayout.html" target="_blank" rel="external">AppBarLayout</a>：全新，用来实现各种 Material Design 概念效果的一个 Layout，主要负责对滑动的响应。<br><a href="http://developer.android.com/reference/android/support/design/widget/CollapsingToolbarLayout.html" target="_blank" rel="external">CollapsingToolbarLayout</a>：类似<a href="http://ww2.sinaimg.cn/large/610dc034gw1eslfqhnn1lg208w08whdt.gif" target="_blank" rel="external">这张图</a>。<br><a href="http://developer.android.com/reference/android/support/design/widget/CoordinatorLayout.html" target="_blank" rel="external">CoordinatorLayout</a>：全新，更加彪悍的 FrameLayout。<br><a href="http://developer.android.com/reference/android/support/design/widget/FloatingActionButton.html" target="_blank" rel="external">FloatingActionButton</a>：类似这个<a href="https://github.com/shell-software/fab" target="_blank" rel="external">shell-software/fab</a>。<br><a href="http://developer.android.com/reference/android/support/design/widget/NavigationView.html" target="_blank" rel="external">NavigationView</a>：全新，置于 DrawerLayout 内部的菜单。<br><a href="http://developer.android.com/reference/android/support/design/widget/Snackbar.html" target="_blank" rel="external">Snackbar</a>：类似这个<a href="https://github.com/MrEngineer13/SnackBar" target="_blank" rel="external">MrEngineer13/SnackBar</a><br><a href="http://developer.android.com/reference/android/support/design/widget/TabLayout.html" target="_blank" rel="external">TabLayout</a>：普通的可滑动的 Tab。<br><a href="http://developer.android.com/reference/android/support/design/widget/TextInputLayout.html" target="_blank" rel="external">TextInputLayout</a>：类似这个<a href="https://github.com/wrapp/floatlabelededittext" target="_blank" rel="external">wrapp/floatlabelededittext</a>。<br>更多组件相关的细节，查看<a href="http://android-developers.blogspot.fi/2015/05/android-design-support-library.html" target="_blank" rel="external">官方 Blog</a>。</p>
+<a id="more"></a>
+<ul>
+<li>福利二</li>
+</ul>
+<p>新增支持 SVG 图片资源，Android Studio 将自动根据 SVG 生成合适大小的图片。</p>
+<p><img src="/img/Google_IO_2.jpg" alt=""></p>
+<ul>
+<li>福利三</li>
+</ul>
+<p>全新的界面设计器，对布局，色彩等等资源的编辑能力大幅提升，个人最喜爱的一个改变是增加了主题编辑器。</p>
+<p><img src="/img/Google_IO_3.jpg" alt=""></p>
+<ul>
+<li>福利四</li>
+</ul>
+<p>新的 Gradle Plugin，编译速度大幅提升，引入了全新的 Compiler – Jack，以及新的高速 Png 资源处理器。</p>
+<ul>
+<li><p>福利五<br>开始支持<a href="https://developer.android.com/tools/data-binding/guide.html" target="_blank" rel="external">Data Binding</a>，这也意味着<a href="http://www.ruanyifeng.com/blog/2015/02/mvcmvp_mvvm.html" target="_blank" rel="external">MVVM</a>将成为 Android 的一种新的 Android 开发技巧。</p>
+</li>
+<li><p>福利六<br>Android Studio 将集成 CLion，更好的支持 NDK C/C++ 的开发，需要留意的是他不是简简单单的集成 CLion，而是在 CLion 的基础上增加了与 Android 开发更贴切的特性，比如 Jni 方法名自动生成。</p>
+</li>
+</ul>
+<p><img src="/img/Google_IO_4.jpg" alt=""></p>
+<ul>
+<li>福利七</li>
+</ul>
+<p>支持单元测试 已经 外部测试模块，未来 Android 的测试流程将会是下图这样的。</p>
+<p><img src="/img/Google_IO_5.jpg" alt=""></p>
+<p>Google 对 Android 开发工具的更新大致就这些，总体还算是不错，可接受。<br>关于 Android Studio 的更多的细节，可能还要耐心等待官方放出新的 Android Studio 才能深挖出来。<br>最后，如果文中有任何疏漏或错误，欢迎指出。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android性能：Android性能优化汇总]]></title>
+      <url>http://yoursite.com/2015/05/31/Android%E6%80%A7%E8%83%BD%EF%BC%9AAndroid%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%B1%87%E6%80%BB/</url>
+      <content type="html"><![CDATA[<h1 id="Android_u6027_u80FD_u4F18_u5316_u5B98_u65B9_u7FFB_u8BD1_u7BC7"><a href="#Android_u6027_u80FD_u4F18_u5316_u5B98_u65B9_u7FFB_u8BD1_u7BC7" class="headerlink" title="Android性能优化官方翻译篇"></a>Android性能优化官方翻译篇</h1><ul>
+<li><a href="http://hukai.me/android-performance-patterns/" target="_blank" rel="external">Android性能优化典范</a></li>
+<li><a href="http://hukai.me/android-performance-render/" target="_blank" rel="external">Android性能优化之渲染篇</a></li>
+<li><a href="http://hukai.me/android-performance-compute/" target="_blank" rel="external">Android性能优化之运算篇</a></li>
+<li><a href="http://hukai.me/android-performance-memory/" target="_blank" rel="external">Android性能优化之内存篇</a></li>
+<li><a href="http://hukai.me/android-performance-battery/" target="_blank" rel="external">Android性能优化之电量篇</a></li>
+<li><a href="http://hukai.me/android-performance-patterns-season-2/" target="_blank" rel="external">Android性能优化典范 - 第2季</a></li>
+</ul>
+<a id="more"></a>
+<h1 id="Android_u6027_u80FD_u4F18_u5316_u5DE5_u5177_u7BC7"><a href="#Android_u6027_u80FD_u4F18_u5316_u5DE5_u5177_u7BC7" class="headerlink" title="Android性能优化工具篇"></a>Android性能优化工具篇</h1><h2 id="HierarchyViewer"><a href="#HierarchyViewer" class="headerlink" title="HierarchyViewer"></a>HierarchyViewer</h2><ul>
+<li><a href="http://blog.csdn.net/xyz_lmn/article/details/14222975" target="_blank" rel="external">Android UI 优化——使用HierarchyViewer工具</a></li>
+<li><a href="http://tech.it168.com/a2011/0802/1226/000001226690.shtml" target="_blank" rel="external">Android 实用工具Hierarchy Viewer实战</a></li>
+</ul>
+<h2 id="TraceView"><a href="#TraceView" class="headerlink" title="TraceView"></a>TraceView</h2><ul>
+<li><a href="http://bxbxbai.github.io/2014/10/25/use-trace-view/" target="_blank" rel="external">正确使用Android性能分析工具——TraceView</a></li>
+<li><a href="http://www.cnblogs.com/sunzn/p/3192231.html" target="_blank" rel="external">Android 编程下的 TraceView 简介及其案例实战</a></li>
+<li><a href="http://blog.csdn.net/innost/article/details/9008691" target="_blank" rel="external">Android系统性能调优工具介绍</a></li>
+</ul>
+<h2 id="Systrace"><a href="#Systrace" class="headerlink" title="Systrace"></a>Systrace</h2><ul>
+<li><a href="http://blog.csdn.net/oujunli/article/details/8138172" target="_blank" rel="external">Android 4.1 systrace使用方法</a></li>
+<li><a href="http://androidperformance.com/2015/01/30/android-performance-tools-systrace-1/" target="_blank" rel="external">Android性能优化之Systrace工具介绍</a></li>
+</ul>
+<h2 id="MAT"><a href="#MAT" class="headerlink" title="MAT"></a>MAT</h2><ul>
+<li><a href="http://androidperformance.com/2015/04/11/AndroidMemory-Usage-Of-MAT/" target="_blank" rel="external">Android内存优化之一：MAT使用入门</a></li>
+<li><a href="http://www.vogella.com/tutorials/EclipseMemoryAnalyzer/article.html" target="_blank" rel="external">Eclipse Memory Analyzer</a></li>
+<li><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0309/2565.html" target="_blank" rel="external">Android 性能优化之使用MAT分析内存泄露问题</a></li>
+</ul>
+<h1 id="Android_u6027_u80FD_u4F18_u5316_u5185_u5B58_u7BC7"><a href="#Android_u6027_u80FD_u4F18_u5316_u5185_u5B58_u7BC7" class="headerlink" title="Android性能优化内存篇"></a>Android性能优化内存篇</h1><ul>
+<li><a href="http://www.cnblogs.com/mythou/p/3202238.html" target="_blank" rel="external">Android内存机制分析1</a></li>
+<li><a href="http://www.cnblogs.com/mythou/p/3203536.html" target="_blank" rel="external">Android内存机制分析2</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/opensource/os-cn-android-mmry-rcycl/" target="_blank" rel="external">Android 操作系统的内存回收机制</a></li>
+<li><a href="http://top.jobbole.com/16478/" target="_blank" rel="external">理解Android中垃圾回收日志信息</a></li>
+<li><a href="http://blog.csdn.net/androidsecurity/article/details/17462529" target="_blank" rel="external">Android ART机制分析</a></li>
+<li><a href="http://blog.csdn.net/luoshengyang/article/details/18006645" target="_blank" rel="external"> Android ART运行时无缝替换Dalvik虚拟机的过程分析</a></li>
+</ul>
+<h1 id="Android_u6027_u80FD_u4F18_u5316_u756A_u5916_u7BC7"><a href="#Android_u6027_u80FD_u4F18_u5316_u756A_u5916_u7BC7" class="headerlink" title="Android性能优化番外篇"></a>Android性能优化番外篇</h1><ul>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzA3MDMyMjkzNg==&amp;mid=206097019&amp;idx=1&amp;sn=31840c447f535cd61106ddac9d518203#rd" target="_blank" rel="external">Android性能优化方案研究上</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzA3MDMyMjkzNg==&amp;mid=206126202&amp;idx=1&amp;sn=6018cf8e911f153e6232d5bf56b8f698#rd" target="_blank" rel="external">Android性能优化方案研究下</a></li>
+<li><a href="http://jingyan.baidu.com/article/ac6a9a5e7e5f352b653eacfa.html" target="_blank" rel="external">如何测量Android应用的帧率FPS</a></li>
+<li><a href="http://bugly.qq.com/blog/?p=166" target="_blank" rel="external">MIG专项测试组 如何量化Android应用的“卡”？—流畅度原理&amp;定义篇</a></li>
+<li><a href="http://bugly.qq.com/blog/?p=131" target="_blank" rel="external">刀锋铁骑：常见Android Native崩溃及错误原因</a></li>
+<li><a href="http://blog.csdn.net/lmj623565791/article/details/45556391" target="_blank" rel="external">Android UI性能优化实战 识别绘制中的性能问题</a></li>
+<li><a href="http://djt.qq.com/article/view/987" target="_blank" rel="external">Android 显示原理简介</a></li>
+</ul>
+<h1 id="u5173_u4E8EAndroid_u6027_u80FD_u4F18_u5316_uFF0C_u4F1A_u6301_u7EED_u66F4_u65B0_uFF01_uFF01"><a href="#u5173_u4E8EAndroid_u6027_u80FD_u4F18_u5316_uFF0C_u4F1A_u6301_u7EED_u66F4_u65B0_uFF01_uFF01" class="headerlink" title="关于Android性能优化，会持续更新！！"></a>关于Android性能优化，会持续更新！！</h1>]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Github基本功能]]></title>
+      <url>http://yoursite.com/2015/05/31/Github%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD/</url>
+      <content type="html"><![CDATA[<p>在知乎上看到关于介绍Github，太形象生动，通俗易懂了，不得不转到自己的博客来收藏。<br>原出处：<a href="http://www.zhihu.com/question/20070065" target="_blank" rel="external">http://www.zhihu.com/question/20070065</a></p>
+<p><img src="/img/zhihu_github.png" alt=""></p>
+<ul>
+<li>Repository：你和我一起做“知乎首页”，“知乎首页”就是Repository，即项目或者”未来武器T2级425mm磁轨炮“之类，怎么叫随你，你只需知道Repository是个放项目的地方就行。有时候会出现Repositories，是多个Repository的意思。</li>
+<li>Fork：我们把制作“知乎首页“的工作分开，你负责美工，我负责前端开发，但我们还需要数据服务器高手。你找来了一位php大牛，这位大牛很快搞定了服务器端，闲来无事，就看了看我的前端代码，一看，“我靠，这怎么一点也不语义化呢？全是尼玛的清一色的<div>啊，将来做交互js还搞不搞dom了……”于是这大牛在Repository中找到了我写的“zhi.html”，Fork了一份，也就是授权拷贝。</div></li>
+<li>Branch：Fork之后，在大牛的Github上出现了一个同样叫做“知乎首页”的Repository，但是这个Repository是复制品，只归他，这就是他的Branch，也就是分支。</li>
+<li>Pull Request：大牛做完了一份全新的高端zhi.html，点了Pull Request，也就是推送请求。我接受了，看了一眼，顿时惊讶爆表，“中国足球——高，实在是高！”</li>
+<li>现在你懂了，Github的结构是Repository-Branch-(获取/推送)文件。你又发现Github可以比较两个文件的异同，新增的部分用绿色标记，删除的部分用红色标记。Pull Request还可以控制，甚至可以合并Branch，这就是团队合作利器啊，真乃高大上也，手痒了吧？心动了吧？</li>
+</ul>
+<a id="more"></a>
+<p>1.请注册Github并登录。<br>2.下载客户端并登录，客户端负责你硬盘上的数据与Github服务器数据的交互，然后设置存储目录。为了表现你的才华，你决定将此目录命名为“诸神之爹”。<br>3.既然有这么多的国外开源项目，我们国内哪有不自主的道理。必须要实践一下这个顶好赞的Fork功能。现在你来到了Fadeoc/frontend · GitHub，你看到了这是用户Fadeoc的一个叫做“frontend”的Repository，你笑了，这家伙学习前端知识不过十天，代码一片渣，竟然有的代码里只写了“土豆”和“二狗子”几个汉字。你点了一下右上角的Fork，然后clone in desktop，保存到“诸神之爹”，哇！文件已经在你电脑里了，完全免费耶！+10086！<br>4.一个小时后，你对Fadeoc的渣代码颇有心得，决定帮他改良，不然他这项目就完了。你改好之后，Pull Request，这丫的竟然说你的代码太渣，不吸收。贱人！老子自己做，抢你市场份额！<br>5.你点了右上角自己头像后面的+号，选择了第一个New repository，即新建repository，并且起了个名字，叫做“完爆Fadeoc”，然后点击绿色按钮set up in desktop，弹出保存框，选择“诸神之爹”。于是“诸神之爹”下出现了一个“完爆Fadeoc”的文件夹。<br>6.你自己写了一份“神爹首页.html”，把它放在了“完爆Fadeoc”文件夹下。<br>7.你打开了客户端，看到客户端界面中master Branch（主人分支，这名字太云端了）出现了一个Uncommitted changes，即未提交的变动，也就是你刚写的“神爹首页.html”。你点开show按钮，在summary（摘要）的部分添上“滚你丫的Fadeoc”，在Description（细节描述）的位置是没必要写的，但你还是决定添上“爆你菊花”四个大字。然后选择“Commit to 你的用户名”。<br>8.为了把这个提交上传到Github上让贱人Fadeoc看到，你点击了客户端右上角的后面显示了一个“+1”的Sync，即同步，过了几秒，Sync前的两个曲线箭头停止了转动，同步成功了，“+1”消失，表示一个文件成功上传。<br>9.你来到Github，刷新自己的个人页，“完爆Fadeoc”这个Repository出现在页面上，点开它，在里面你看到了”神爹首页.html”。<br>10.为了让这个项目的初始目的更加浅显易懂，你决定添加一个Readme.txt，虽然从前下载的N多软件的文件夹里总是有一个Readme.txt，你一个都没打开过。但在圈里混，就得混的人模狗样的，于是你在“完爆Fadeoc”下新建了一个Readme.txt，里面写上，“Fadeoc，没错，说的就是你，看我口型，你个贱人！”<br>11.同样使用客户端commit，然后sync，过了几秒，刷新github，你看到又多出了一个readme.txt。而且在下面又多出一个文字显示框，里面显示的就是readme.txt里面的内容“Fadeoc，没错，说的就是你，看我口型，你个贱人！”，避免了Fadeoc这个贱人不想打开readme.txt也就看不到你亲切问候的尴尬局面。Github真是贴心呐。<br>12.你复制了这个Repository的地址，Email给了Fadeoc。<br>13Fadeoc不是那么容易被打败的，于是他Fork了你的Repository，修改了readme.txt，然后pull request，你看到fadeoc新生成的branch下的readme.txt被改成了“你才是贱人”。你拒绝了合并请求。<br>14.Fadeoc再次pull request，readme.txt改成了“敢不做恶吗？”<br>15.你有点烦了，这他妈的怎么才能不让他pull request，将来大项目N多陌生人菜鸟pull request烦不烦，就不能不开源，转私有吗？你终于找到了Github的升级服务，你笑了，将这个Repository从Public转成了Private。Fadeoc肯定会继续pull request，得不到你回应的他只会渐渐被复仇的怒火烧尽理智，可是，谁在乎呢？  </p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android开源：定制化build.gradle]]></title>
+      <url>http://yoursite.com/2015/05/31/Android%E5%BC%80%E6%BA%90%EF%BC%9A%E5%AE%9A%E5%88%B6%E5%8C%96build-gradle/</url>
+      <content type="html"><![CDATA[<p>支持的功能</p>
+<ul>
+<li>自定义apk名称，输出路径</li>
+<li>定制debug， release代码，显示不同字符串等</li>
+<li>打包时候，删除没有用的资源文件</li>
+</ul>
+<a id="more"></a>
+<p>源码请戳这里：<a href="https://github.com/ruijun/gradle-for-customize" target="_blank" rel="external">https://github.com/ruijun/gradle-for-customize</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.android.builder.core.DefaultManifestParser</span><br><span class="line"></span><br><span class="line">apply plugin: <span class="string">'com.android.application'</span></span><br><span class="line"></span><br><span class="line">buildscript &#123;</span><br><span class="line">    <span class="comment">//支持java 依赖库管理（maven/ivy）,用于项目的依赖</span></span><br><span class="line">    repositories &#123;</span><br><span class="line">        mavenCentral()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//依赖包的定义。支持maven/ivy，远程，本地库，也支持单文件</span></span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath <span class="string">'com.android.tools.build:gradle:1.2.3'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第三方依赖</span></span><br><span class="line">dependencies &#123;</span><br><span class="line">    <span class="function">compile <span class="title">fileTree</span><span class="params">(include: <span class="string">'*.jar'</span>, dir: <span class="string">'libs'</span>)</span></span><br><span class="line">    compile 'com.android.support:appcompat-v7:21.+'</span><br><span class="line">    compile 'com.android.support:recyclerview-v7:+'</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">android </span>&#123;</span><br><span class="line">    compileSdkVersion <span class="number">21</span></span><br><span class="line">    buildToolsVersion <span class="string">"22.0.1"</span></span><br><span class="line"></span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        applicationId <span class="string">"com.ruijun.demo"</span></span><br><span class="line">        minSdkVersion <span class="number">16</span></span><br><span class="line">        targetSdkVersion <span class="number">21</span></span><br><span class="line">        versionCode <span class="number">1001</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 配置R.bool.debug 的值,在代码里依据这个值来判断是测试或者正式版本</span></span><br><span class="line">        <span class="comment">// 可以为不同版本定制化代码</span></span><br><span class="line">        resValue <span class="string">"bool"</span>, <span class="string">"debug"</span>, <span class="string">"true"</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    packagingOptions &#123;</span><br><span class="line">        exclude <span class="string">'META-INF/DEPENDENCIES'</span></span><br><span class="line">        exclude <span class="string">'META-INF/LICENSE'</span></span><br><span class="line">        exclude <span class="string">'META-INF/LICENSE.txt'</span></span><br><span class="line">        exclude <span class="string">'META-INF/license.txt'</span></span><br><span class="line">        exclude <span class="string">'META-INF/NOTICE'</span></span><br><span class="line">        exclude <span class="string">'META-INF/NOTICE.txt'</span></span><br><span class="line">        exclude <span class="string">'META-INF/notice.txt'</span></span><br><span class="line">        exclude <span class="string">'META-INF/ASL2.0'</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置包签名字段</span></span><br><span class="line">    signingConfigs &#123;</span><br><span class="line"><span class="comment">//        debug&#123;</span></span><br><span class="line"><span class="comment">//            storeFile file("debug.keystore")</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line"></span><br><span class="line">        myConfig&#123;</span><br><span class="line">            <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"demo.keystore"</span>)</span> <span class="comment">// 签名文件名字</span></span><br><span class="line">            storePassword KEYSTORE_PASSWORD</span><br><span class="line">            keyAlias "demo.keystore"<span class="comment">// 签名文件别名</span></span><br><span class="line">            keyPassword KEYSTORE_PASSWORD</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 不同渠道</span></span><br><span class="line">    <span class="comment">//productFlavors &#123;</span></span><br><span class="line"><span class="comment">//        flavor1 &#123;</span></span><br><span class="line"><span class="comment">//            versionName '1.0'</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//        flavor2 &#123;</span></span><br><span class="line"><span class="comment">//            versionName '1.0'</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//用来指定最终编译字段配置</span></span><br><span class="line">    buildTypes </span>&#123;</span><br><span class="line">        debug &#123;</span><br><span class="line">            resValue <span class="string">"bool"</span>, <span class="string">"debug"</span>, <span class="string">"true"</span></span><br><span class="line">            signingConfig  signingConfigs.myConfig</span><br><span class="line">            minifyEnabled <span class="keyword">true</span> <span class="comment">// 是否混淆</span></span><br><span class="line">            shrinkResources <span class="keyword">true</span> <span class="comment">// 是否去除无效的资源文件</span></span><br><span class="line">            <span class="function">proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        release </span>&#123;</span><br><span class="line">            resValue <span class="string">"bool"</span>, <span class="string">"debug"</span>, <span class="string">"false"</span></span><br><span class="line">            signingConfig  signingConfigs.myConfig</span><br><span class="line">            minifyEnabled <span class="keyword">true</span> <span class="comment">// 是否混淆</span></span><br><span class="line">            shrinkResources <span class="keyword">true</span> <span class="comment">// 是否去除无效的资源文件</span></span><br><span class="line">            <span class="function">proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//这个是解决lint报错的代码</span></span><br><span class="line">    lintOptions </span>&#123;</span><br><span class="line">        abortOnError <span class="keyword">false</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//该字段下主要配置一些项目资源路径</span></span><br><span class="line">    sourceSets &#123;</span><br><span class="line">        main &#123;</span><br><span class="line">            manifest.srcFile <span class="string">'AndroidManifest.xml'</span></span><br><span class="line">            java.srcDirs = [<span class="string">'src'</span>]</span><br><span class="line">            resources.srcDirs = [<span class="string">'src'</span>]</span><br><span class="line">            aidl.srcDirs = [<span class="string">'src'</span>]</span><br><span class="line">            renderscript.srcDirs = [<span class="string">'src'</span>]</span><br><span class="line">            res.srcDirs = [<span class="string">'res'</span>]</span><br><span class="line">            assets.srcDirs = [<span class="string">'assets'</span>]</span><br><span class="line">            jniLibs.srcDirs = [<span class="string">'libs'</span>]</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        instrumentTest.setRoot(<span class="string">'tests'</span>)</span><br><span class="line">        debug.setRoot(<span class="string">'build-types/debug'</span>)</span><br><span class="line">        release.setRoot(<span class="string">'build-types/release'</span>)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">android.applicationVariants.all&#123; variant -&gt;</span><br><span class="line">    def apk = variant.outputs[<span class="number">0</span>].outputFile;</span><br><span class="line">    <span class="comment">// def versionName = android.defaultConfig.versionName;</span></span><br><span class="line">    def manifestParser = <span class="keyword">new</span> DefaultManifestParser()</span><br><span class="line">    def newName = <span class="string">""</span></span><br><span class="line">    def versionName = <span class="string">""</span></span><br><span class="line">    <span class="keyword">if</span> (variant.buildType.name == <span class="string">"release"</span>) &#123;</span><br><span class="line">        <span class="comment">// 获取versionName</span></span><br><span class="line">        versionName = manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        versionName = manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile) + <span class="string">"d"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出apk的名称</span></span><br><span class="line">    newName = <span class="string">"Demo_V$&#123;versionName&#125;_$&#123;variant.buildType.name&#125;.apk"</span>;</span><br><span class="line">	<span class="comment">// 输出apk的路径</span></span><br><span class="line">    def outputPath = <span class="string">"D:/Users/ruijun/App/"</span></span><br><span class="line">    variant.outputs[<span class="number">0</span>].outputFile = <span class="keyword">new</span> File(outputPath, newName);</span><br><span class="line"><span class="comment">//    variant.outputs[0].outputFile = new File(apk.parentFile, newName);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="u540E_u7EED_u51C6_u5907_u5199_u7BC7_u6587_u7AE0_u4F1A_u5BF9_u4E0A_u9762_u91CC_u9762_u7684_u529F_u80FD_u8FDB_u884C_u4E00_u4E00_u5206_u6790_uFF0C_u8FD9_u91CC_u5148_u5360_u5751_u3002"><a href="#u540E_u7EED_u51C6_u5907_u5199_u7BC7_u6587_u7AE0_u4F1A_u5BF9_u4E0A_u9762_u91CC_u9762_u7684_u529F_u80FD_u8FDB_u884C_u4E00_u4E00_u5206_u6790_uFF0C_u8FD9_u91CC_u5148_u5360_u5751_u3002" class="headerlink" title="后续准备写篇文章会对上面里面的功能进行一一分析，这里先占坑。"></a>后续准备写篇文章会对上面里面的功能进行一一分析，这里先占坑。</h1>]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android开源：CharacterView]]></title>
+      <url>http://yoursite.com/2015/05/31/Android%E5%BC%80%E6%BA%90%EF%BC%9ACharacterView/</url>
+      <content type="html"><![CDATA[<p>在<a href="https://github.com/ruijun/RoundedLetterView" target="_blank" rel="external">RoundedLetterView</a>上进行扩展改造。<br>根据名字显示字符的View，类似Android5.0风格联系人头像。</p>
+<h1 id="V1-0"><a href="#V1-0" class="headerlink" title="V1.0"></a>V1.0</h1><ul>
+<li>支持圆形和矩形View</li>
+<li>支持边框显示</li>
+<li>支持定义显示字符的数目</li>
+</ul>
+<p>源码请戳这里：<a href="https://github.com/ruijun/Characterview" target="_blank" rel="external">https://github.com/ruijun/Characterview</a></p>
+<h1 id="Demo_u622A_u56FE"><a href="#Demo_u622A_u56FE" class="headerlink" title="Demo截图"></a>Demo截图</h1><p><img src="/img/characterView1.png" alt="矩形">  <img src="/img/characterView2.png" alt="圆形">)  <img src="/img/characterView3.png" alt="圆形带边框">)  </p>
+<h1 id="u540E_u7EED_u4F1A_u5E26_u6765_u66F4_u591A_u529F_u80FD_uFF0C_u6B22_u8FCE_u5927_u5BB6fork_uFF0Cstar_uFF01_uFF01"><a href="#u540E_u7EED_u4F1A_u5E26_u6765_u66F4_u591A_u529F_u80FD_uFF0C_u6B22_u8FCE_u5927_u5BB6fork_uFF0Cstar_uFF01_uFF01" class="headerlink" title="后续会带来更多功能，欢迎大家fork，star！！"></a>后续会带来更多功能，欢迎大家<code>fork</code>，<code>star</code>！！</h1>]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android填坑：运行出现“Binary XML file line # : Error inflating class”异常的解决方法]]></title>
+      <url>http://yoursite.com/2015/05/25/Android%E5%A1%AB%E5%9D%91%EF%BC%9A%E8%BF%90%E8%A1%8C%E5%87%BA%E7%8E%B0%E2%80%9CBinary-XML-file-line-Error-inflating-class%E2%80%9D%E5%BC%82%E5%B8%B8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</url>
+      <content type="html"><![CDATA[<h1 id="u81EA_u5B9A_u4E49View_u7684_u65F6_u5019_uFF0C_u7ECF_u5E38_u4F1A_u9047_u5230_u8FD9_u4E2A_u5F02_u5E38_uFF0C_u603B_u7ED3_u4E00_u4E0B_u5927_u6982_u6709_u4EE5_u4E0B_u51E0_u79CD_u89E3_u51B3_u65B9_u6CD5_uFF1A"><a href="#u81EA_u5B9A_u4E49View_u7684_u65F6_u5019_uFF0C_u7ECF_u5E38_u4F1A_u9047_u5230_u8FD9_u4E2A_u5F02_u5E38_uFF0C_u603B_u7ED3_u4E00_u4E0B_u5927_u6982_u6709_u4EE5_u4E0B_u51E0_u79CD_u89E3_u51B3_u65B9_u6CD5_uFF1A" class="headerlink" title="自定义View的时候，经常会遇到这个异常，总结一下大概有以下几种解决方法："></a>自定义View的时候，经常会遇到这个异常，总结一下大概有以下几种解决方法：</h1><ul>
+<li><p>引用类名问题：自定义了View，在布局中使用的时候，必须使用完整路径名，也就是<code>包名+类名</code>来引用，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">com.ruijun.customview.CustomView</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>构造函数问题：自定义了View，必须实现下面<code>构造函数</code> 例如自定义控件为CustomView</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 在java代码中调用，只需实现这个构造函数就可以了</span></span><br><span class="line">CustomView(Context context)  </span><br><span class="line"><span class="comment">// 要在xml中使用，必须实现这个构造函数</span></span><br><span class="line">CustomView(Context context, AttributeSet attrs)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>找不到资源文件：比如<code>attrs.xml</code>没有放到正确的文件下面</p>
+</li>
+</ul>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android强化：反编译APK文件]]></title>
+      <url>http://yoursite.com/2015/05/25/Android%E5%BC%BA%E5%8C%96%EF%BC%9A%E5%8F%8D%E7%BC%96%E8%AF%91APK%E6%96%87%E4%BB%B6/</url>
+      <content type="html"><![CDATA[<p>在进行反编译之前，需要准备好下面的软件工具(这些文件都放在同一文件下)</p>
+<p><img src="http://img1.51cto.com/attachment/201110/203951776.jpg" alt=""></p>
+<p>这些工具的下载地址：<a href="http://down.51cto.com/data/266751" target="_blank" rel="external">http://down.51cto.com/data/266751</a><br>下面开始进行反编译APK文件：</p>
+<ul>
+<li><p>先将上面的apktool-install-windows-2.1_r01-1.zip，dex2jar-0.0.7-SNAPSHOT.zip解压到一个盘的根目录的一个文件下面（这里我选择D:\APKTool）</p>
+</li>
+<li><p>Win+R打开运行界面，输入cmd，进入dos窗口，输入cd /d D:\APKTool进入到D:\APKTool下面，然后输入下面的命令，按Enter键，会出现下图所示</p>
+<p>  <img src="http://img1.51cto.com/attachment/201110/201510678.jpg" alt=""></p>
+<p>  apktool.jar是解包工具，d表示解包，android.apk是要解包的APK文件，红色矩形框表示解包后输出到这个文件夹。这时候打开d:\AndroidCode，就能看到通过解包得到的文件</p>
+<p>  <img src="http://img1.51cto.com/attachment/201110/201912592.jpg" alt=""></p>
+<p>  里面的AndroidManifest.xml文件和res下面的所有文件就能直接打开查看了。</p>
+</li>
+<li><p>解包之后，将之前的android.apk文件的后缀名改为rar，之后就将里面的classes.dex文件解压到D:\APKTool下面。然后在dos窗口输入dex2jar.bat classes.dex</p>
+<p>  <img src="http://img1.51cto.com/attachment/201110/203109522.jpg" alt=""></p>
+<p>  得到一个名为classes.dex.dex2jar.jar的文件，此时用jd-gui.exe打开cl asses.dex.dex2jar.jar或者用DJ Java         Decompiler反编译工具将.class文件反编译成.java文件     就能看到所有源代码了！</p>
+</li>
+</ul>
+<p>PS：APK文件反编译之后，XML的源码不会出现乱码，不过有些APK文件得到Java源码会出一些乱码(比如在给变量赋值的时候)。有些app经过加密的话，反编译会报错。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Hexo常用命令记录]]></title>
+      <url>http://yoursite.com/2015/05/21/hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/</url>
+      <content type="html"><![CDATA[<p>经常使用到的命令，记录下来，方便以后查找使用<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hexo new "postName" #新建文章</span><br><span class="line">hexo new page "pageName" #新建页面</span><br><span class="line">hexo new draft "draftName" #新建草稿</span><br><span class="line">hexo publish draft "draftName" #草稿变成正文</span><br><span class="line">hexo generate #生成静态页面至public目录</span><br><span class="line">hexo server #开启预览(可以访问localhost:4000）</span><br><span class="line">hexo deploy #部署到github, gitcafe等</span><br></pre></td></tr></table></figure></p>
+<p>简写命令<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo n #新生成</span><br><span class="line">hexo g #生成静态页面至public目录</span><br><span class="line">hexo s #开启预览(可以访问localhost:4000</span><br><span class="line">hexo d #部署</span><br></pre></td></tr></table></figure></p>
+<p><a href="http://hexo.io/zh-cn/" target="_blank" rel="external">Hexo官方文档</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android分享：Crash跟踪系统]]></title>
+      <url>http://yoursite.com/2015/05/21/Android%E5%88%86%E4%BA%AB%EF%BC%9ACrash%E8%B7%9F%E8%B8%AA%E7%B3%BB%E7%BB%9F/</url>
+      <content type="html"><![CDATA[<p>国外<br><a href="https://app.crittercism.com/" target="_blank" rel="external">Crittercism</a><br><a href="http://try.crashlytics.com/" target="_blank" rel="external">Crashlytics</a><br><a href="http://www.buganalytics.com/" target="_blank" rel="external">buganalytics</a><br><a href="https://mint.splunk.com/" target="_blank" rel="external">splunk</a><br><a href="http://www.flurry.com/" target="_blank" rel="external">flurry</a><br><a href="http://www.applause.com/mobile-sdk" target="_blank" rel="external">Applause</a><br><a href="http://blog.parse.com/learn/introducing-parse-crash-reporting-2/" target="_blank" rel="external">Parse Crash Reporting</a><br><a href="http://www.itestin.com/" target="_blank" rel="external">Testin Crash Analytics</a></p>
+<p><a href="https://github.com/ACRA/acra" target="_blank" rel="external">Acra</a>允许Android应用自动地发送崩溃信息到自己的服务器<br><a href="https://github.com/bboyfeiyu/android-tech-frontier/tree/master/others/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAAndroid%E5%BA%94%E7%94%A8crashing%E8%B7%9F%E8%B8%AA%E7%B3%BB%E7%BB%9F%EF%BC%8DACRA" target="_blank" rel="external">如何在本地搭建一个Android应用crashing跟踪系统－ACRA</a></p>
+<p>国内<br><a href="http://dev.umeng.com/analytics/reports/errors" target="_blank" rel="external">umeng</a>友盟统计<br><a href="http://bugly.qq.com/" target="_blank" rel="external">Bugly</a> 鹅厂出品<br><a href="http://www.crasheye.cn/" target="_blank" rel="external">Crasheye</a>金山网络出品<br><a href="http://bughd.com/" target="_blank" rel="external">BugHD</a> FIR.im</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[svn批量操作命令]]></title>
+      <url>http://yoursite.com/2015/05/21/svn%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4/</url>
+      <content type="html"><![CDATA[<h1 id="u6279_u91CF_u6DFB_u52A0_u65B0_u6587_u4EF6"><a href="#u6279_u91CF_u6DFB_u52A0_u65B0_u6587_u4EF6" class="headerlink" title="批量添加新文件"></a>批量添加新文件</h1><p>svn add <code>svn st | grep ^? | awk &#39;{print $2}&#39;</code>   </p>
+<h1 id="u6279_u91CF_u5220_u9664_u6587_u4EF6"><a href="#u6279_u91CF_u5220_u9664_u6587_u4EF6" class="headerlink" title="批量删除文件"></a>批量删除文件</h1><p>svn del <code>svn st | grep ^! | awk &#39;{print $2}&#39;</code> </p>
+<p>svn ci -m “提交说明” </p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Ubuntu修改设备名称]]></title>
+      <url>http://yoursite.com/2015/05/21/Ubuntu%E4%BF%AE%E6%94%B9%E8%AE%BE%E5%A4%87%E5%90%8D%E7%A7%B0/</url>
+      <content type="html"><![CDATA[<p>打开终端时候会显示<code>ruijun@ruijun-ubuntu:~/AndroidCode/</code><br>设备名称是@后面的<code>ruijun-ubuntu</code></p>
+<h1 id="u76F4_u63A5_u547D_u4EE4_u884C_u4FEE_u6539"><a href="#u76F4_u63A5_u547D_u4EE4_u884C_u4FEE_u6539" class="headerlink" title="直接命令行修改"></a>直接命令行修改</h1><p>输入下面的命令<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo sed -i <span class="string">'s/当前设备名称/新设备名称/'</span> /etc/hosts</span><br><span class="line">sudo sed -i <span class="string">'s/当前设备名称/新设备名称/'</span> /etc/hostname</span><br><span class="line">或者</span><br><span class="line">hostname 新设备名称</span><br></pre></td></tr></table></figure></p>
+<h1 id="u6587_u672C_u7F16_u8F91_u5668_u4FEE_u6539"><a href="#u6587_u672C_u7F16_u8F91_u5668_u4FEE_u6539" class="headerlink" title="文本编辑器修改"></a>文本编辑器修改</h1><p>输入下面的命令, 在文本编辑器里面修改, 保存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit /etc/hostname /etc/hosts</span><br></pre></td></tr></table></figure></p>
+<p>最后都要重启系统<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shutdown -r now</span><br></pre></td></tr></table></figure></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android强化：使用AsyncTask时候的疑问]]></title>
+      <url>http://yoursite.com/2015/05/17/Android%E5%BC%BA%E5%8C%96%EF%BC%9AAsyncTask%E2%80%8B%E4%BD%BF%E7%94%A8AsyncTask%E6%97%B6%E5%80%99%E7%9A%84%E7%96%91%E9%97%AE/</url>
+      <content type="html"><![CDATA[<h1 id="u5728_u4F7F_u7528AsyncTask__u7684_u65F6_u5019_uFF0C__u76F8_u4FE1_u5F88_u591A_u4EBA_u90FD_u4F1A_u5B58_u5728_u7591_u95EE_uFF1A"><a href="#u5728_u4F7F_u7528AsyncTask__u7684_u65F6_u5019_uFF0C__u76F8_u4FE1_u5F88_u591A_u4EBA_u90FD_u4F1A_u5B58_u5728_u7591_u95EE_uFF1A" class="headerlink" title="在使用AsyncTask 的时候， 相信很多人都会存在疑问："></a>在使用<code>AsyncTask</code> 的时候， 相信很多人都会存在疑问：</h1><ul>
+<li>异步任务的实例必须在<code>UI线程</code>中创建</li>
+<li>execute(Params… params)方法必须在UI线程中调用 </li>
+</ul>
+<p><code>AsyncTask</code>有这些限制，是因为Android<code>单线程模型</code>的问题<br><a id="more"></a></p>
+<h1 id="u5173_u4E8EAsyncTask_u548C_u5355_u7EBF_u7A0B_u6A21_u578B_u7684_u4E00_u4E9B_u8D44_u6599"><a href="#u5173_u4E8EAsyncTask_u548C_u5355_u7EBF_u7A0B_u6A21_u578B_u7684_u4E00_u4E9B_u8D44_u6599" class="headerlink" title="关于AsyncTask和单线程模型的一些资料"></a>关于<code>AsyncTask</code>和<code>单线程模型</code>的一些资料</h1><p><code>AsyncTask</code>详解： </p>
+<ul>
+<li><a href="http://blog.csdn.net/liuhe688/article/details/6532519" target="_blank" rel="external">http://blog.csdn.net/liuhe688/article/details/6532519</a></li>
+<li><a href="http://blog.csdn.net/lmj623565791/article/details/38614699" target="_blank" rel="external">http://blog.csdn.net/lmj623565791/article/details/38614699</a></li>
+<li><a href="http://blog.csdn.net/guolin_blog/article/details/11711405" target="_blank" rel="external">http://blog.csdn.net/guolin_blog/article/details/11711405</a></li>
+</ul>
+<p>单线程模型： </p>
+<ul>
+<li><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2013/0724/1484.html" target="_blank" rel="external">http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2013/0724/1484.html</a></li>
+</ul>
+<p>进程线程的概念： </p>
+<ul>
+<li><a href="http://developer.android.com/guide/components/processes-and-threads.html" target="_blank" rel="external">http://developer.android.com/guide/components/processes-and-threads.html</a></li>
+<li><a href="http://www.cnblogs.com/ghj1976/archive/2011/04/28/2031586.html" target="_blank" rel="external">http://www.cnblogs.com/ghj1976/archive/2011/04/28/2031586.html</a></li>
+<li><a href="http://blog.csdn.net/kesenhoo/article/details/8743215" target="_blank" rel="external">http://blog.csdn.net/kesenhoo/article/details/8743215</a> </li>
+</ul>
+<h1 id="u6700_u540E_u5F97_u8BF4_u8BF4AsyncTask_u7684_u5751_u4E86"><a href="#u6700_u540E_u5F97_u8BF4_u8BF4AsyncTask_u7684_u5751_u4E86" class="headerlink" title="最后得说说AsyncTask的坑了"></a>最后得说说<code>AsyncTask</code>的坑了</h1><ul>
+<li>在3.0以前，最大支持128个线程的并发，10个任务的等待。在3.0以后，无论有多少任务，都会在其内部单线程执行；</li>
+<li><a href="http://rincliu.com/blog/2013/07/26/asynctask/" target="_blank" rel="external">解决 Android 中 AsyncTask 的多线程阻塞问题</a></li>
+</ul>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android Tips：没有Root权限，获取databases文件和traces文件的方法]]></title>
+      <url>http://yoursite.com/2015/05/17/Android%20Tips%EF%BC%9A%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E5%92%8Ctraces%E6%96%87%E4%BB%B6%E7%9A%84%E6%96%B9%E6%B3%95/</url>
+      <content type="html"><![CDATA[<ul>
+<li><code>cmd</code>打开dos窗口，进入到sdk目录下的platform-tools</li>
+</ul>
+<p><code>cd</code> D:\Tools\adt-bundle-windows-x86_64-20130219\sdk\platform-tools</p>
+<ul>
+<li><p>敲入<code>adb shell</code></p>
+</li>
+<li><p>使用拷贝命令，将databases文件或者traces文件拷贝到sdcard下</p>
+</li>
+</ul>
+<p>databases ： <code>cp</code> /data/data/包名/databases/  sdcard\<br>traces ： <code>cp</code> /data/anr/traces/  sdcard\</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android开源：开源项目网站收集]]></title>
+      <url>http://yoursite.com/2015/05/17/Android%E5%BC%80%E6%BA%90%EF%BC%9A%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E7%BD%91%E7%AB%99%E6%94%B6%E9%9B%86/</url>
+      <content type="html"><![CDATA[<ul>
+<li><a href="https://android-arsenal.com/" target="_blank" rel="external">android-arsenal</a></li>
+<li><a href="http://www.jcodecraeer.com/" target="_blank" rel="external">泡在网上的日子</a></li>
+<li><a href="http://square.github.io/" target="_blank" rel="external">Square</a></li>
+<li><a href="https://github.com/Trinea/android-open-project" target="_blank" rel="external">android-open-project</a></li>
+<li><a href="https://github.com/snowdream/awesome-android/blob/master/README.md" target="_blank" rel="external">awesome-android</a></li>
+<li><a href="http://www.zhihu.com/question/19804692" target="_blank" rel="external">知乎：有哪些优秀的 Android 应用开源项目、特效、设计资料推荐？</a></li>
+<li><a href="http://jacsonlee.github.io/Blog/?Android/getopensource" target="_blank" rel="external">jacsonlee</a></li>
+<li><a href="http://alamkanak.github.io/android-libraries-and-resources/" target="_blank" rel="external">Android Libraries and Resources</a></li>
+<li><a href="https://android-libs.com/" target="_blank" rel="external">android-libs</a></li>
+<li><a href="http://www.akaifa.com/" target="_blank" rel="external">爱开发</a></li>
+</ul>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Git学习资料汇总]]></title>
+      <url>http://yoursite.com/2015/05/17/Git%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99%E6%B1%87%E6%80%BB/</url>
+      <content type="html"><![CDATA[<p><img src="http://i1.tietuku.com/0fdf84cd8c01c4c2.jpg" alt=""></p>
+<ul>
+<li><a href="http://sixrevisions.com/web-development/easy-git-tutorial/" target="_blank" rel="external">怎么快速开始使用Git</a></li>
+<li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">廖雪峰Git教程</a></li>
+<li><a href="https://try.github.io/levels/1/challenges/1" target="_blank" rel="external">试试Git – 15分钟的Git交互教程</a><a id="more"></a></li>
+<li><a href="http://rypress.com/tutorials/git/tips-and-tricks" target="_blank" rel="external">提示和技巧（Ry的Git教学）是常见Git功能的实践教程</a></li>
+<li><a href="http://rogerdudler.github.io/git-guide/" target="_blank" rel="external">Git简单指南</a></li>
+<li><a href="http://gitready.com/" target="_blank" rel="external">Git Ready是一个收藏有许多简单而简短的Git提示的网站</a></li>
+<li><a href="http://www.git-tower.com/blog/git-cheat-sheet/" target="_blank" rel="external">Git作弊码</a></li>
+<li><a href="http://www.git-tower.com/learn/" target="_blank" rel="external">Git Tower学习区是一个在我的网站上的Git学习资源列表</a></li>
+<li><a href="http://git-scm.com/docs/gittutorial" target="_blank" rel="external">Git官方教程</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLg7s6cbtAD165JTRsXh8ofwRw0PqUnkVH" target="_blank" rel="external">Training: Git Basics (视频)是YouTube上的一个视频列表</a></li>
+<li><a href="http://git-scm.com/book/en/v2" target="_blank" rel="external">Pro Git一本让你深入了解Git的在线书籍</a></li>
+<li><a href="http://snowdream86.gitbooks.io/github-cheat-sheet/content/zh/" target="_blank" rel="external">GitHub秘籍</a></li>
+<li><a href="http://www.worldhello.net/gotgithub/index.html" target="_blank" rel="external">GotGitHub</a></li>
+<li><a href="https://ruby-china.org/topics/15737" target="_blank" rel="external">写出好的 commit message</a></li>
+<li><a href="http://gitbook.liuhui998.com/index.html" target="_blank" rel="external">Git Community Book 中文版</a></li>
+<li><a href="http://jslite.io/2015/04/01/git%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/" target="_blank" rel="external">git使用笔记</a></li>
+</ul>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android Tips：AndroidStudio使用中遇到的问题汇总]]></title>
+      <url>http://yoursite.com/2015/05/17/Android%20Tips%EF%BC%9AAndroidStudio%E4%BD%BF%E7%94%A8%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</url>
+      <content type="html"><![CDATA[<h2 id="Android_Studio_u6BCF_u6B21_u542F_u52A8_u90FD_u8981_u5728fetching_Android_sdk_compoment_information"><a href="#Android_Studio_u6BCF_u6B21_u542F_u52A8_u90FD_u8981_u5728fetching_Android_sdk_compoment_information" class="headerlink" title="Android Studio每次启动都要在fetching Android sdk compoment information"></a><strong>Android Studio每次启动都要在fetching Android sdk compoment information</strong></h2><ul>
+<li>进入刚安装的AndroidStudio目录下的bin目录。找到idea.properties文件，用文本编辑器打开。</li>
+<li>在idea.properties文件末尾添加一行： disable.android.first.run=true ，然后保存文件。</li>
+<li>关闭Android Studio后重新启动，便可进入界面。</li>
+</ul>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Markdown 基本语法]]></title>
+      <url>http://yoursite.com/2015/05/16/Markdown-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</url>
+      <content type="html"><![CDATA[<h1 id="u6211_u662F_u5927_u6807_u9898"><a href="#u6211_u662F_u5927_u6807_u9898" class="headerlink" title="我是大标题"></a>我是大标题</h1><p>格式：标题下 + ======</p>
+<h2 id="u6211_u662F_u4E2D_u6807_u9898"><a href="#u6211_u662F_u4E2D_u6807_u9898" class="headerlink" title="我是中标题"></a>我是中标题</h2><p>格式：标题下 + —–</p>
+<h3 id="u6211_u662F_u5C0F_u6807_u9898"><a href="#u6211_u662F_u5C0F_u6807_u9898" class="headerlink" title="我是小标题"></a>我是小标题</h3><p>格式：### + 空格 + 标题内容</p>
+<a id="more"></a>
+<h3 id="u6211_u662F_u5355_u884C_u6587_u672C"><a href="#u6211_u662F_u5355_u884C_u6587_u672C" class="headerlink" title="我是单行文本"></a>我是单行文本</h3><h3 id="u6211_u662F_u591A_u884C_u6587_u672C"><a href="#u6211_u662F_u591A_u884C_u6587_u672C" class="headerlink" title="我是多行文本"></a>我是多行文本</h3><p>每一个的末尾 + 两个Tab    </p>
+<h3 id="u6211_u662F_u6BB5_u4EE3_u7801"><a href="#u6211_u662F_u6BB5_u4EE3_u7801" class="headerlink" title="我是段代码"></a>我是段代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">printf(&#34;Hello Markdown !&#34;) // &#20195;&#30721;&#26159;&#35201;&#34987;```&#22260;&#36215;&#26469;</span><br></pre></td></tr></table></figure>
+<h3 id="u94FE_u63A5"><a href="#u94FE_u63A5" class="headerlink" title="链接"></a>链接</h3><p><em>格式：[xxx] + (url)<br>  <a href="http://fresco-cn.org/" target="_blank" rel="external">Fresco中文文档</a>   
+</em><a href="http://fresco-cn.org/" target="_blank" rel="external">http://fresco-cn.org/</a></p>
+<h3 id="u663E_u793A_u56FE_u7247"><a href="#u663E_u793A_u56FE_u7247" class="headerlink" title="显示图片"></a>显示图片</h3><p>格式：![介绍文字] + (url)<br><img src="http://www.baidu.com/img/bdlogo.png" alt="百度Logo" title="baidu"></p>
+<h3 id="u70B9_u51FB_u56FE_u7247_u8FDB_u5165_u7279_u5B9A_u7F51_u5740"><a href="#u70B9_u51FB_u56FE_u7247_u8FDB_u5165_u7279_u5B9A_u7F51_u5740" class="headerlink" title="点击图片进入特定网址"></a>点击图片进入特定网址</h3><p>格式：[介绍文字] + (url)<br><a href="http://www.baidu.com/" target="_blank" rel="external">百度Logo</a></p>
+]]></content>
+    </entry>
+    
+  
+  
+</search>

@@ -1,11 +1,96 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <title>Android开源：定制化build.gradle | ruijun&#39;s blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="支持的功能
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android开源,gradle,开源," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="支持的功能
 
 自定义apk名称，输出路径
 定制debug， release代码，显示不同字符串等
@@ -19,7 +104,7 @@
 自定义apk名称，输出路径
 定制debug， release代码，显示不同字符串等
 打包时候，删除没有用的资源文件">
-<meta property="og:updated_time" content="2016-01-24T14:23:09.000Z">
+<meta property="og:updated_time" content="2016-08-01T13:23:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android开源：定制化build.gradle">
 <meta name="twitter:description" content="支持的功能
@@ -27,214 +112,217 @@
 自定义apk名称，输出路径
 定制debug， release代码，显示不同字符串等
 打包时候，删除没有用的资源文件">
-  
-  
-    <link rel="icon" href="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200">
-  
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
-  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/05/31/Android开源：定制化build-gradle/"/>
+
+  <title> Android开源：定制化build.gradle | ruijun's blog </title>
 </head>
-<body>
-  <div id="container">
-    <div class="left-col">
-    <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			<img lazy-src="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200" class="js-avatar">
-		</a>
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">liangruijun</a></h1>
-		</hgroup>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
-		
-		<p class="header-subtitle">What I’m doing right now, I’m chasing perfection.</p>
-		
+  
 
-		
-			<div class="switch-btn">
-				<div class="icon">
-					<div class="icon-ctn">
-						<div class="icon-wrap icon-house" data-idx="0">
-							<div class="birdhouse"></div>
-							<div class="birdhouse_holes"></div>
-						</div>
-						<div class="icon-wrap icon-ribbon hide" data-idx="1">
-							<div class="ribbon"></div>
-						</div>
-						
-						<div class="icon-wrap icon-link hide" data-idx="2">
-							<div class="loopback_l"></div>
-							<div class="loopback_r"></div>
-						</div>
-						
-						
-					</div>
-					
-				</div>
-				<div class="tips-box hide">
-					<div class="tips-arrow"></div>
-					<ul class="tips-inner">
-						<li>菜单</li>
-						<li>标签</li>
-						
-						<li>友情链接</li>
-						
-						
-					</ul>
-				</div>
-			</div>
-		
 
-		<div class="switch-area">
-			<div class="switch-wrap">
-				<section class="switch-part switch-part1">
-					<nav class="header-menu">
-						<ul>
-						
-							<li><a href="/">主页</a></li>
-				        
-							<li><a href="/archives">所有文章</a></li>
-				        
-							<li><a href="/tags/随笔">随笔</a></li>
-				        
-							<li><a href="/about">关于我</a></li>
-				        
-						</ul>
-					</nav>
-					<nav class="header-nav">
-						<div class="social">
-							
-								<a class="github" target="_blank" href="https://github.com/ruijun" title="github">github</a>
-					        
-								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/liangruijun" title="zhihu">zhihu</a>
-					        
-								<a class="mail" target="_blank" href="mailto:lingdududu@163.com" title="mail">mail</a>
-					        
-						</div>
-					</nav>
-				</section>
-				
-				
-				<section class="switch-part switch-part2">
-					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Android-M/" style="font-size: 13.33px;">Android M</a> <a href="/tags/Android-Studio/" style="font-size: 10px;">Android Studio</a> <a href="/tags/Android-Tips/" style="font-size: 16.67px;">Android Tips</a> <a href="/tags/Android5-0/" style="font-size: 10px;">Android5.0</a> <a href="/tags/AndroidStudio/" style="font-size: 10px;">AndroidStudio</a> <a href="/tags/Android分享/" style="font-size: 20px;">Android分享</a> <a href="/tags/Android填坑/" style="font-size: 16.67px;">Android填坑</a> <a href="/tags/Android奇技淫巧/" style="font-size: 10px;">Android奇技淫巧</a> <a href="/tags/Android开源/" style="font-size: 13.33px;">Android开源</a> <a href="/tags/Android强化/" style="font-size: 13.33px;">Android强化</a> <a href="/tags/Android性能优化/" style="font-size: 10px;">Android性能优化</a> <a href="/tags/Android问题/" style="font-size: 10px;">Android问题</a> <a href="/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/Crash-Analysis/" style="font-size: 10px;">Crash Analysis</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Google-I-O/" style="font-size: 10px;">Google I/O</a> <a href="/tags/JitPack/" style="font-size: 10px;">JitPack</a> <a href="/tags/SQLiteException/" style="font-size: 10px;">SQLiteException</a> <a href="/tags/SdkVersion/" style="font-size: 10px;">SdkVersion</a> <a href="/tags/Sonatype/" style="font-size: 10px;">Sonatype</a> <a href="/tags/View/" style="font-size: 10px;">View</a> <a href="/tags/aar/" style="font-size: 10px;">aar</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/apktool/" style="font-size: 10px;">apktool</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/atom/" style="font-size: 10px;">atom</a> <a href="/tags/crash/" style="font-size: 10px;">crash</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/performance/" style="font-size: 10px;">performance</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/traces/" style="font-size: 10px;">traces</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/制作GIF/" style="font-size: 10px;">制作GIF</a> <a href="/tags/反编译/" style="font-size: 10px;">反编译</a> <a href="/tags/命令/" style="font-size: 10px;">命令</a> <a href="/tags/开源/" style="font-size: 13.33px;">开源</a> <a href="/tags/插件/" style="font-size: 10px;">插件</a> <a href="/tags/知乎/" style="font-size: 10px;">知乎</a> <a href="/tags/线程/" style="font-size: 10px;">线程</a> <a href="/tags/编辑器/" style="font-size: 10px;">编辑器</a> <a href="/tags/语法/" style="font-size: 10px;">语法</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
-					</div>
-				</section>
-				
-				
-				
-				<section class="switch-part switch-part3">
-					<div id="js-friends">
-					
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.trinea.cn/">Trinea的博客</a>
-			        
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://stormzhang.com/">stormzhang的博客</a>
-			        
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://hukai.me/">胡凯的博客</a>
-			        
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/luoshengyang">老罗Android之旅</a>
-			        
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/lmj623565791">鸿洋的博客</a>
-			        
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.devtf.cn/">开发技术前线</a>
-			        
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.androidweekly.cn/">Android开发技术周报</a>
-			        
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.jcodecraeer.com/">泡在网上的日子</a>
-			        
-			        </div>
-				</section>
-				
 
-				
-			</div>
-		</div>
-	</header>				
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ruijun's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">以梦为马，不负韶华</p>
 </div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
     </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"></div>
-  		<h1 class="header-author js-mobile-header hide">liangruijun</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				<img lazy-src="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200" class="js-avatar">
-			</div>
-			<hgroup>
-			  <h1 class="header-author">liangruijun</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">What I’m doing right now, I’m chasing perfection.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-					<li><a href="/archives">所有文章</a></li>
-		        
-					<li><a href="/tags/随笔">随笔</a></li>
-		        
-					<li><a href="/about">关于我</a></li>
-		        
-		        <div class="clearfix"></div>
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/ruijun" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/liangruijun" title="zhihu">zhihu</a>
-			        
-						<a class="mail" target="_blank" href="mailto:lingdududu@163.com" title="mail">mail</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+  
 </nav>
-      <div class="body-wrap"><article id="开源-Android开源：定制化build-gradle" class="article article-type-开源" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/05/31/Android开源：定制化build-gradle/" class="article-date">
-  	<time datetime="2015-05-31T02:14:27.000Z" itemprop="datePublished">2015-05-31</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      Android开源：定制化build.gradle
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android开源：定制化build.gradle
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-05-31T10:14:27+08:00" content="2015-05-31">
+              2015-05-31
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/05/31/Android开源：定制化build-gradle/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/31/Android开源：定制化build-gradle/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
-      
-      <div class="article-info article-info-post">
-        
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android开源/">Android开源</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gradle/">gradle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开源/">开源</a></li></ul>
-	</div>
-
-        
-
-        <div class="clearfix"></div>
-      </div>
-      
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p>支持的功能</p>
 <ul>
@@ -244,133 +332,520 @@
 </ul>
 <a id="more"></a>
 <p>源码请戳这里：<a href="https://github.com/ruijun/gradle-for-customize" target="_blank" rel="external">https://github.com/ruijun/gradle-for-customize</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import com.android.builder.core.DefaultManifestParser&#10;&#10;apply plugin: &#39;com.android.application&#39;&#10;&#10;buildscript &#123;&#10;    //&#25903;&#25345;java &#20381;&#36182;&#24211;&#31649;&#29702;&#65288;maven/ivy&#65289;,&#29992;&#20110;&#39033;&#30446;&#30340;&#20381;&#36182;&#10;    repositories &#123;&#10;        mavenCentral()&#10;    &#125;&#10;&#10;    //&#20381;&#36182;&#21253;&#30340;&#23450;&#20041;&#12290;&#25903;&#25345;maven/ivy&#65292;&#36828;&#31243;&#65292;&#26412;&#22320;&#24211;&#65292;&#20063;&#25903;&#25345;&#21333;&#25991;&#20214;&#10;    dependencies &#123;&#10;        classpath &#39;com.android.tools.build:gradle:1.2.3&#39;&#10;    &#125;&#10;&#125;&#10;&#10;// &#31532;&#19977;&#26041;&#20381;&#36182;&#10;dependencies &#123;&#10;    compile fileTree(include: &#39;*.jar&#39;, dir: &#39;libs&#39;)&#10;    compile &#39;com.android.support:appcompat-v7:21.+&#39;&#10;    compile &#39;com.android.support:recyclerview-v7:+&#39;&#10;&#125;&#10;&#10;android &#123;&#10;    compileSdkVersion 21&#10;    buildToolsVersion &#34;22.0.1&#34;&#10;&#10;    defaultConfig &#123;&#10;        applicationId &#34;com.ruijun.demo&#34;&#10;        minSdkVersion 16&#10;        targetSdkVersion 21&#10;        versionCode 1001&#10;&#10;        // &#37197;&#32622;R.bool.debug &#30340;&#20540;,&#22312;&#20195;&#30721;&#37324;&#20381;&#25454;&#36825;&#20010;&#20540;&#26469;&#21028;&#26029;&#26159;&#27979;&#35797;&#25110;&#32773;&#27491;&#24335;&#29256;&#26412;&#10;        // &#21487;&#20197;&#20026;&#19981;&#21516;&#29256;&#26412;&#23450;&#21046;&#21270;&#20195;&#30721;&#10;        resValue &#34;bool&#34;, &#34;debug&#34;, &#34;true&#34;&#10;    &#125;&#10;&#10;    packagingOptions &#123;&#10;        exclude &#39;META-INF/DEPENDENCIES&#39;&#10;        exclude &#39;META-INF/LICENSE&#39;&#10;        exclude &#39;META-INF/LICENSE.txt&#39;&#10;        exclude &#39;META-INF/license.txt&#39;&#10;        exclude &#39;META-INF/NOTICE&#39;&#10;        exclude &#39;META-INF/NOTICE.txt&#39;&#10;        exclude &#39;META-INF/notice.txt&#39;&#10;        exclude &#39;META-INF/ASL2.0&#39;&#10;    &#125;&#10;&#10;&#10;    //&#35774;&#32622;&#21253;&#31614;&#21517;&#23383;&#27573;&#10;    signingConfigs &#123;&#10;//        debug&#123;&#10;//            storeFile file(&#34;debug.keystore&#34;)&#10;//        &#125;&#10;&#10;        myConfig&#123;&#10;            storeFile file(&#34;demo.keystore&#34;) // &#31614;&#21517;&#25991;&#20214;&#21517;&#23383;&#10;            storePassword KEYSTORE_PASSWORD&#10;            keyAlias &#34;demo.keystore&#34;// &#31614;&#21517;&#25991;&#20214;&#21035;&#21517;&#10;            keyPassword KEYSTORE_PASSWORD&#10;        &#125;&#10;    &#125;&#10;&#10;    // &#19981;&#21516;&#28192;&#36947;&#10;    //productFlavors &#123;&#10;//        flavor1 &#123;&#10;//            versionName &#39;1.0&#39;&#10;//        &#125;&#10;//&#10;//        flavor2 &#123;&#10;//            versionName &#39;1.0&#39;&#10;//        &#125;&#10;//&#10;//    &#125;&#10;&#10;    //&#29992;&#26469;&#25351;&#23450;&#26368;&#32456;&#32534;&#35793;&#23383;&#27573;&#37197;&#32622;&#10;    buildTypes &#123;&#10;        debug &#123;&#10;            resValue &#34;bool&#34;, &#34;debug&#34;, &#34;true&#34;&#10;            signingConfig  signingConfigs.myConfig&#10;            minifyEnabled true // &#26159;&#21542;&#28151;&#28102;&#10;            shrinkResources true // &#26159;&#21542;&#21435;&#38500;&#26080;&#25928;&#30340;&#36164;&#28304;&#25991;&#20214;&#10;            proguardFiles getDefaultProguardFile(&#39;proguard-android.txt&#39;), &#39;proguard-rules.pro&#39;&#10;        &#125;&#10;&#10;        release &#123;&#10;            resValue &#34;bool&#34;, &#34;debug&#34;, &#34;false&#34;&#10;            signingConfig  signingConfigs.myConfig&#10;            minifyEnabled true // &#26159;&#21542;&#28151;&#28102;&#10;            shrinkResources true // &#26159;&#21542;&#21435;&#38500;&#26080;&#25928;&#30340;&#36164;&#28304;&#25991;&#20214;&#10;            proguardFiles getDefaultProguardFile(&#39;proguard-android.txt&#39;), &#39;proguard-rules.pro&#39;&#10;        &#125;&#10;    &#125;&#10;&#10;    //&#36825;&#20010;&#26159;&#35299;&#20915;lint&#25253;&#38169;&#30340;&#20195;&#30721;&#10;    lintOptions &#123;&#10;        abortOnError false&#10;    &#125;&#10;&#10;    //&#35813;&#23383;&#27573;&#19979;&#20027;&#35201;&#37197;&#32622;&#19968;&#20123;&#39033;&#30446;&#36164;&#28304;&#36335;&#24452;&#10;    sourceSets &#123;&#10;        main &#123;&#10;            manifest.srcFile &#39;AndroidManifest.xml&#39;&#10;            java.srcDirs = [&#39;src&#39;]&#10;            resources.srcDirs = [&#39;src&#39;]&#10;            aidl.srcDirs = [&#39;src&#39;]&#10;            renderscript.srcDirs = [&#39;src&#39;]&#10;            res.srcDirs = [&#39;res&#39;]&#10;            assets.srcDirs = [&#39;assets&#39;]&#10;            jniLibs.srcDirs = [&#39;libs&#39;]&#10;        &#125;&#10;&#10;        instrumentTest.setRoot(&#39;tests&#39;)&#10;        debug.setRoot(&#39;build-types/debug&#39;)&#10;        release.setRoot(&#39;build-types/release&#39;)&#10;&#10;    &#125;&#10;&#125;&#10;&#10;android.applicationVariants.all&#123; variant -&#62;&#10;    def apk = variant.outputs[0].outputFile;&#10;    // def versionName = android.defaultConfig.versionName;&#10;    def manifestParser = new DefaultManifestParser()&#10;    def newName = &#34;&#34;&#10;    def versionName = &#34;&#34;&#10;    if (variant.buildType.name == &#34;release&#34;) &#123;&#10;        // &#33719;&#21462;versionName&#10;        versionName = manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile);&#10;    &#125; else &#123;&#10;        versionName = manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile) + &#34;d&#34;;&#10;    &#125;&#10;&#10;    // &#36755;&#20986;apk&#30340;&#21517;&#31216;&#10;    newName = &#34;Demo_V$&#123;versionName&#125;_$&#123;variant.buildType.name&#125;.apk&#34;;&#10;&#9;// &#36755;&#20986;apk&#30340;&#36335;&#24452;&#10;    def outputPath = &#34;D:/Users/ruijun/App/&#34;&#10;    variant.outputs[0].outputFile = new File(outputPath, newName);&#10;//    variant.outputs[0].outputFile = new File(apk.parentFile, newName);&#10;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.android.builder.core.DefaultManifestParser</span><br><span class="line"></span><br><span class="line">apply plugin: <span class="string">'com.android.application'</span></span><br><span class="line"></span><br><span class="line">buildscript &#123;</span><br><span class="line">    <span class="comment">//支持java 依赖库管理（maven/ivy）,用于项目的依赖</span></span><br><span class="line">    repositories &#123;</span><br><span class="line">        mavenCentral()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//依赖包的定义。支持maven/ivy，远程，本地库，也支持单文件</span></span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath <span class="string">'com.android.tools.build:gradle:1.2.3'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第三方依赖</span></span><br><span class="line">dependencies &#123;</span><br><span class="line">    <span class="function">compile <span class="title">fileTree</span><span class="params">(include: <span class="string">'*.jar'</span>, dir: <span class="string">'libs'</span>)</span></span><br><span class="line">    compile 'com.android.support:appcompat-v7:21.+'</span><br><span class="line">    compile 'com.android.support:recyclerview-v7:+'</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">android </span>&#123;</span><br><span class="line">    compileSdkVersion <span class="number">21</span></span><br><span class="line">    buildToolsVersion <span class="string">"22.0.1"</span></span><br><span class="line"></span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        applicationId <span class="string">"com.ruijun.demo"</span></span><br><span class="line">        minSdkVersion <span class="number">16</span></span><br><span class="line">        targetSdkVersion <span class="number">21</span></span><br><span class="line">        versionCode <span class="number">1001</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 配置R.bool.debug 的值,在代码里依据这个值来判断是测试或者正式版本</span></span><br><span class="line">        <span class="comment">// 可以为不同版本定制化代码</span></span><br><span class="line">        resValue <span class="string">"bool"</span>, <span class="string">"debug"</span>, <span class="string">"true"</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    packagingOptions &#123;</span><br><span class="line">        exclude <span class="string">'META-INF/DEPENDENCIES'</span></span><br><span class="line">        exclude <span class="string">'META-INF/LICENSE'</span></span><br><span class="line">        exclude <span class="string">'META-INF/LICENSE.txt'</span></span><br><span class="line">        exclude <span class="string">'META-INF/license.txt'</span></span><br><span class="line">        exclude <span class="string">'META-INF/NOTICE'</span></span><br><span class="line">        exclude <span class="string">'META-INF/NOTICE.txt'</span></span><br><span class="line">        exclude <span class="string">'META-INF/notice.txt'</span></span><br><span class="line">        exclude <span class="string">'META-INF/ASL2.0'</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置包签名字段</span></span><br><span class="line">    signingConfigs &#123;</span><br><span class="line"><span class="comment">//        debug&#123;</span></span><br><span class="line"><span class="comment">//            storeFile file("debug.keystore")</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line"></span><br><span class="line">        myConfig&#123;</span><br><span class="line">            <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"demo.keystore"</span>)</span> <span class="comment">// 签名文件名字</span></span><br><span class="line">            storePassword KEYSTORE_PASSWORD</span><br><span class="line">            keyAlias "demo.keystore"<span class="comment">// 签名文件别名</span></span><br><span class="line">            keyPassword KEYSTORE_PASSWORD</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 不同渠道</span></span><br><span class="line">    <span class="comment">//productFlavors &#123;</span></span><br><span class="line"><span class="comment">//        flavor1 &#123;</span></span><br><span class="line"><span class="comment">//            versionName '1.0'</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//        flavor2 &#123;</span></span><br><span class="line"><span class="comment">//            versionName '1.0'</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//用来指定最终编译字段配置</span></span><br><span class="line">    buildTypes </span>&#123;</span><br><span class="line">        debug &#123;</span><br><span class="line">            resValue <span class="string">"bool"</span>, <span class="string">"debug"</span>, <span class="string">"true"</span></span><br><span class="line">            signingConfig  signingConfigs.myConfig</span><br><span class="line">            minifyEnabled <span class="keyword">true</span> <span class="comment">// 是否混淆</span></span><br><span class="line">            shrinkResources <span class="keyword">true</span> <span class="comment">// 是否去除无效的资源文件</span></span><br><span class="line">            <span class="function">proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        release </span>&#123;</span><br><span class="line">            resValue <span class="string">"bool"</span>, <span class="string">"debug"</span>, <span class="string">"false"</span></span><br><span class="line">            signingConfig  signingConfigs.myConfig</span><br><span class="line">            minifyEnabled <span class="keyword">true</span> <span class="comment">// 是否混淆</span></span><br><span class="line">            shrinkResources <span class="keyword">true</span> <span class="comment">// 是否去除无效的资源文件</span></span><br><span class="line">            <span class="function">proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//这个是解决lint报错的代码</span></span><br><span class="line">    lintOptions </span>&#123;</span><br><span class="line">        abortOnError <span class="keyword">false</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//该字段下主要配置一些项目资源路径</span></span><br><span class="line">    sourceSets &#123;</span><br><span class="line">        main &#123;</span><br><span class="line">            manifest.srcFile <span class="string">'AndroidManifest.xml'</span></span><br><span class="line">            java.srcDirs = [<span class="string">'src'</span>]</span><br><span class="line">            resources.srcDirs = [<span class="string">'src'</span>]</span><br><span class="line">            aidl.srcDirs = [<span class="string">'src'</span>]</span><br><span class="line">            renderscript.srcDirs = [<span class="string">'src'</span>]</span><br><span class="line">            res.srcDirs = [<span class="string">'res'</span>]</span><br><span class="line">            assets.srcDirs = [<span class="string">'assets'</span>]</span><br><span class="line">            jniLibs.srcDirs = [<span class="string">'libs'</span>]</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        instrumentTest.setRoot(<span class="string">'tests'</span>)</span><br><span class="line">        debug.setRoot(<span class="string">'build-types/debug'</span>)</span><br><span class="line">        release.setRoot(<span class="string">'build-types/release'</span>)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">android.applicationVariants.all&#123; variant -&gt;</span><br><span class="line">    def apk = variant.outputs[<span class="number">0</span>].outputFile;</span><br><span class="line">    <span class="comment">// def versionName = android.defaultConfig.versionName;</span></span><br><span class="line">    def manifestParser = <span class="keyword">new</span> DefaultManifestParser()</span><br><span class="line">    def newName = <span class="string">""</span></span><br><span class="line">    def versionName = <span class="string">""</span></span><br><span class="line">    <span class="keyword">if</span> (variant.buildType.name == <span class="string">"release"</span>) &#123;</span><br><span class="line">        <span class="comment">// 获取versionName</span></span><br><span class="line">        versionName = manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        versionName = manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile) + <span class="string">"d"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出apk的名称</span></span><br><span class="line">    newName = <span class="string">"Demo_V$&#123;versionName&#125;_$&#123;variant.buildType.name&#125;.apk"</span>;</span><br><span class="line">	<span class="comment">// 输出apk的路径</span></span><br><span class="line">    def outputPath = <span class="string">"D:/Users/ruijun/App/"</span></span><br><span class="line">    variant.outputs[<span class="number">0</span>].outputFile = <span class="keyword">new</span> File(outputPath, newName);</span><br><span class="line"><span class="comment">//    variant.outputs[0].outputFile = new File(apk.parentFile, newName);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="u540E_u7EED_u51C6_u5907_u5199_u7BC7_u6587_u7AE0_u4F1A_u5BF9_u4E0A_u9762_u91CC_u9762_u7684_u529F_u80FD_u8FDB_u884C_u4E00_u4E00_u5206_u6790_uFF0C_u8FD9_u91CC_u5148_u5360_u5751_u3002"><a href="#u540E_u7EED_u51C6_u5907_u5199_u7BC7_u6587_u7AE0_u4F1A_u5BF9_u4E0A_u9762_u91CC_u9762_u7684_u529F_u80FD_u8FDB_u884C_u4E00_u4E00_u5206_u6790_uFF0C_u8FD9_u91CC_u5148_u5360_u5751_u3002" class="headerlink" title="后续准备写篇文章会对上面里面的功能进行一一分析，这里先占坑。"></a>后续准备写篇文章会对上面里面的功能进行一一分析，这里先占坑。</h1>
       
     </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android开源/" rel="tag">#Android开源</a>
+          
+            <a href="/tags/gradle/" rel="tag">#gradle</a>
+          
+            <a href="/tags/开源/" rel="tag">#开源</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/05/31/Android开源：CharacterView/" rel="next" title="Android开源：CharacterView">
+                <i class="fa fa-chevron-left"></i> Android开源：CharacterView
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/05/31/Github基本功能/" rel="prev" title="Github基本功能">
+                Github基本功能 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/05/31/Android开源：定制化build-gradle/"
+           data-title="Android开源：定制化build.gradle" data-url="http://yoursite.com/2015/05/31/Android开源：定制化build-gradle/">
+      </div>
     
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2015/05/31/Github基本功能/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
+
+
+        </div>
         
-          Github基本功能
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200"
+               alt="liangruijun" />
+          <p class="site-author-name" itemprop="name">liangruijun</p>
+          <p class="site-description motion-element" itemprop="description">以梦为马，不负韶华</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ruijun" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/liangruijun" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:lingdududu@163.com" target="_blank" title="mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  mail
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.trinea.cn/" title="Trinea的博客" target="_blank">Trinea的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://stormzhang.com/" title="stormzhang的博客" target="_blank">stormzhang的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://hukai.me/" title="胡凯的博客" target="_blank">胡凯的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/luoshengyang" title="老罗Android之旅" target="_blank">老罗Android之旅</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lmj623565791" title="鸿洋的博客" target="_blank">鸿洋的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.devtf.cn/" title="开发技术前线" target="_blank">开发技术前线</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.androidweekly.cn/" title="Android开发技术周报" target="_blank">Android开发技术周报</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jcodecraeer.com/" title="泡在网上的日子" target="_blank">泡在网上的日子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u540E_u7EED_u51C6_u5907_u5199_u7BC7_u6587_u7AE0_u4F1A_u5BF9_u4E0A_u9762_u91CC_u9762_u7684_u529F_u80FD_u8FDB_u884C_u4E00_u4E00_u5206_u6790_uFF0C_u8FD9_u91CC_u5148_u5360_u5751_u3002"><span class="nav-number">1.</span> <span class="nav-text">后续准备写篇文章会对上面里面的功能进行一一分析，这里先占坑。</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
-  
-  
-    <a href="/2015/05/31/Android开源：CharacterView/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android开源：CharacterView</div>
-      <strong class="article-nav-caption">></strong>
-    </a>
-  
-</nav>
+    </main>
 
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-</article>
-
-
-<div class="share">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">分享到：</span>
-		<a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liangruijun</span>
 </div>
 
-
-
-<div class="duoshuo">
-	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="Android开源：定制化build-gradle" data-title="Android开源：定制化build.gradle" data-url="http://yoursite.com/2015/05/31/Android开源：定制化build-gradle/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"true"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
 </div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
 </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 liangruijun
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"liangruijun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
 
 
-<script src="/js/mobile.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
 
 
 
 
-
-<! -- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
     }
-});
+    var path = "/" + search_path;
+    // monitor main search box;
 
-MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';                 
-    }       
-});
-</script>
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
 
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
 
 
+  
 
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?0b6be6bd2aa30eb47ed600c52cf2c168";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
+  
 
-  </div>
+  
+
 </body>
 </html>
