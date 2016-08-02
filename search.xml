@@ -157,7 +157,7 @@
 </li>
 <li><p><a href="https://github.com/SkillCollege/SimplifyReader" target="_blank" rel="external">SimplifyReader</a><br>一款基于Google Material Design设计开发的Android客户端</p>
 </li>
-<li><p><a href="https://github.com/SilenceDut/NBAPlus" target="_blank" rel="external">NBAPlus</a><br>A concise APP about NBA News and Event with RxJava and EventBus </p>
+<li><p><a href="https://github.com/SilenceDut/NBAPlus" target="_blank" rel="external">NBAPlus</a><br>A concise APP about NBA News and Event with RxJava and EventBus</p>
 </li>
 <li><p><a href="https://github.com/yydcdut/PhotoNoter" target="_blank" rel="external">PhotoNoter</a><br>Material Design风格的开源照片笔记。(MVP+Dagger2+RxJava+Dex分包异步加载)</p>
 </li>
@@ -200,7 +200,7 @@
 </li>
 <li><p><a href="https://github.com/moduth/blockcanary" target="_blank" rel="external">blockcanary</a><br>检测UI卡顿， 阿里工程师出品  </p>
 </li>
-<li><p><a href="https://github.com/palaima/DebugDrawer" target="_blank" rel="external">DebugDrawer</a><br>帮你快速的在debug版本分析，诊断问题 </p>
+<li><p><a href="https://github.com/palaima/DebugDrawer" target="_blank" rel="external">DebugDrawer</a><br>帮你快速的在debug版本分析，诊断问题</p>
 </li>
 <li><p><a href="https://github.com/romainguy/ViewServer" target="_blank" rel="external">ViewServer</a><br>当你用真机调试连不上Hierarchy Viewer，它可以帮助你完美解决问题</p>
 </li>
@@ -243,7 +243,7 @@
 <h3 id="u4F7F_u7528_u65B9_u6CD5"><a href="#u4F7F_u7528_u65B9_u6CD5" class="headerlink" title="使用方法"></a>使用方法</h3><ol>
 <li><p>在Project的build.gradle中加入JitPack repository<br><img src="/img/jitpack_2.png" alt="">  </p>
 </li>
-<li><p>在Module的build.gradle中加入依赖<br><img src="/img/jitpack_3.png" alt=""> </p>
+<li><p>在Module的build.gradle中加入依赖<br><img src="/img/jitpack_3.png" alt=""></p>
 </li>
 </ol>
 ]]></content>
@@ -276,7 +276,7 @@
       <title><![CDATA[Android填坑：no such column: carrier_presence异常]]></title>
       <url>http://yoursite.com/2015/07/21/Android%E5%A1%AB%E5%9D%91%EF%BC%9Ano-such-column-carrier-presence%E9%94%99%E8%AF%AF/</url>
       <content type="html"><![CDATA[<p>今天从Android M preview 1 OTA升级到M preview 2的时候，查询联系人的时候出现下面的异常</p>
-<p><code>android.database.sqlite.SQLiteException: no such column: carrier_presence (code 1)</code> </p>
+<p><code>android.database.sqlite.SQLiteException: no such column: carrier_presence (code 1)</code></p>
 <h1 id="u95EE_u9898_u539F_u56E0_uFF1A"><a href="#u95EE_u9898_u539F_u56E0_uFF1A" class="headerlink" title="问题原因："></a>问题原因：</h1><p>出现这个问题因为OTA后，联系人数据不兼容导致的问题</p>
 <h1 id="u89E3_u51B3_u65B9_u6CD5_uFF1A"><a href="#u89E3_u51B3_u65B9_u6CD5_uFF1A" class="headerlink" title="解决方法："></a>解决方法：</h1><p>系统–应用–显示系统进程–联系人存储–存储空间–清除数据/缓存</p>
 ]]></content>
@@ -310,7 +310,7 @@
 <li><code>Drawable Importer</code> 需要配合google/material-design-icons · GitHub、Android Icons使用，安装后在设置菜单多出来的选项中设置</li>
 <li><code>Parcelable Code Generator</code> 快速生成Parcelable代码</li>
 <li><code>Accessors</code> 按照Google官方的开发规范，类的成员变量以m开头，此插件可快速生成成员变量的set/get方法但是不带m</li>
-<li><code>SelectorChapek</code> 插件库好多生成Selector的插件，还是这个用的最顺，按照不同状态(normal、pressed)的标准命名后，右键文件树Generate Android </li>
+<li><code>SelectorChapek</code> 插件库好多生成Selector的插件，还是这个用的最顺，按照不同状态(normal、pressed)的标准命名后，右键文件树Generate Android</li>
 <li><code>utterKnife Zelezny</code>ButterKnife 生成器</li>
 <li><code>GsonFormat</code> 根json数据格式生成相应的实体类</li>
 <li><code>Genymotion</code> 强大的模拟器</li>
@@ -369,9 +369,9 @@
 <li>查看密钥  </li>
 </ul>
 <p>// 查看公钥<br>gpg –list-keys</p>
-<h2 id="C_3A/Users/ruijun/AppData/Roaming/gnupg/pubring-gpg"><a href="#C_3A/Users/ruijun/AppData/Roaming/gnupg/pubring-gpg" class="headerlink" title="C:/Users/ruijun/AppData/Roaming/gnupg/pubring.gpg"></a>C:/Users/ruijun/AppData/Roaming/gnupg/pubring.gpg</h2><p>pub   2048R/F445638E 2015-05-30<br>uid       [ultimate] ruijun (letterplus) <a href="/&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#108;&#105;&#x6e;&#103;&#x64;&#x75;&#100;&#117;&#x64;&#x75;&#x40;&#49;&#x36;&#x33;&#x2e;&#x63;&#111;&#109;">&#108;&#105;&#x6e;&#103;&#x64;&#x75;&#100;&#117;&#x64;&#x75;&#x40;&#49;&#x36;&#x33;&#x2e;&#x63;&#111;&#109;</a><br>sub   2048R/8567F9D3 2015-05-30</p>
+<h2 id="C_3A/Users/ruijun/AppData/Roaming/gnupg/pubring-gpg"><a href="#C_3A/Users/ruijun/AppData/Roaming/gnupg/pubring-gpg" class="headerlink" title="C:/Users/ruijun/AppData/Roaming/gnupg/pubring.gpg"></a>C:/Users/ruijun/AppData/Roaming/gnupg/pubring.gpg</h2><p>pub   2048R/F445638E 2015-05-30<br>uid       [ultimate] ruijun (letterplus) <a href="/&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#108;&#x69;&#x6e;&#103;&#x64;&#x75;&#100;&#117;&#x64;&#117;&#x40;&#x31;&#54;&#x33;&#x2e;&#x63;&#x6f;&#x6d;">&#108;&#x69;&#x6e;&#103;&#x64;&#x75;&#100;&#117;&#x64;&#117;&#x40;&#x31;&#54;&#x33;&#x2e;&#x63;&#x6f;&#x6d;</a><br>sub   2048R/8567F9D3 2015-05-30</p>
 <p>// 查看私钥<br>gpg –list-secret-keys</p>
-<h2 id="C_3A/Users/ruijun/AppData/Roaming/gnupg/secring-gpg"><a href="#C_3A/Users/ruijun/AppData/Roaming/gnupg/secring-gpg" class="headerlink" title="C:/Users/ruijun/AppData/Roaming/gnupg/secring.gpg"></a>C:/Users/ruijun/AppData/Roaming/gnupg/secring.gpg</h2><p>sec   2048R/F445638E 2015-05-30<br>uid                  ruijun (letterplus) <a href="/&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x6c;&#105;&#x6e;&#x67;&#x64;&#x75;&#x64;&#x75;&#100;&#117;&#x40;&#49;&#x36;&#51;&#46;&#x63;&#x6f;&#109;">&#x6c;&#105;&#x6e;&#x67;&#x64;&#x75;&#x64;&#x75;&#100;&#117;&#x40;&#49;&#x36;&#51;&#46;&#x63;&#x6f;&#109;</a><br>ssb   2048R/8567F9D3 2015-05-30<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#35201;&#35760;&#20303;`keyId F445638E`&#37324;&#38754;&#30340;`F445638E`&#21644;`&#31169;&#38053;&#36335;&#24452;`&#65292;&#19968;&#20250;&#19978;&#20256;&#23494;&#38053;&#21644;&#37197;&#32622;&#38656;&#35201;&#29992;&#21040;&#12290;&#10;&#10;* &#19978;&#20256;&#20844;&#38053;</span><br></pre></td></tr></table></figure></p>
+<h2 id="C_3A/Users/ruijun/AppData/Roaming/gnupg/secring-gpg"><a href="#C_3A/Users/ruijun/AppData/Roaming/gnupg/secring-gpg" class="headerlink" title="C:/Users/ruijun/AppData/Roaming/gnupg/secring.gpg"></a>C:/Users/ruijun/AppData/Roaming/gnupg/secring.gpg</h2><p>sec   2048R/F445638E 2015-05-30<br>uid                  ruijun (letterplus) <a href="/&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#108;&#105;&#110;&#103;&#x64;&#117;&#x64;&#117;&#x64;&#x75;&#64;&#49;&#54;&#51;&#x2e;&#x63;&#111;&#109;">&#108;&#105;&#110;&#103;&#x64;&#117;&#x64;&#117;&#x64;&#x75;&#64;&#49;&#54;&#51;&#x2e;&#x63;&#111;&#109;</a><br>ssb   2048R/8567F9D3 2015-05-30<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#35201;&#35760;&#20303;`keyId F445638E`&#37324;&#38754;&#30340;`F445638E`&#21644;`&#31169;&#38053;&#36335;&#24452;`&#65292;&#19968;&#20250;&#19978;&#20256;&#23494;&#38053;&#21644;&#37197;&#32622;&#38656;&#35201;&#29992;&#21040;&#12290;&#10;&#10;* &#19978;&#20256;&#20844;&#38053;</span><br></pre></td></tr></table></figure></p>
 <p>$ gpg –keyserver hkp://pool.sks-keyservers.net –send-keys F445638E</p>
 <p>gpg: sending key F874D485 to hkp server pool.sks-keyserver.net<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;## &#37197;&#32622;Gradle&#33050;&#26412;, Gradle&#23646;&#24615;&#10;* &#19979;&#36733;Chris[gradle-mvn-push](https://github.com/chrisbanes/gradle-mvn-push.git)&#33050;&#26412;&#25918;&#21040;project&#26681;&#30446;&#24405;&#19979;&#10;&#10;* &#37197;&#32622;project&#19979;&#38754;&#30340;gradle.properties&#10;&#10;![](/img/maven_4.png)&#10;&#10;&#25105;&#37197;&#32622;&#26159;&#37233;&#26679;&#23376;&#30340;</span><br></pre></td></tr></table></figure></p>
 <p>VERSION_NAME=1.0(版本名称)<br>VERSION_CODE=1(版本号)<br>GROUP=com.github.ruijun(前面创建JIRA ticket的Group id)</p>
@@ -604,8 +604,8 @@
       <title><![CDATA[svn批量操作命令]]></title>
       <url>http://yoursite.com/2015/05/21/svn%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4/</url>
       <content type="html"><![CDATA[<h1 id="u6279_u91CF_u6DFB_u52A0_u65B0_u6587_u4EF6"><a href="#u6279_u91CF_u6DFB_u52A0_u65B0_u6587_u4EF6" class="headerlink" title="批量添加新文件"></a>批量添加新文件</h1><p>svn add <code>svn st | grep ^? | awk &#39;{print $2}&#39;</code>   </p>
-<h1 id="u6279_u91CF_u5220_u9664_u6587_u4EF6"><a href="#u6279_u91CF_u5220_u9664_u6587_u4EF6" class="headerlink" title="批量删除文件"></a>批量删除文件</h1><p>svn del <code>svn st | grep ^! | awk &#39;{print $2}&#39;</code> </p>
-<p>svn ci -m “提交说明” </p>
+<h1 id="u6279_u91CF_u5220_u9664_u6587_u4EF6"><a href="#u6279_u91CF_u5220_u9664_u6587_u4EF6" class="headerlink" title="批量删除文件"></a>批量删除文件</h1><p>svn del <code>svn st | grep ^! | awk &#39;{print $2}&#39;</code></p>
+<p>svn ci -m “提交说明”</p>
 ]]></content>
     </entry>
     
@@ -624,24 +624,24 @@
       <url>http://yoursite.com/2015/05/17/Android%E5%BC%BA%E5%8C%96%EF%BC%9AAsyncTask%E2%80%8B%E4%BD%BF%E7%94%A8AsyncTask%E6%97%B6%E5%80%99%E7%9A%84%E7%96%91%E9%97%AE/</url>
       <content type="html"><![CDATA[<h1 id="u5728_u4F7F_u7528AsyncTask__u7684_u65F6_u5019_uFF0C__u76F8_u4FE1_u5F88_u591A_u4EBA_u90FD_u4F1A_u5B58_u5728_u7591_u95EE_uFF1A"><a href="#u5728_u4F7F_u7528AsyncTask__u7684_u65F6_u5019_uFF0C__u76F8_u4FE1_u5F88_u591A_u4EBA_u90FD_u4F1A_u5B58_u5728_u7591_u95EE_uFF1A" class="headerlink" title="在使用AsyncTask 的时候， 相信很多人都会存在疑问："></a>在使用<code>AsyncTask</code> 的时候， 相信很多人都会存在疑问：</h1><ul>
 <li>异步任务的实例必须在<code>UI线程</code>中创建</li>
-<li>execute(Params… params)方法必须在UI线程中调用 </li>
+<li>execute(Params… params)方法必须在UI线程中调用</li>
 </ul>
 <p><code>AsyncTask</code>有这些限制，是因为Android<code>单线程模型</code>的问题<br><a id="more"></a></p>
-<h1 id="u5173_u4E8EAsyncTask_u548C_u5355_u7EBF_u7A0B_u6A21_u578B_u7684_u4E00_u4E9B_u8D44_u6599"><a href="#u5173_u4E8EAsyncTask_u548C_u5355_u7EBF_u7A0B_u6A21_u578B_u7684_u4E00_u4E9B_u8D44_u6599" class="headerlink" title="关于AsyncTask和单线程模型的一些资料"></a>关于<code>AsyncTask</code>和<code>单线程模型</code>的一些资料</h1><p><code>AsyncTask</code>详解： </p>
+<h1 id="u5173_u4E8EAsyncTask_u548C_u5355_u7EBF_u7A0B_u6A21_u578B_u7684_u4E00_u4E9B_u8D44_u6599"><a href="#u5173_u4E8EAsyncTask_u548C_u5355_u7EBF_u7A0B_u6A21_u578B_u7684_u4E00_u4E9B_u8D44_u6599" class="headerlink" title="关于AsyncTask和单线程模型的一些资料"></a>关于<code>AsyncTask</code>和<code>单线程模型</code>的一些资料</h1><p><code>AsyncTask</code>详解：</p>
 <ul>
 <li><a href="http://blog.csdn.net/liuhe688/article/details/6532519" target="_blank" rel="external">http://blog.csdn.net/liuhe688/article/details/6532519</a></li>
 <li><a href="http://blog.csdn.net/lmj623565791/article/details/38614699" target="_blank" rel="external">http://blog.csdn.net/lmj623565791/article/details/38614699</a></li>
 <li><a href="http://blog.csdn.net/guolin_blog/article/details/11711405" target="_blank" rel="external">http://blog.csdn.net/guolin_blog/article/details/11711405</a></li>
 </ul>
-<p>单线程模型： </p>
+<p>单线程模型：</p>
 <ul>
 <li><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2013/0724/1484.html" target="_blank" rel="external">http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2013/0724/1484.html</a></li>
 </ul>
-<p>进程线程的概念： </p>
+<p>进程线程的概念：</p>
 <ul>
 <li><a href="http://developer.android.com/guide/components/processes-and-threads.html" target="_blank" rel="external">http://developer.android.com/guide/components/processes-and-threads.html</a></li>
 <li><a href="http://www.cnblogs.com/ghj1976/archive/2011/04/28/2031586.html" target="_blank" rel="external">http://www.cnblogs.com/ghj1976/archive/2011/04/28/2031586.html</a></li>
-<li><a href="http://blog.csdn.net/kesenhoo/article/details/8743215" target="_blank" rel="external">http://blog.csdn.net/kesenhoo/article/details/8743215</a> </li>
+<li><a href="http://blog.csdn.net/kesenhoo/article/details/8743215" target="_blank" rel="external">http://blog.csdn.net/kesenhoo/article/details/8743215</a></li>
 </ul>
 <h1 id="u6700_u540E_u5F97_u8BF4_u8BF4AsyncTask_u7684_u5751_u4E86"><a href="#u6700_u540E_u5F97_u8BF4_u8BF4AsyncTask_u7684_u5751_u4E86" class="headerlink" title="最后得说说AsyncTask的坑了"></a>最后得说说<code>AsyncTask</code>的坑了</h1><ul>
 <li>在3.0以前，最大支持128个线程的并发，10个任务的等待。在3.0以后，无论有多少任务，都会在其内部单线程执行；</li>
