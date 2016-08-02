@@ -1,19 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ruijun&#39;s blog</title>
+  <subtitle>以梦为马，不负韶华</subtitle>
+  <link href="/atom.xml" rel="self"/>
   
+  <link href="http://yoursite.com/"/>
+  <updated>2016-08-02T02:11:31.000Z</updated>
+  <id>http://yoursite.com/</id>
   
+  <author>
+    <name>liangruijun</name>
     
-    <entry>
-      <title><![CDATA[测试Next标签]]></title>
-      <url>http://yoursite.com/2016/08/02/%E6%B5%8B%E8%AF%95Next%E6%A0%87%E7%AD%BE/</url>
-      <content type="html"><![CDATA[<p><strong>测试Next标签</strong></p>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>测试Next标签</title>
+    <link href="http://yoursite.com/2016/08/02/%E6%B5%8B%E8%AF%95Next%E6%A0%87%E7%AD%BE/"/>
+    <id>http://yoursite.com/2016/08/02/测试Next标签/</id>
+    <published>2016-08-02T01:37:54.000Z</published>
+    <updated>2016-08-02T02:11:31.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>测试Next标签</strong></p>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Android分享：代码混淆那些事]]></title>
-      <url>http://yoursite.com/2016/02/18/Android%E5%88%86%E4%BA%AB%EF%BC%9A%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86%E9%82%A3%E4%BA%9B%E4%BA%8B/</url>
-      <content type="html"><![CDATA[<h3 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h3><p>&emsp;&emsp;<a href="http://proguard.sourceforge.net/" target="_blank" rel="external">ProGuard</a>是一个开源的Java代码混淆器。它可以混淆Android项目里面的java代码，对的，你没看错，仅仅是java代码。它是无法混淆Native代码，资源文件drawable、xml等。</p>
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;测试Next标签&lt;/strong&gt;&lt;/p&gt;
+
+    
+    </summary>
+    
+    
+      <category term="Testing" scheme="http://yoursite.com/tags/Testing/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android分享：代码混淆那些事</title>
+    <link href="http://yoursite.com/2016/02/18/Android%E5%88%86%E4%BA%AB%EF%BC%9A%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86%E9%82%A3%E4%BA%9B%E4%BA%8B/"/>
+    <id>http://yoursite.com/2016/02/18/Android分享：代码混淆那些事/</id>
+    <published>2016-02-18T13:33:42.000Z</published>
+    <updated>2016-08-02T01:27:42.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h3><p>&emsp;&emsp;<a href="http://proguard.sourceforge.net/" target="_blank" rel="external">ProGuard</a>是一个开源的Java代码混淆器。它可以混淆Android项目里面的java代码，对的，你没看错，仅仅是java代码。它是无法混淆Native代码，资源文件drawable、xml等。</p>
 <a id="more"></a>
 <h3 id="ProGuard_u4F5C_u7528"><a href="#ProGuard_u4F5C_u7528" class="headerlink" title="ProGuard作用"></a>ProGuard作用</h3><ul>
 <li>压缩: 移除无效的类、属性、方法等</li>
@@ -48,12 +79,30 @@
 <p>所以我们每次打包版本都需要保存最新的mapping.txt文件。如果要使用到第三方的crash统计平台，比如bugly，还需要我们上传APP版本对应的mapping.txt.每次都要保存最新的mapping文件，那不就很麻烦？放心，gradle会帮到你，只需要在bulid.gradle加入下面的一句。每次我们编译的时候，都会自动帮你保存mapping文件到本地的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">applicationVariants.all &#123; variant -&gt;</span><br><span class="line">        variant.outputs.each &#123; output -&gt;</span><br><span class="line">            <span class="keyword">if</span> (variant.getBuildType().isMinifyEnabled()) &#123;</span><br><span class="line">                variant.assemble.doLast&#123;</span><br><span class="line">                        copy &#123;</span><br><span class="line">                            from variant.mappingFile</span><br><span class="line">                            into <span class="string">"$&#123;projectDir&#125;/mappings"</span></span><br><span class="line">                            rename &#123; String fileName -&gt;</span><br><span class="line">                                <span class="string">"mapping-$&#123;variant.name&#125;.txt"</span></span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ......</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h3 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h3><p><a href="https://blog.gmem.cc/proguard-study-note" target="_blank" rel="external">https://blog.gmem.cc/proguard-study-note</a><br><a href="http://developer.android.com/intl/zh-cn/tools/help/proguard.html" target="_blank" rel="external">http://developer.android.com/intl/zh-cn/tools/help/proguard.html</a></p>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Android分享：录制屏幕并制作GIF文件]]></title>
-      <url>http://yoursite.com/2016/02/16/Android%E5%88%86%E4%BA%AB%EF%BC%9A%E5%BD%95%E5%88%B6%E5%B1%8F%E5%B9%95%E5%B9%B6%E5%88%B6%E4%BD%9CGIF%E6%96%87%E4%BB%B6/</url>
-      <content type="html"><![CDATA[<h3 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h3><p>&emsp;&emsp;很多时候我们需要对手机屏幕进行录制，并制作成gif文件来对自己的APP或者开源项目进行介绍。这里总结几个常用的制作方法。</p>
+    <summary type="html">
+    
+      &lt;h3 id=&quot;u524D_u8A00&quot;&gt;&lt;a href=&quot;#u524D_u8A00&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;&amp;emsp;&amp;emsp;&lt;a href=&quot;http://proguard.sourceforge.net/&quot;&gt;ProGuard&lt;/a&gt;是一个开源的Java代码混淆器。它可以混淆Android项目里面的java代码，对的，你没看错，仅仅是java代码。它是无法混淆Native代码，资源文件drawable、xml等。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android分享" scheme="http://yoursite.com/categories/Android%E5%88%86%E4%BA%AB/"/>
+    
+    
+      <category term="Android分享" scheme="http://yoursite.com/tags/Android%E5%88%86%E4%BA%AB/"/>
+    
+      <category term="proguard" scheme="http://yoursite.com/tags/proguard/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android分享：录制屏幕并制作GIF文件</title>
+    <link href="http://yoursite.com/2016/02/16/Android%E5%88%86%E4%BA%AB%EF%BC%9A%E5%BD%95%E5%88%B6%E5%B1%8F%E5%B9%95%E5%B9%B6%E5%88%B6%E4%BD%9CGIF%E6%96%87%E4%BB%B6/"/>
+    <id>http://yoursite.com/2016/02/16/Android分享：录制屏幕并制作GIF文件/</id>
+    <published>2016-02-16T15:22:11.000Z</published>
+    <updated>2016-08-02T01:27:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h3><p>&emsp;&emsp;很多时候我们需要对手机屏幕进行录制，并制作成gif文件来对自己的APP或者开源项目进行介绍。这里总结几个常用的制作方法。</p>
 <a id="more"></a>
 <h4 id="1_uFF09screenrecord"><a href="#1_uFF09screenrecord" class="headerlink" title="1）screenrecord"></a>1）screenrecord</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 录制默认分辨率，默认4Mbps，默认180s的MP4视频，并且保存到sdcard上</span></span><br><span class="line"><span class="number">1</span>. adb shell screenrecord  /sdcard/yourFileName.mp4</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将该MP4文件保存到PC上</span></span><br><span class="line"><span class="number">2</span>. adb pull /sdcard/yourFileName.mp4  ~/mp4File/</span><br></pre></td></tr></table></figure>
 <h5 id="+_GifGrabber"><a href="#+_GifGrabber" class="headerlink" title="+ GifGrabber"></a>+ <a href="http://ezgif.com/" target="_blank" rel="external">GifGrabber</a></h5><p>GifGrabber是一款mac系统上的gif录制软件，</p>
@@ -73,20 +122,56 @@
 </blockquote>
 <h3 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h3><p>秋百万: <a href="http://www.liaohuqiu.net/posts/make-gif-for-android-app/" target="_blank" rel="external">http://www.liaohuqiu.net/posts/make-gif-for-android-app/</a><br>qiujuer: <a href="http://blog.csdn.net/qiujuer/article/details/42506741" target="_blank" rel="external">http://blog.csdn.net/qiujuer/article/details/42506741</a></p>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[随笔所想]]></title>
-      <url>http://yoursite.com/2016/01/24/%E9%9A%8F%E7%AC%94%E6%89%80%E6%83%B3/</url>
-      <content type="html"><![CDATA[<p>记录下工作，生活，学习点滴~~</p>
+    <summary type="html">
+    
+      &lt;h3 id=&quot;u524D_u8A00&quot;&gt;&lt;a href=&quot;#u524D_u8A00&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;&amp;emsp;&amp;emsp;很多时候我们需要对手机屏幕进行录制，并制作成gif文件来对自己的APP或者开源项目进行介绍。这里总结几个常用的制作方法。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android分享" scheme="http://yoursite.com/categories/Android%E5%88%86%E4%BA%AB/"/>
+    
+    
+      <category term="Android分享" scheme="http://yoursite.com/tags/Android%E5%88%86%E4%BA%AB/"/>
+    
+      <category term="制作GIF" scheme="http://yoursite.com/tags/%E5%88%B6%E4%BD%9CGIF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>随笔所想</title>
+    <link href="http://yoursite.com/2016/01/24/%E9%9A%8F%E7%AC%94%E6%89%80%E6%83%B3/"/>
+    <id>http://yoursite.com/2016/01/24/随笔所想/</id>
+    <published>2016-01-24T15:45:38.000Z</published>
+    <updated>2016-08-02T01:29:06.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>记录下工作，生活，学习点滴~~</p>
 <p>What I’m doing right now, I’m chasing perfection.</p>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Android奇技淫巧：隐藏APP图标]]></title>
-      <url>http://yoursite.com/2016/01/24/Android%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7%EF%BC%9A%E9%9A%90%E8%97%8FAPP%E5%9B%BE%E6%A0%87/</url>
-      <content type="html"><![CDATA[<h3 id="u80CC_u666F"><a href="#u80CC_u666F" class="headerlink" title="背景"></a>背景</h3><p>最近碰到个需求，需要在桌面隐藏APP的图标。</p>
+    <summary type="html">
+    
+      &lt;p&gt;记录下工作，生活，学习点滴~~&lt;/p&gt;
+&lt;p&gt;What I’m doing right now, I’m chasing perfection.&lt;/p&gt;
+
+    
+    </summary>
+    
+      <category term="随笔" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+      <category term="随笔" scheme="http://yoursite.com/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android奇技淫巧：隐藏APP图标</title>
+    <link href="http://yoursite.com/2016/01/24/Android%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7%EF%BC%9A%E9%9A%90%E8%97%8FAPP%E5%9B%BE%E6%A0%87/"/>
+    <id>http://yoursite.com/2016/01/24/Android奇技淫巧：隐藏APP图标/</id>
+    <published>2016-01-24T14:36:41.000Z</published>
+    <updated>2016-08-02T01:26:41.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="u80CC_u666F"><a href="#u80CC_u666F" class="headerlink" title="背景"></a>背景</h3><p>最近碰到个需求，需要在桌面隐藏APP的图标。</p>
 <a id="more"></a>
 <h3 id="u4ECB_u7ECD"><a href="#u4ECB_u7ECD" class="headerlink" title="介绍"></a>介绍</h3><p>我在网上查查了，发现有几种方式  </p>
 <ol>
@@ -101,12 +186,28 @@
 <p>由于满足不了上面的过滤匹配条件，mAllAppsGrid.setApps(apps)apps中不含有该入口Activity，桌面也就看不到我们的APP图标了。</p>
 <h3 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h3><p>关于Launcher分析，可以看下这几篇文章<br><a href="http://blog.csdn.net/chenshaoyang0011/article/details/7831617" target="_blank" rel="external">Android系统默认Home应用程序（Launcher）的启动过程源代码分析</a><br><a href="http://blog.csdn.net/yanbober/article/details/50525559" target="_blank" rel="external">Android M Launcher3主流程源码浅析</a><br><a href="http://blog.csdn.net/chenshaoyang0011/article/details/7831617" target="_blank" rel="external">Android 4.0 Launcher2源码分析——Launcher内容加载详细过程</a></p>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Android分享：如何高效率开发App]]></title>
-      <url>http://yoursite.com/2016/01/24/Android%E5%88%86%E4%BA%AB%EF%BC%9A%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E7%8E%87%E5%BC%80%E5%8F%91App/</url>
-      <content type="html"><![CDATA[<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp;关于如何高效率开发App，开发前需要做哪些准备呢？之前在知乎和segmentfault回到过类似的问题，在这里按划分功能模块—设计APP框架—APP质量把关—内测，正式发布的流程来总结。</p>
+    <summary type="html">
+    
+      &lt;h3 id=&quot;u80CC_u666F&quot;&gt;&lt;a href=&quot;#u80CC_u666F&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;p&gt;最近碰到个需求，需要在桌面隐藏APP的图标。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android奇技淫巧" scheme="http://yoursite.com/categories/Android%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    
+    
+      <category term="Android奇技淫巧" scheme="http://yoursite.com/tags/Android%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android分享：如何高效率开发App</title>
+    <link href="http://yoursite.com/2016/01/24/Android%E5%88%86%E4%BA%AB%EF%BC%9A%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E7%8E%87%E5%BC%80%E5%8F%91App/"/>
+    <id>http://yoursite.com/2016/01/24/Android分享：如何高效率开发App/</id>
+    <published>2016-01-24T13:35:25.000Z</published>
+    <updated>2016-08-02T01:35:01.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp;关于如何高效率开发App，开发前需要做哪些准备呢？之前在知乎和segmentfault回到过类似的问题，在这里按划分功能模块—设计APP框架—APP质量把关—内测，正式发布的流程来总结。</p>
 <a id="more"></a>
 <h3 id="1_uFF09_u529F_u80FD_u6A21_u5757"><a href="#1_uFF09_u529F_u80FD_u6A21_u5757" class="headerlink" title="1）功能模块"></a>1）功能模块</h3><h4 id="u7F51_u7EDC_u6A21_u5757"><a href="#u7F51_u7EDC_u6A21_u5757" class="headerlink" title="网络模块"></a>网络模块</h4><ul>
 <li><a href="https://github.com/square/okhttp" target="_blank" rel="external">okhttp</a></li>
@@ -217,12 +318,28 @@
 <h2 id="u540E_u8BDD"><a href="#u540E_u8BDD" class="headerlink" title="后话"></a>后话</h2><p>&emsp;&emsp;虽然这些开源库好用，能让你快速的开发出一款APP。但使用前最好要了它们存在的一些bug和坑，遇到问题可以给作者提issue，能摸索清楚原理更好了。还有就是不要过于追求开源库，过多引入会导致你的代码臃肿，更会造成65535方法数限制的问题，这时你得用<a href="http://developer.android.com/intl/zh-cn/reference/android/support/multidex/MultiDex.html" target="_blank" rel="external">Multidex</a>来解决问题了，在这里可以查询你apk的方法数<a href="http://inloop.github.io/apk-method-count/" target="_blank" rel="external">apk-method-count</a>。</p>
 <p>&emsp;&emsp;另外打个小广告，推荐下自己的：<a href="https://github.com/ruijun/Android-Dev-Favorites" target="_blank" rel="external">Android-Dev-Favorites</a>，里面收集了Android开发的干货，并且会不定期更新哦。</p>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Android Tips：compileSdkVersion,minSdkVersion,targetSdkVersion,buildToolsVersion含义]]></title>
-      <url>http://yoursite.com/2016/01/18/Android%20Tips%EF%BC%9AcompileSdkVersion,minSdkVersion,targetSdkVersion,buildToolsVersion%E5%90%AB%E4%B9%89/</url>
-      <content type="html"><![CDATA[<p>   最近看了<a href="http://chinagdg.org/2016/01/picking-your-compilesdkversion-minsdkversion-targetsdkversion/" target="_blank" rel="external">如何选择 compileSdkVersion, minSdkVersion 和 targetSdkVersion</a>和<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2016/0118/3881.html" target="_blank" rel="external">Android targetSdkVersion 原理</a>两篇关于<strong>compileSdkVersion、minSdkVersion、targetSdkVersion</strong>说明的文章。自己决定总结下，加深理解。</p>
+    <summary type="html">
+    
+      &lt;h2 id=&quot;u524D_u8A00&quot;&gt;&lt;a href=&quot;#u524D_u8A00&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;&amp;emsp;&amp;emsp;关于如何高效率开发App，开发前需要做哪些准备呢？之前在知乎和segmentfault回到过类似的问题，在这里按划分功能模块—设计APP框架—APP质量把关—内测，正式发布的流程来总结。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android分享" scheme="http://yoursite.com/categories/Android%E5%88%86%E4%BA%AB/"/>
+    
+    
+      <category term="Android分享" scheme="http://yoursite.com/tags/Android%E5%88%86%E4%BA%AB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android Tips：compileSdkVersion,minSdkVersion,targetSdkVersion,buildToolsVersion含义</title>
+    <link href="http://yoursite.com/2016/01/18/Android%20Tips%EF%BC%9AcompileSdkVersion,minSdkVersion,targetSdkVersion,buildToolsVersion%E5%90%AB%E4%B9%89/"/>
+    <id>http://yoursite.com/2016/01/18/Android Tips：compileSdkVersion,minSdkVersion,targetSdkVersion,buildToolsVersion含义/</id>
+    <published>2016-01-18T13:32:22.000Z</published>
+    <updated>2016-08-02T01:27:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>   最近看了<a href="http://chinagdg.org/2016/01/picking-your-compilesdkversion-minsdkversion-targetsdkversion/" target="_blank" rel="external">如何选择 compileSdkVersion, minSdkVersion 和 targetSdkVersion</a>和<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2016/0118/3881.html" target="_blank" rel="external">Android targetSdkVersion 原理</a>两篇关于<strong>compileSdkVersion、minSdkVersion、targetSdkVersion</strong>说明的文章。自己决定总结下，加深理解。</p>
 <a id="more"></a>
 <p><img src="/img/sdk_1.png" alt="">  </p>
 <h2 id="compileSdkVersion"><a href="#compileSdkVersion" class="headerlink" title="compileSdkVersion"></a>compileSdkVersion</h2><blockquote>
@@ -240,12 +357,30 @@
 <p>构建工具的版本，其中包括了aapt、dx、aidl、zipalign等。可以到sdk下build-tools查看。            </p>
 </blockquote>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[JitPack的使用]]></title>
-      <url>http://yoursite.com/2016/01/16/JitPack%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-      <content type="html"><![CDATA[<p>最近在Github发现很多开源项目开始使用<a href="https://jitpack.io/" target="_blank" rel="external">JitPack</a>进行发布。JitPack实际上是一个自定义的Maven仓库，使用流程非常简单，相对于mavenCentral很方便很快捷。之前我写过一遍关于<a href="http://blog.liangruijun.com/2015/06/05/%E4%BD%BF%E7%94%A8Gradle%E4%B8%8A%E4%BC%A0aar%E5%88%B0mavenCentral%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/" target="_blank" rel="external">mavenCentral</a>可以看到mavenCentral步骤复杂，而且容易出错。</p>
+    <summary type="html">
+    
+      &lt;p&gt;   最近看了&lt;a href=&quot;http://chinagdg.org/2016/01/picking-your-compilesdkversion-minsdkversion-targetsdkversion/&quot;&gt;如何选择 compileSdkVersion, minSdkVersion 和 targetSdkVersion&lt;/a&gt;和&lt;a href=&quot;http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2016/0118/3881.html&quot;&gt;Android targetSdkVersion 原理&lt;/a&gt;两篇关于&lt;strong&gt;compileSdkVersion、minSdkVersion、targetSdkVersion&lt;/strong&gt;说明的文章。自己决定总结下，加深理解。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android Tips" scheme="http://yoursite.com/categories/Android-Tips/"/>
+    
+    
+      <category term="Android Tips" scheme="http://yoursite.com/tags/Android-Tips/"/>
+    
+      <category term="SdkVersion" scheme="http://yoursite.com/tags/SdkVersion/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JitPack的使用</title>
+    <link href="http://yoursite.com/2016/01/16/JitPack%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
+    <id>http://yoursite.com/2016/01/16/JitPack的使用/</id>
+    <published>2016-01-16T04:07:30.000Z</published>
+    <updated>2016-08-02T01:30:31.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近在Github发现很多开源项目开始使用<a href="https://jitpack.io/" target="_blank" rel="external">JitPack</a>进行发布。JitPack实际上是一个自定义的Maven仓库，使用流程非常简单，相对于mavenCentral很方便很快捷。之前我写过一遍关于<a href="http://blog.liangruijun.com/2015/06/05/%E4%BD%BF%E7%94%A8Gradle%E4%B8%8A%E4%BC%A0aar%E5%88%B0mavenCentral%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/" target="_blank" rel="external">mavenCentral</a>可以看到mavenCentral步骤复杂，而且容易出错。</p>
 <h3 id="u53D1_u5E03_u6D41_u7A0B"><a href="#u53D1_u5E03_u6D41_u7A0B" class="headerlink" title="发布流程"></a>发布流程</h3><p>在<a href="https://jitpack.io/" target="_blank" rel="external">JitPack</a>首页输入你的Github项目地址(以我的一个开源控件为例子<a href="https://github.com/ruijun/Characterview" target="_blank" rel="external">Characterview</a>)。点击Look up按钮即可发布。<br><img src="/img/jitpack_1.png" alt="">  </p>
 <h3 id="u4F7F_u7528_u65B9_u6CD5"><a href="#u4F7F_u7528_u65B9_u6CD5" class="headerlink" title="使用方法"></a>使用方法</h3><ol>
 <li><p>在Project的build.gradle中加入JitPack repository<br><img src="/img/jitpack_2.png" alt="">  </p>
@@ -254,12 +389,28 @@
 </li>
 </ol>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Android填坑：Android5.0 Button英文字符自动变成大写的问题]]></title>
-      <url>http://yoursite.com/2016/01/16/Android%E5%A1%AB%E5%9D%91%EF%BC%9AAndroid5.0%20Button%E8%8B%B1%E6%96%87%E5%AD%97%E7%AC%A6%E8%87%AA%E5%8A%A8%E5%8F%98%E6%88%90%E5%A4%A7%E5%86%99%E7%9A%84%E9%97%AE%E9%A2%98/</url>
-      <content type="html"><![CDATA[<h3 id="u53D1_u73B0_u95EE_u9898"><a href="#u53D1_u73B0_u95EE_u9898" class="headerlink" title="发现问题"></a>发现问题</h3><p>在5.0手机上调试的时候，发现Button上的英文字符全部变成了大写，5.0以下系统是正常的。<br>布局文件中：<br><img src="/img/btn_1.jpg" alt=""><br>界面显示：<br><img src="/img/btn_2.jpg" alt=""></p>
+    <summary type="html">
+    
+      &lt;p&gt;最近在Github发现很多开源项目开始使用&lt;a href=&quot;https://jitpack.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;JitPack&lt;/a&gt;进行发布。JitPack实际上是一个自定义的Maven仓库，使用流程非常简单，相对于ma
+    
+    </summary>
+    
+      <category term="JitPack" scheme="http://yoursite.com/categories/JitPack/"/>
+    
+    
+      <category term="JitPack" scheme="http://yoursite.com/tags/JitPack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android填坑：Android5.0 Button英文字符自动变成大写的问题</title>
+    <link href="http://yoursite.com/2016/01/16/Android%E5%A1%AB%E5%9D%91%EF%BC%9AAndroid5.0%20Button%E8%8B%B1%E6%96%87%E5%AD%97%E7%AC%A6%E8%87%AA%E5%8A%A8%E5%8F%98%E6%88%90%E5%A4%A7%E5%86%99%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>http://yoursite.com/2016/01/16/Android填坑：Android5.0 Button英文字符自动变成大写的问题/</id>
+    <published>2016-01-16T03:15:32.000Z</published>
+    <updated>2016-08-02T01:28:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="u53D1_u73B0_u95EE_u9898"><a href="#u53D1_u73B0_u95EE_u9898" class="headerlink" title="发现问题"></a>发现问题</h3><p>在5.0手机上调试的时候，发现Button上的英文字符全部变成了大写，5.0以下系统是正常的。<br>布局文件中：<br><img src="/img/btn_1.jpg" alt=""><br>界面显示：<br><img src="/img/btn_2.jpg" alt=""></p>
 <h2 id="u5206_u6790_u95EE_u9898"><a href="#u5206_u6790_u95EE_u9898" class="headerlink" title="分析问题"></a>分析问题</h2><p>1.到这里只能从源码角度去分析问题了。在<a href="http://androidxref.com/5.0.0_r2/xref/frameworks/base/core/java/android/widget/TextView.java" target="_blank" rel="external">AndroidXRef</a>上看了5.0系统TextView的源码(因为Button是继承TextView的，而且Button源码也没几行，直接看TextView就可以了。）在TexViw源码里面发现了两处关键的代码：    </p>
 <p>第一处：<img src="/img/btn_3.jpg" alt="">  </p>
 <p>第二处：<img src="/img/btn_4.jpg" alt=""></p>
@@ -277,22 +428,63 @@
 </ol>
 <h2 id="u53C2_u8003_uFF1A"><a href="#u53C2_u8003_uFF1A" class="headerlink" title="参考："></a>参考：</h2><p><a href="http://stackoverflow.com/questions/26958909/why-is-my-button-text-coerced-to-all-caps-on-lollipop" target="_blank" rel="external">http://stackoverflow.com/questions/26958909/why-is-my-button-text-coerced-to-all-caps-on-lollipop</a></p>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Android填坑：no such column: carrier_presence异常]]></title>
-      <url>http://yoursite.com/2015/07/21/Android%E5%A1%AB%E5%9D%91%EF%BC%9Ano-such-column-carrier-presence%E9%94%99%E8%AF%AF/</url>
-      <content type="html"><![CDATA[<p>今天从Android M preview 1 OTA升级到M preview 2的时候，查询联系人的时候出现下面的异常</p>
+    <summary type="html">
+    
+      &lt;h3 id=&quot;u53D1_u73B0_u95EE_u9898&quot;&gt;&lt;a href=&quot;#u53D1_u73B0_u95EE_u9898&quot; class=&quot;headerlink&quot; title=&quot;发现问题&quot;&gt;&lt;/a&gt;发现问题&lt;/h3&gt;&lt;p&gt;在5.0手机上调试的时候，发现Button上的英
+    
+    </summary>
+    
+      <category term="Android填坑" scheme="http://yoursite.com/categories/Android%E5%A1%AB%E5%9D%91/"/>
+    
+    
+      <category term="Android5.0" scheme="http://yoursite.com/tags/Android5-0/"/>
+    
+      <category term="Android填坑" scheme="http://yoursite.com/tags/Android%E5%A1%AB%E5%9D%91/"/>
+    
+      <category term="Android问题" scheme="http://yoursite.com/tags/Android%E9%97%AE%E9%A2%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android填坑：no such column: carrier_presence异常</title>
+    <link href="http://yoursite.com/2015/07/21/Android%E5%A1%AB%E5%9D%91%EF%BC%9Ano-such-column-carrier-presence%E9%94%99%E8%AF%AF/"/>
+    <id>http://yoursite.com/2015/07/21/Android填坑：no-such-column-carrier-presence错误/</id>
+    <published>2015-07-21T14:40:43.000Z</published>
+    <updated>2016-08-02T01:28:05.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天从Android M preview 1 OTA升级到M preview 2的时候，查询联系人的时候出现下面的异常</p>
 <p><code>android.database.sqlite.SQLiteException: no such column: carrier_presence (code 1)</code></p>
 <h1 id="u95EE_u9898_u539F_u56E0_uFF1A"><a href="#u95EE_u9898_u539F_u56E0_uFF1A" class="headerlink" title="问题原因："></a>问题原因：</h1><p>出现这个问题因为OTA后，联系人数据不兼容导致的问题</p>
 <h1 id="u89E3_u51B3_u65B9_u6CD5_uFF1A"><a href="#u89E3_u51B3_u65B9_u6CD5_uFF1A" class="headerlink" title="解决方法："></a>解决方法：</h1><p>系统–应用–显示系统进程–联系人存储–存储空间–清除数据/缓存</p>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Atom干货汇总]]></title>
-      <url>http://yoursite.com/2015/06/28/Atom%E5%B9%B2%E8%B4%A7%E6%B1%87%E6%80%BB/</url>
-      <content type="html"><![CDATA[<p>21世纪的代码编辑器-Atom，终于发布了1.0版本。必须要收集一些，方便以后体验学习。</p>
+    <summary type="html">
+    
+      &lt;p&gt;今天从Android M preview 1 OTA升级到M preview 2的时候，查询联系人的时候出现下面的异常&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;android.database.sqlite.SQLiteException: no such column: carrier
+    
+    </summary>
+    
+      <category term="Android填坑" scheme="http://yoursite.com/categories/Android%E5%A1%AB%E5%9D%91/"/>
+    
+    
+      <category term="Android M" scheme="http://yoursite.com/tags/Android-M/"/>
+    
+      <category term="Android填坑" scheme="http://yoursite.com/tags/Android%E5%A1%AB%E5%9D%91/"/>
+    
+      <category term="SQLiteException" scheme="http://yoursite.com/tags/SQLiteException/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Atom干货汇总</title>
+    <link href="http://yoursite.com/2015/06/28/Atom%E5%B9%B2%E8%B4%A7%E6%B1%87%E6%80%BB/"/>
+    <id>http://yoursite.com/2015/06/28/Atom干货汇总/</id>
+    <published>2015-06-28T05:16:31.000Z</published>
+    <updated>2016-08-02T01:29:22.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>21世纪的代码编辑器-Atom，终于发布了1.0版本。必须要收集一些，方便以后体验学习。</p>
 <p><img src="/img/atom.png" alt=""></p>
 <p><img src="/img/atom_2.png" alt=""></p>
 <h2 id="u535A_u5BA2_u793E_u533A"><a href="#u535A_u5BA2_u793E_u533A" class="headerlink" title="博客社区"></a>博客社区</h2><ul>
@@ -304,12 +496,33 @@
 <li><a href="https://github.com/turingou/atom-guide" target="_blank" rel="external">atom-guide</a></li>
 </ul>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Android分享：AndroidStudio有用的插件]]></title>
-      <url>http://yoursite.com/2015/06/07/Android%E5%88%86%E4%BA%AB%EF%BC%9AAndroidStudio%E6%9C%89%E7%94%A8%E7%9A%84%E6%8F%92%E4%BB%B6/</url>
-      <content type="html"><![CDATA[<p>依次点击Studio面板上File - Plugins<br>输入插件名称搜索，安装完成重启Studio就可以了</p>
+    <summary type="html">
+    
+      &lt;p&gt;21世纪的代码编辑器-Atom，终于发布了1.0版本。必须要收集一些，方便以后体验学习。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/atom.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/atom_2.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h2 id
+    
+    </summary>
+    
+      <category term="Atom" scheme="http://yoursite.com/categories/Atom/"/>
+    
+    
+      <category term="atom" scheme="http://yoursite.com/tags/atom/"/>
+    
+      <category term="编辑器" scheme="http://yoursite.com/tags/%E7%BC%96%E8%BE%91%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android分享：AndroidStudio有用的插件</title>
+    <link href="http://yoursite.com/2015/06/07/Android%E5%88%86%E4%BA%AB%EF%BC%9AAndroidStudio%E6%9C%89%E7%94%A8%E7%9A%84%E6%8F%92%E4%BB%B6/"/>
+    <id>http://yoursite.com/2015/06/07/Android分享：AndroidStudio有用的插件/</id>
+    <published>2015-06-07T12:33:12.000Z</published>
+    <updated>2016-08-02T01:27:14.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>依次点击Studio面板上File - Plugins<br>输入插件名称搜索，安装完成重启Studio就可以了</p>
 <p><img src="/img/plugin.png" alt=""></p>
 <ul>
 <li><code>ADB Idea ADB</code>操作快捷菜单，快速清除数据，重启应用，卸载应用等操作</li>
@@ -325,12 +538,35 @@
 </ul>
 <p>备注：<br><a href="http://www.quora.com/What-are-some-of-the-best-Android-Studio-plugins" target="_blank" rel="external">What are some of the best Android Studio plugins?</a><br><a href="http://www.sitepoint.com/top-8-plugins-android-studio/" target="_blank" rel="external">The Top 8 Plugins for Android Studio</a><br><a href="https://plugins.jetbrains.com/?androidstudio" target="_blank" rel="external">Android Studio Plugins</a></p>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[使用Gradle上传aar到mavenCentral详细教程]]></title>
-      <url>http://yoursite.com/2015/06/05/%E4%BD%BF%E7%94%A8Gradle%E4%B8%8A%E4%BC%A0aar%E5%88%B0mavenCentral%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/</url>
-      <content type="html"><![CDATA[<p>折腾了几天，终于在Android Studio上使用了Gradle成功上传aar到mavenCentral。心情相当爽，决定总结上传的步骤以及遇到的问题。</p>
+    <summary type="html">
+    
+      &lt;p&gt;依次点击Studio面板上File - Plugins&lt;br&gt;输入插件名称搜索，安装完成重启Studio就可以了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/plugin.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ADB Idea ADB&lt;/code&gt;
+    
+    </summary>
+    
+      <category term="Android分享" scheme="http://yoursite.com/categories/Android%E5%88%86%E4%BA%AB/"/>
+    
+    
+      <category term="Android Studio" scheme="http://yoursite.com/tags/Android-Studio/"/>
+    
+      <category term="Android分享" scheme="http://yoursite.com/tags/Android%E5%88%86%E4%BA%AB/"/>
+    
+      <category term="插件" scheme="http://yoursite.com/tags/%E6%8F%92%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用Gradle上传aar到mavenCentral详细教程</title>
+    <link href="http://yoursite.com/2015/06/05/%E4%BD%BF%E7%94%A8Gradle%E4%B8%8A%E4%BC%A0aar%E5%88%B0mavenCentral%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/"/>
+    <id>http://yoursite.com/2015/06/05/使用Gradle上传aar到mavenCentral详细教程/</id>
+    <published>2015-06-05T14:23:02.000Z</published>
+    <updated>2016-08-02T01:31:18.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>折腾了几天，终于在Android Studio上使用了Gradle成功上传aar到mavenCentral。心情相当爽，决定总结上传的步骤以及遇到的问题。</p>
 <h1 id="u5177_u4F53_u6B65_u9AA4"><a href="#u5177_u4F53_u6B65_u9AA4" class="headerlink" title="具体步骤"></a>具体步骤</h1><ul>
 <li>注册Sonatype帐号, 创建一个JIRA ticket</li>
 <li>使用GnuPG生成密钥</li>
@@ -410,12 +646,39 @@
 <h2 id="u5907_u6CE8"><a href="#u5907_u6CE8" class="headerlink" title="备注"></a>备注</h2><p>Library：<a href="https://github.com/ruijun/Characterview" target="_blank" rel="external">Characterview</a><br>JIRA ticket：<a href="https://issues.sonatype.org/browse/OSSRH-15833" target="_blank" rel="external">OSSRH-15833</a>（这个是成功的） <a href="https://issues.sonatype.org/browse/OSSRH-15808" target="_blank" rel="external">OSSRH-15808</a>(这个是失败的)</p>
 <h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p>审核过程会浪费点时间，也会遇到各种各样的问题，不过sonatype 服务绝对是五星级的，将遇到的问题在Comment描述，都会得到解决办法，注册邮箱也会收到相应的通知。</p>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Android Tips：Google I/O 2015 为 Android 开发者带来了哪些福利？]]></title>
-      <url>http://yoursite.com/2015/06/01/Android%E5%88%86%E4%BA%AB%EF%BC%9AGoogle-I-O-2015-%E4%B8%BA-Android-%E5%BC%80%E5%8F%91%E8%80%85%E5%B8%A6%E6%9D%A5%E4%BA%86%E5%93%AA%E4%BA%9B%E7%A6%8F%E5%88%A9%EF%BC%9F/</url>
-      <content type="html"><![CDATA[<p>转自 <a href="http://www.jianshu.com/p/4f7f55471da2" target="_blank" rel="external">代码家的博客</a><br>昨天，在车库咖啡，和一群老朋友一起度过了一个愉快的 Google 之夜。<br>首先得说的便是，今年的更新有些不给力，至少显得不够 Geek。我也不打算接着盘点一些在 Keynote 中的资讯，想必很多人在各个站点已经看过不知道多少遍了，我接下来想说的一些是关于这次 Google I/O 为 Android 开发者们带来了怎样的福利。</p>
+    <summary type="html">
+    
+      &lt;p&gt;折腾了几天，终于在Android Studio上使用了Gradle成功上传aar到mavenCentral。心情相当爽，决定总结上传的步骤以及遇到的问题。&lt;/p&gt;
+&lt;h1 id=&quot;u5177_u4F53_u6B65_u9AA4&quot;&gt;&lt;a href=&quot;#u5177_u4F53_u6B65_u9AA4&quot; class=&quot;headerlink&quot; title=&quot;具体步骤&quot;&gt;&lt;/a&gt;具体步骤&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;注册Sonatype帐号, 创建一个JIRA ticket&lt;/li&gt;
+&lt;li&gt;使用GnuPG生成密钥&lt;/li&gt;
+&lt;li&gt;配置Gradle脚本, 属性文件&lt;/li&gt;
+&lt;li&gt;上传library&lt;/li&gt;
+&lt;li&gt;部署release版本, 发布&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="Maven" scheme="http://yoursite.com/categories/Maven/"/>
+    
+    
+      <category term="Sonatype" scheme="http://yoursite.com/tags/Sonatype/"/>
+    
+      <category term="aar" scheme="http://yoursite.com/tags/aar/"/>
+    
+      <category term="maven" scheme="http://yoursite.com/tags/maven/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android Tips：Google I/O 2015 为 Android 开发者带来了哪些福利？</title>
+    <link href="http://yoursite.com/2015/06/01/Android%E5%88%86%E4%BA%AB%EF%BC%9AGoogle-I-O-2015-%E4%B8%BA-Android-%E5%BC%80%E5%8F%91%E8%80%85%E5%B8%A6%E6%9D%A5%E4%BA%86%E5%93%AA%E4%BA%9B%E7%A6%8F%E5%88%A9%EF%BC%9F/"/>
+    <id>http://yoursite.com/2015/06/01/Android分享：Google-I-O-2015-为-Android-开发者带来了哪些福利？/</id>
+    <published>2015-06-01T13:41:51.000Z</published>
+    <updated>2016-08-02T01:27:35.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>转自 <a href="http://www.jianshu.com/p/4f7f55471da2" target="_blank" rel="external">代码家的博客</a><br>昨天，在车库咖啡，和一群老朋友一起度过了一个愉快的 Google 之夜。<br>首先得说的便是，今年的更新有些不给力，至少显得不够 Geek。我也不打算接着盘点一些在 Keynote 中的资讯，想必很多人在各个站点已经看过不知道多少遍了，我接下来想说的一些是关于这次 Google I/O 为 Android 开发者们带来了怎样的福利。</p>
 <ul>
 <li>福利一：</li>
 </ul>
@@ -451,12 +714,38 @@
 <p><img src="/img/Google_IO_5.jpg" alt=""></p>
 <p>Google 对 Android 开发工具的更新大致就这些，总体还算是不错，可接受。<br>关于 Android Studio 的更多的细节，可能还要耐心等待官方放出新的 Android Studio 才能深挖出来。<br>最后，如果文中有任何疏漏或错误，欢迎指出。</p>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Android性能：Android性能优化汇总]]></title>
-      <url>http://yoursite.com/2015/05/31/Android%E6%80%A7%E8%83%BD%EF%BC%9AAndroid%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%B1%87%E6%80%BB/</url>
-      <content type="html"><![CDATA[<h1 id="Android_u6027_u80FD_u4F18_u5316_u5B98_u65B9_u7FFB_u8BD1_u7BC7"><a href="#Android_u6027_u80FD_u4F18_u5316_u5B98_u65B9_u7FFB_u8BD1_u7BC7" class="headerlink" title="Android性能优化官方翻译篇"></a>Android性能优化官方翻译篇</h1><ul>
+    <summary type="html">
+    
+      &lt;p&gt;转自 &lt;a href=&quot;http://www.jianshu.com/p/4f7f55471da2&quot;&gt;代码家的博客&lt;/a&gt;&lt;br&gt;昨天，在车库咖啡，和一群老朋友一起度过了一个愉快的 Google 之夜。&lt;br&gt;首先得说的便是，今年的更新有些不给力，至少显得不够 Geek。我也不打算接着盘点一些在 Keynote 中的资讯，想必很多人在各个站点已经看过不知道多少遍了，我接下来想说的一些是关于这次 Google I/O 为 Android 开发者们带来了怎样的福利。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;福利一：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;推出了 8 个&lt;a href=&quot;http://developer.android.com/reference/android/support/design/widget/package-summary.html&quot;&gt;新的组件&lt;/a&gt;，同时向后兼容，新推出的这几个官方组件多是在 GitHub 上很火热的一些项目。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/Google_IO_1.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://developer.android.com/reference/android/support/design/widget/AppBarLayout.html&quot;&gt;AppBarLayout&lt;/a&gt;：全新，用来实现各种 Material Design 概念效果的一个 Layout，主要负责对滑动的响应。&lt;br&gt;&lt;a href=&quot;http://developer.android.com/reference/android/support/design/widget/CollapsingToolbarLayout.html&quot;&gt;CollapsingToolbarLayout&lt;/a&gt;：类似&lt;a href=&quot;http://ww2.sinaimg.cn/large/610dc034gw1eslfqhnn1lg208w08whdt.gif&quot;&gt;这张图&lt;/a&gt;。&lt;br&gt;&lt;a href=&quot;http://developer.android.com/reference/android/support/design/widget/CoordinatorLayout.html&quot;&gt;CoordinatorLayout&lt;/a&gt;：全新，更加彪悍的 FrameLayout。&lt;br&gt;&lt;a href=&quot;http://developer.android.com/reference/android/support/design/widget/FloatingActionButton.html&quot;&gt;FloatingActionButton&lt;/a&gt;：类似这个&lt;a href=&quot;https://github.com/shell-software/fab&quot;&gt;shell-software/fab&lt;/a&gt;。&lt;br&gt;&lt;a href=&quot;http://developer.android.com/reference/android/support/design/widget/NavigationView.html&quot;&gt;NavigationView&lt;/a&gt;：全新，置于 DrawerLayout 内部的菜单。&lt;br&gt;&lt;a href=&quot;http://developer.android.com/reference/android/support/design/widget/Snackbar.html&quot;&gt;Snackbar&lt;/a&gt;：类似这个&lt;a href=&quot;https://github.com/MrEngineer13/SnackBar&quot;&gt;MrEngineer13/SnackBar&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;http://developer.android.com/reference/android/support/design/widget/TabLayout.html&quot;&gt;TabLayout&lt;/a&gt;：普通的可滑动的 Tab。&lt;br&gt;&lt;a href=&quot;http://developer.android.com/reference/android/support/design/widget/TextInputLayout.html&quot;&gt;TextInputLayout&lt;/a&gt;：类似这个&lt;a href=&quot;https://github.com/wrapp/floatlabelededittext&quot;&gt;wrapp/floatlabelededittext&lt;/a&gt;。&lt;br&gt;更多组件相关的细节，查看&lt;a href=&quot;http://android-developers.blogspot.fi/2015/05/android-design-support-library.html&quot;&gt;官方 Blog&lt;/a&gt;。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android分享" scheme="http://yoursite.com/categories/Android%E5%88%86%E4%BA%AB/"/>
+    
+    
+      <category term="Android M" scheme="http://yoursite.com/tags/Android-M/"/>
+    
+      <category term="Android分享" scheme="http://yoursite.com/tags/Android%E5%88%86%E4%BA%AB/"/>
+    
+      <category term="Google I/O" scheme="http://yoursite.com/tags/Google-I-O/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android性能：Android性能优化汇总</title>
+    <link href="http://yoursite.com/2015/05/31/Android%E6%80%A7%E8%83%BD%EF%BC%9AAndroid%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%B1%87%E6%80%BB/"/>
+    <id>http://yoursite.com/2015/05/31/Android性能：Android性能优化汇总/</id>
+    <published>2015-05-31T10:56:45.000Z</published>
+    <updated>2016-08-02T01:28:54.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Android_u6027_u80FD_u4F18_u5316_u5B98_u65B9_u7FFB_u8BD1_u7BC7"><a href="#Android_u6027_u80FD_u4F18_u5316_u5B98_u65B9_u7FFB_u8BD1_u7BC7" class="headerlink" title="Android性能优化官方翻译篇"></a>Android性能优化官方翻译篇</h1><ul>
 <li><a href="http://hukai.me/android-performance-patterns/" target="_blank" rel="external">Android性能优化典范</a></li>
 <li><a href="http://hukai.me/android-performance-render/" target="_blank" rel="external">Android性能优化之渲染篇</a></li>
 <li><a href="http://hukai.me/android-performance-compute/" target="_blank" rel="external">Android性能优化之运算篇</a></li>
@@ -501,12 +790,37 @@
 <li><a href="http://djt.qq.com/article/view/987" target="_blank" rel="external">Android 显示原理简介</a></li>
 </ul>
 <h1 id="u5173_u4E8EAndroid_u6027_u80FD_u4F18_u5316_uFF0C_u4F1A_u6301_u7EED_u66F4_u65B0_uFF01_uFF01"><a href="#u5173_u4E8EAndroid_u6027_u80FD_u4F18_u5316_uFF0C_u4F1A_u6301_u7EED_u66F4_u65B0_uFF01_uFF01" class="headerlink" title="关于Android性能优化，会持续更新！！"></a>关于Android性能优化，会持续更新！！</h1>]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Github基本功能]]></title>
-      <url>http://yoursite.com/2015/05/31/Github%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD/</url>
-      <content type="html"><![CDATA[<p>在知乎上看到关于介绍Github，太形象生动，通俗易懂了，不得不转到自己的博客来收藏。<br>原出处：<a href="http://www.zhihu.com/question/20070065" target="_blank" rel="external">http://www.zhihu.com/question/20070065</a></p>
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Android_u6027_u80FD_u4F18_u5316_u5B98_u65B9_u7FFB_u8BD1_u7BC7&quot;&gt;&lt;a href=&quot;#Android_u6027_u80FD_u4F18_u5316_u5B98_u65B9_u7FFB_u8BD1_u7BC7&quot; class=&quot;headerlink&quot; title=&quot;Android性能优化官方翻译篇&quot;&gt;&lt;/a&gt;Android性能优化官方翻译篇&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://hukai.me/android-performance-patterns/&quot;&gt;Android性能优化典范&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://hukai.me/android-performance-render/&quot;&gt;Android性能优化之渲染篇&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://hukai.me/android-performance-compute/&quot;&gt;Android性能优化之运算篇&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://hukai.me/android-performance-memory/&quot;&gt;Android性能优化之内存篇&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://hukai.me/android-performance-battery/&quot;&gt;Android性能优化之电量篇&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://hukai.me/android-performance-patterns-season-2/&quot;&gt;Android性能优化典范 - 第2季&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="Android性能" scheme="http://yoursite.com/categories/Android%E6%80%A7%E8%83%BD/"/>
+    
+    
+      <category term="Android性能优化" scheme="http://yoursite.com/tags/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+    
+      <category term="performance" scheme="http://yoursite.com/tags/performance/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Github基本功能</title>
+    <link href="http://yoursite.com/2015/05/31/Github%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD/"/>
+    <id>http://yoursite.com/2015/05/31/Github基本功能/</id>
+    <published>2015-05-31T03:50:15.000Z</published>
+    <updated>2016-08-02T01:30:04.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>在知乎上看到关于介绍Github，太形象生动，通俗易懂了，不得不转到自己的博客来收藏。<br>原出处：<a href="http://www.zhihu.com/question/20070065" target="_blank" rel="external">http://www.zhihu.com/question/20070065</a></p>
 <p><img src="/img/zhihu_github.png" alt=""></p>
 <ul>
 <li>Repository：你和我一起做“知乎首页”，“知乎首页”就是Repository，即项目或者”未来武器T2级425mm磁轨炮“之类，怎么叫随你，你只需知道Repository是个放项目的地方就行。有时候会出现Repositories，是多个Repository的意思。</li>
@@ -518,12 +832,40 @@
 <a id="more"></a>
 <p>1.请注册Github并登录。<br>2.下载客户端并登录，客户端负责你硬盘上的数据与Github服务器数据的交互，然后设置存储目录。为了表现你的才华，你决定将此目录命名为“诸神之爹”。<br>3.既然有这么多的国外开源项目，我们国内哪有不自主的道理。必须要实践一下这个顶好赞的Fork功能。现在你来到了Fadeoc/frontend · GitHub，你看到了这是用户Fadeoc的一个叫做“frontend”的Repository，你笑了，这家伙学习前端知识不过十天，代码一片渣，竟然有的代码里只写了“土豆”和“二狗子”几个汉字。你点了一下右上角的Fork，然后clone in desktop，保存到“诸神之爹”，哇！文件已经在你电脑里了，完全免费耶！+10086！<br>4.一个小时后，你对Fadeoc的渣代码颇有心得，决定帮他改良，不然他这项目就完了。你改好之后，Pull Request，这丫的竟然说你的代码太渣，不吸收。贱人！老子自己做，抢你市场份额！<br>5.你点了右上角自己头像后面的+号，选择了第一个New repository，即新建repository，并且起了个名字，叫做“完爆Fadeoc”，然后点击绿色按钮set up in desktop，弹出保存框，选择“诸神之爹”。于是“诸神之爹”下出现了一个“完爆Fadeoc”的文件夹。<br>6.你自己写了一份“神爹首页.html”，把它放在了“完爆Fadeoc”文件夹下。<br>7.你打开了客户端，看到客户端界面中master Branch（主人分支，这名字太云端了）出现了一个Uncommitted changes，即未提交的变动，也就是你刚写的“神爹首页.html”。你点开show按钮，在summary（摘要）的部分添上“滚你丫的Fadeoc”，在Description（细节描述）的位置是没必要写的，但你还是决定添上“爆你菊花”四个大字。然后选择“Commit to 你的用户名”。<br>8.为了把这个提交上传到Github上让贱人Fadeoc看到，你点击了客户端右上角的后面显示了一个“+1”的Sync，即同步，过了几秒，Sync前的两个曲线箭头停止了转动，同步成功了，“+1”消失，表示一个文件成功上传。<br>9.你来到Github，刷新自己的个人页，“完爆Fadeoc”这个Repository出现在页面上，点开它，在里面你看到了”神爹首页.html”。<br>10.为了让这个项目的初始目的更加浅显易懂，你决定添加一个Readme.txt，虽然从前下载的N多软件的文件夹里总是有一个Readme.txt，你一个都没打开过。但在圈里混，就得混的人模狗样的，于是你在“完爆Fadeoc”下新建了一个Readme.txt，里面写上，“Fadeoc，没错，说的就是你，看我口型，你个贱人！”<br>11.同样使用客户端commit，然后sync，过了几秒，刷新github，你看到又多出了一个readme.txt。而且在下面又多出一个文字显示框，里面显示的就是readme.txt里面的内容“Fadeoc，没错，说的就是你，看我口型，你个贱人！”，避免了Fadeoc这个贱人不想打开readme.txt也就看不到你亲切问候的尴尬局面。Github真是贴心呐。<br>12.你复制了这个Repository的地址，Email给了Fadeoc。<br>13Fadeoc不是那么容易被打败的，于是他Fork了你的Repository，修改了readme.txt，然后pull request，你看到fadeoc新生成的branch下的readme.txt被改成了“你才是贱人”。你拒绝了合并请求。<br>14.Fadeoc再次pull request，readme.txt改成了“敢不做恶吗？”<br>15.你有点烦了，这他妈的怎么才能不让他pull request，将来大项目N多陌生人菜鸟pull request烦不烦，就不能不开源，转私有吗？你终于找到了Github的升级服务，你笑了，将这个Repository从Public转成了Private。Fadeoc肯定会继续pull request，得不到你回应的他只会渐渐被复仇的怒火烧尽理智，可是，谁在乎呢？  </p>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Android开源：定制化build.gradle]]></title>
-      <url>http://yoursite.com/2015/05/31/Android%E5%BC%80%E6%BA%90%EF%BC%9A%E5%AE%9A%E5%88%B6%E5%8C%96build-gradle/</url>
-      <content type="html"><![CDATA[<p>支持的功能</p>
+    <summary type="html">
+    
+      &lt;p&gt;在知乎上看到关于介绍Github，太形象生动，通俗易懂了，不得不转到自己的博客来收藏。&lt;br&gt;原出处：&lt;a href=&quot;http://www.zhihu.com/question/20070065&quot;&gt;http://www.zhihu.com/question/20070065&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/zhihu_github.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Repository：你和我一起做“知乎首页”，“知乎首页”就是Repository，即项目或者”未来武器T2级425mm磁轨炮“之类，怎么叫随你，你只需知道Repository是个放项目的地方就行。有时候会出现Repositories，是多个Repository的意思。&lt;/li&gt;
+&lt;li&gt;Fork：我们把制作“知乎首页“的工作分开，你负责美工，我负责前端开发，但我们还需要数据服务器高手。你找来了一位php大牛，这位大牛很快搞定了服务器端，闲来无事，就看了看我的前端代码，一看，“我靠，这怎么一点也不语义化呢？全是尼玛的清一色的&lt;div&gt;啊，将来做交互js还搞不搞dom了……”于是这大牛在Repository中找到了我写的“zhi.html”，Fork了一份，也就是授权拷贝。&lt;/li&gt;
+&lt;li&gt;Branch：Fork之后，在大牛的Github上出现了一个同样叫做“知乎首页”的Repository，但是这个Repository是复制品，只归他，这就是他的Branch，也就是分支。&lt;/li&gt;
+&lt;li&gt;Pull Request：大牛做完了一份全新的高端zhi.html，点了Pull Request，也就是推送请求。我接受了，看了一眼，顿时惊讶爆表，“中国足球——高，实在是高！”&lt;/li&gt;
+&lt;li&gt;现在你懂了，Github的结构是Repository-Branch-(获取/推送)文件。你又发现Github可以比较两个文件的异同，新增的部分用绿色标记，删除的部分用红色标记。Pull Request还可以控制，甚至可以合并Branch，这就是团队合作利器啊，真乃高大上也，手痒了吧？心动了吧？&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="Github" scheme="http://yoursite.com/categories/Github/"/>
+    
+    
+      <category term="Git" scheme="http://yoursite.com/tags/Git/"/>
+    
+      <category term="Github" scheme="http://yoursite.com/tags/Github/"/>
+    
+      <category term="知乎" scheme="http://yoursite.com/tags/%E7%9F%A5%E4%B9%8E/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android开源：定制化build.gradle</title>
+    <link href="http://yoursite.com/2015/05/31/Android%E5%BC%80%E6%BA%90%EF%BC%9A%E5%AE%9A%E5%88%B6%E5%8C%96build-gradle/"/>
+    <id>http://yoursite.com/2015/05/31/Android开源：定制化build-gradle/</id>
+    <published>2015-05-31T02:14:27.000Z</published>
+    <updated>2016-08-02T01:28:25.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>支持的功能</p>
 <ul>
 <li>自定义apk名称，输出路径</li>
 <li>定制debug， release代码，显示不同字符串等</li>
@@ -533,12 +875,37 @@
 <p>源码请戳这里：<a href="https://github.com/ruijun/gradle-for-customize" target="_blank" rel="external">https://github.com/ruijun/gradle-for-customize</a></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.android.builder.core.DefaultManifestParser</span><br><span class="line"></span><br><span class="line">apply plugin: <span class="string">'com.android.application'</span></span><br><span class="line"></span><br><span class="line">buildscript &#123;</span><br><span class="line">    <span class="comment">//支持java 依赖库管理（maven/ivy）,用于项目的依赖</span></span><br><span class="line">    repositories &#123;</span><br><span class="line">        mavenCentral()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//依赖包的定义。支持maven/ivy，远程，本地库，也支持单文件</span></span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath <span class="string">'com.android.tools.build:gradle:1.2.3'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第三方依赖</span></span><br><span class="line">dependencies &#123;</span><br><span class="line">    <span class="function">compile <span class="title">fileTree</span><span class="params">(include: <span class="string">'*.jar'</span>, dir: <span class="string">'libs'</span>)</span></span><br><span class="line">    compile 'com.android.support:appcompat-v7:21.+'</span><br><span class="line">    compile 'com.android.support:recyclerview-v7:+'</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">android </span>&#123;</span><br><span class="line">    compileSdkVersion <span class="number">21</span></span><br><span class="line">    buildToolsVersion <span class="string">"22.0.1"</span></span><br><span class="line"></span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        applicationId <span class="string">"com.ruijun.demo"</span></span><br><span class="line">        minSdkVersion <span class="number">16</span></span><br><span class="line">        targetSdkVersion <span class="number">21</span></span><br><span class="line">        versionCode <span class="number">1001</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 配置R.bool.debug 的值,在代码里依据这个值来判断是测试或者正式版本</span></span><br><span class="line">        <span class="comment">// 可以为不同版本定制化代码</span></span><br><span class="line">        resValue <span class="string">"bool"</span>, <span class="string">"debug"</span>, <span class="string">"true"</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    packagingOptions &#123;</span><br><span class="line">        exclude <span class="string">'META-INF/DEPENDENCIES'</span></span><br><span class="line">        exclude <span class="string">'META-INF/LICENSE'</span></span><br><span class="line">        exclude <span class="string">'META-INF/LICENSE.txt'</span></span><br><span class="line">        exclude <span class="string">'META-INF/license.txt'</span></span><br><span class="line">        exclude <span class="string">'META-INF/NOTICE'</span></span><br><span class="line">        exclude <span class="string">'META-INF/NOTICE.txt'</span></span><br><span class="line">        exclude <span class="string">'META-INF/notice.txt'</span></span><br><span class="line">        exclude <span class="string">'META-INF/ASL2.0'</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置包签名字段</span></span><br><span class="line">    signingConfigs &#123;</span><br><span class="line"><span class="comment">//        debug&#123;</span></span><br><span class="line"><span class="comment">//            storeFile file("debug.keystore")</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line"></span><br><span class="line">        myConfig&#123;</span><br><span class="line">            <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"demo.keystore"</span>)</span> <span class="comment">// 签名文件名字</span></span><br><span class="line">            storePassword KEYSTORE_PASSWORD</span><br><span class="line">            keyAlias "demo.keystore"<span class="comment">// 签名文件别名</span></span><br><span class="line">            keyPassword KEYSTORE_PASSWORD</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 不同渠道</span></span><br><span class="line">    <span class="comment">//productFlavors &#123;</span></span><br><span class="line"><span class="comment">//        flavor1 &#123;</span></span><br><span class="line"><span class="comment">//            versionName '1.0'</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//        flavor2 &#123;</span></span><br><span class="line"><span class="comment">//            versionName '1.0'</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//用来指定最终编译字段配置</span></span><br><span class="line">    buildTypes </span>&#123;</span><br><span class="line">        debug &#123;</span><br><span class="line">            resValue <span class="string">"bool"</span>, <span class="string">"debug"</span>, <span class="string">"true"</span></span><br><span class="line">            signingConfig  signingConfigs.myConfig</span><br><span class="line">            minifyEnabled <span class="keyword">true</span> <span class="comment">// 是否混淆</span></span><br><span class="line">            shrinkResources <span class="keyword">true</span> <span class="comment">// 是否去除无效的资源文件</span></span><br><span class="line">            <span class="function">proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        release </span>&#123;</span><br><span class="line">            resValue <span class="string">"bool"</span>, <span class="string">"debug"</span>, <span class="string">"false"</span></span><br><span class="line">            signingConfig  signingConfigs.myConfig</span><br><span class="line">            minifyEnabled <span class="keyword">true</span> <span class="comment">// 是否混淆</span></span><br><span class="line">            shrinkResources <span class="keyword">true</span> <span class="comment">// 是否去除无效的资源文件</span></span><br><span class="line">            <span class="function">proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//这个是解决lint报错的代码</span></span><br><span class="line">    lintOptions </span>&#123;</span><br><span class="line">        abortOnError <span class="keyword">false</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//该字段下主要配置一些项目资源路径</span></span><br><span class="line">    sourceSets &#123;</span><br><span class="line">        main &#123;</span><br><span class="line">            manifest.srcFile <span class="string">'AndroidManifest.xml'</span></span><br><span class="line">            java.srcDirs = [<span class="string">'src'</span>]</span><br><span class="line">            resources.srcDirs = [<span class="string">'src'</span>]</span><br><span class="line">            aidl.srcDirs = [<span class="string">'src'</span>]</span><br><span class="line">            renderscript.srcDirs = [<span class="string">'src'</span>]</span><br><span class="line">            res.srcDirs = [<span class="string">'res'</span>]</span><br><span class="line">            assets.srcDirs = [<span class="string">'assets'</span>]</span><br><span class="line">            jniLibs.srcDirs = [<span class="string">'libs'</span>]</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        instrumentTest.setRoot(<span class="string">'tests'</span>)</span><br><span class="line">        debug.setRoot(<span class="string">'build-types/debug'</span>)</span><br><span class="line">        release.setRoot(<span class="string">'build-types/release'</span>)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">android.applicationVariants.all&#123; variant -&gt;</span><br><span class="line">    def apk = variant.outputs[<span class="number">0</span>].outputFile;</span><br><span class="line">    <span class="comment">// def versionName = android.defaultConfig.versionName;</span></span><br><span class="line">    def manifestParser = <span class="keyword">new</span> DefaultManifestParser()</span><br><span class="line">    def newName = <span class="string">""</span></span><br><span class="line">    def versionName = <span class="string">""</span></span><br><span class="line">    <span class="keyword">if</span> (variant.buildType.name == <span class="string">"release"</span>) &#123;</span><br><span class="line">        <span class="comment">// 获取versionName</span></span><br><span class="line">        versionName = manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        versionName = manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile) + <span class="string">"d"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出apk的名称</span></span><br><span class="line">    newName = <span class="string">"Demo_V$&#123;versionName&#125;_$&#123;variant.buildType.name&#125;.apk"</span>;</span><br><span class="line">	<span class="comment">// 输出apk的路径</span></span><br><span class="line">    def outputPath = <span class="string">"D:/Users/ruijun/App/"</span></span><br><span class="line">    variant.outputs[<span class="number">0</span>].outputFile = <span class="keyword">new</span> File(outputPath, newName);</span><br><span class="line"><span class="comment">//    variant.outputs[0].outputFile = new File(apk.parentFile, newName);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="u540E_u7EED_u51C6_u5907_u5199_u7BC7_u6587_u7AE0_u4F1A_u5BF9_u4E0A_u9762_u91CC_u9762_u7684_u529F_u80FD_u8FDB_u884C_u4E00_u4E00_u5206_u6790_uFF0C_u8FD9_u91CC_u5148_u5360_u5751_u3002"><a href="#u540E_u7EED_u51C6_u5907_u5199_u7BC7_u6587_u7AE0_u4F1A_u5BF9_u4E0A_u9762_u91CC_u9762_u7684_u529F_u80FD_u8FDB_u884C_u4E00_u4E00_u5206_u6790_uFF0C_u8FD9_u91CC_u5148_u5360_u5751_u3002" class="headerlink" title="后续准备写篇文章会对上面里面的功能进行一一分析，这里先占坑。"></a>后续准备写篇文章会对上面里面的功能进行一一分析，这里先占坑。</h1>]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Android开源：CharacterView]]></title>
-      <url>http://yoursite.com/2015/05/31/Android%E5%BC%80%E6%BA%90%EF%BC%9ACharacterView/</url>
-      <content type="html"><![CDATA[<p>在<a href="https://github.com/ruijun/RoundedLetterView" target="_blank" rel="external">RoundedLetterView</a>上进行扩展改造。<br>根据名字显示字符的View，类似Android5.0风格联系人头像。</p>
+    <summary type="html">
+    
+      &lt;p&gt;支持的功能&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自定义apk名称，输出路径&lt;/li&gt;
+&lt;li&gt;定制debug， release代码，显示不同字符串等&lt;/li&gt;
+&lt;li&gt;打包时候，删除没有用的资源文件&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="Android开源" scheme="http://yoursite.com/categories/Android%E5%BC%80%E6%BA%90/"/>
+    
+    
+      <category term="Android开源" scheme="http://yoursite.com/tags/Android%E5%BC%80%E6%BA%90/"/>
+    
+      <category term="gradle" scheme="http://yoursite.com/tags/gradle/"/>
+    
+      <category term="开源" scheme="http://yoursite.com/tags/%E5%BC%80%E6%BA%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android开源：CharacterView</title>
+    <link href="http://yoursite.com/2015/05/31/Android%E5%BC%80%E6%BA%90%EF%BC%9ACharacterView/"/>
+    <id>http://yoursite.com/2015/05/31/Android开源：CharacterView/</id>
+    <published>2015-05-31T02:02:55.000Z</published>
+    <updated>2016-08-02T01:28:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>在<a href="https://github.com/ruijun/RoundedLetterView" target="_blank" rel="external">RoundedLetterView</a>上进行扩展改造。<br>根据名字显示字符的View，类似Android5.0风格联系人头像。</p>
 <h1 id="V1-0"><a href="#V1-0" class="headerlink" title="V1.0"></a>V1.0</h1><ul>
 <li>支持圆形和矩形View</li>
 <li>支持边框显示</li>
@@ -547,12 +914,30 @@
 <p>源码请戳这里：<a href="https://github.com/ruijun/Characterview" target="_blank" rel="external">https://github.com/ruijun/Characterview</a></p>
 <h1 id="Demo_u622A_u56FE"><a href="#Demo_u622A_u56FE" class="headerlink" title="Demo截图"></a>Demo截图</h1><p><img src="/img/characterView1.png" alt="矩形">  <img src="/img/characterView2.png" alt="圆形">)  <img src="/img/characterView3.png" alt="圆形带边框">)  </p>
 <h1 id="u540E_u7EED_u4F1A_u5E26_u6765_u66F4_u591A_u529F_u80FD_uFF0C_u6B22_u8FCE_u5927_u5BB6fork_uFF0Cstar_uFF01_uFF01"><a href="#u540E_u7EED_u4F1A_u5E26_u6765_u66F4_u591A_u529F_u80FD_uFF0C_u6B22_u8FCE_u5927_u5BB6fork_uFF0Cstar_uFF01_uFF01" class="headerlink" title="后续会带来更多功能，欢迎大家fork，star！！"></a>后续会带来更多功能，欢迎大家<code>fork</code>，<code>star</code>！！</h1>]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Android填坑：运行出现“Binary XML file line # : Error inflating class”异常的解决方法]]></title>
-      <url>http://yoursite.com/2015/05/25/Android%E5%A1%AB%E5%9D%91%EF%BC%9A%E8%BF%90%E8%A1%8C%E5%87%BA%E7%8E%B0%E2%80%9CBinary-XML-file-line-Error-inflating-class%E2%80%9D%E5%BC%82%E5%B8%B8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</url>
-      <content type="html"><![CDATA[<h1 id="u81EA_u5B9A_u4E49View_u7684_u65F6_u5019_uFF0C_u7ECF_u5E38_u4F1A_u9047_u5230_u8FD9_u4E2A_u5F02_u5E38_uFF0C_u603B_u7ED3_u4E00_u4E0B_u5927_u6982_u6709_u4EE5_u4E0B_u51E0_u79CD_u89E3_u51B3_u65B9_u6CD5_uFF1A"><a href="#u81EA_u5B9A_u4E49View_u7684_u65F6_u5019_uFF0C_u7ECF_u5E38_u4F1A_u9047_u5230_u8FD9_u4E2A_u5F02_u5E38_uFF0C_u603B_u7ED3_u4E00_u4E0B_u5927_u6982_u6709_u4EE5_u4E0B_u51E0_u79CD_u89E3_u51B3_u65B9_u6CD5_uFF1A" class="headerlink" title="自定义View的时候，经常会遇到这个异常，总结一下大概有以下几种解决方法："></a>自定义View的时候，经常会遇到这个异常，总结一下大概有以下几种解决方法：</h1><ul>
+    <summary type="html">
+    
+      &lt;p&gt;在&lt;a href=&quot;https://github.com/ruijun/RoundedLetterView&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;RoundedLetterView&lt;/a&gt;上进行扩展改造。&lt;br&gt;根据名字显示字符的View，类似An
+    
+    </summary>
+    
+      <category term="Android开源" scheme="http://yoursite.com/categories/Android%E5%BC%80%E6%BA%90/"/>
+    
+    
+      <category term="View" scheme="http://yoursite.com/tags/View/"/>
+    
+      <category term="开源" scheme="http://yoursite.com/tags/%E5%BC%80%E6%BA%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android填坑：运行出现“Binary XML file line # : Error inflating class”异常的解决方法</title>
+    <link href="http://yoursite.com/2015/05/25/Android%E5%A1%AB%E5%9D%91%EF%BC%9A%E8%BF%90%E8%A1%8C%E5%87%BA%E7%8E%B0%E2%80%9CBinary-XML-file-line-Error-inflating-class%E2%80%9D%E5%BC%82%E5%B8%B8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
+    <id>http://yoursite.com/2015/05/25/Android填坑：运行出现“Binary-XML-file-line-Error-inflating-class”异常解决方法/</id>
+    <published>2015-05-25T13:50:26.000Z</published>
+    <updated>2016-08-02T01:28:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="u81EA_u5B9A_u4E49View_u7684_u65F6_u5019_uFF0C_u7ECF_u5E38_u4F1A_u9047_u5230_u8FD9_u4E2A_u5F02_u5E38_uFF0C_u603B_u7ED3_u4E00_u4E0B_u5927_u6982_u6709_u4EE5_u4E0B_u51E0_u79CD_u89E3_u51B3_u65B9_u6CD5_uFF1A"><a href="#u81EA_u5B9A_u4E49View_u7684_u65F6_u5019_uFF0C_u7ECF_u5E38_u4F1A_u9047_u5230_u8FD9_u4E2A_u5F02_u5E38_uFF0C_u603B_u7ED3_u4E00_u4E0B_u5927_u6982_u6709_u4EE5_u4E0B_u51E0_u79CD_u89E3_u51B3_u65B9_u6CD5_uFF1A" class="headerlink" title="自定义View的时候，经常会遇到这个异常，总结一下大概有以下几种解决方法："></a>自定义View的时候，经常会遇到这个异常，总结一下大概有以下几种解决方法：</h1><ul>
 <li><p>引用类名问题：自定义了View，在布局中使用的时候，必须使用完整路径名，也就是<code>包名+类名</code>来引用，例如：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">com.ruijun.customview.CustomView</span><br></pre></td></tr></table></figure>
 </li>
@@ -563,12 +948,32 @@
 </li>
 </ul>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Android强化：反编译APK文件]]></title>
-      <url>http://yoursite.com/2015/05/25/Android%E5%BC%BA%E5%8C%96%EF%BC%9A%E5%8F%8D%E7%BC%96%E8%AF%91APK%E6%96%87%E4%BB%B6/</url>
-      <content type="html"><![CDATA[<p>在进行反编译之前，需要准备好下面的软件工具(这些文件都放在同一文件下)</p>
+    <summary type="html">
+    
+      &lt;h1 id=&quot;u81EA_u5B9A_u4E49View_u7684_u65F6_u5019_uFF0C_u7ECF_u5E38_u4F1A_u9047_u5230_u8FD9_u4E2A_u5F02_u5E38_uFF0C_u603B_u7ED3_u4E00_u4E0B_u5
+    
+    </summary>
+    
+      <category term="Android填坑" scheme="http://yoursite.com/categories/Android%E5%A1%AB%E5%9D%91/"/>
+    
+    
+      <category term="Android填坑" scheme="http://yoursite.com/tags/Android%E5%A1%AB%E5%9D%91/"/>
+    
+      <category term="crash" scheme="http://yoursite.com/tags/crash/"/>
+    
+      <category term="view" scheme="http://yoursite.com/tags/view/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android强化：反编译APK文件</title>
+    <link href="http://yoursite.com/2015/05/25/Android%E5%BC%BA%E5%8C%96%EF%BC%9A%E5%8F%8D%E7%BC%96%E8%AF%91APK%E6%96%87%E4%BB%B6/"/>
+    <id>http://yoursite.com/2015/05/25/Android强化：反编译APK文件/</id>
+    <published>2015-05-25T01:30:51.000Z</published>
+    <updated>2016-08-02T02:11:06.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>在进行反编译之前，需要准备好下面的软件工具(这些文件都放在同一文件下)</p>
 <p><img src="http://img1.51cto.com/attachment/201110/203951776.jpg" alt=""></p>
 <p>这些工具的下载地址：<a href="http://down.51cto.com/data/266751" target="_blank" rel="external">http://down.51cto.com/data/266751</a><br>下面开始进行反编译APK文件：</p>
 <ul>
@@ -587,164 +992,24 @@
 </ul>
 <p>PS：APK文件反编译之后，XML的源码不会出现乱码，不过有些APK文件得到Java源码会出一些乱码(比如在给变量赋值的时候)。有些app经过加密的话，反编译会报错。</p>
 ]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Hexo常用命令记录]]></title>
-      <url>http://yoursite.com/2015/05/21/hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/</url>
-      <content type="html"><![CDATA[<p>经常使用到的命令，记录下来，方便以后查找使用<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hexo new "postName" #新建文章</span><br><span class="line">hexo new page "pageName" #新建页面</span><br><span class="line">hexo new draft "draftName" #新建草稿</span><br><span class="line">hexo publish draft "draftName" #草稿变成正文</span><br><span class="line">hexo generate #生成静态页面至public目录</span><br><span class="line">hexo server #开启预览(可以访问localhost:4000）</span><br><span class="line">hexo deploy #部署到github, gitcafe等</span><br></pre></td></tr></table></figure></p>
-<p>简写命令<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo n #新生成</span><br><span class="line">hexo g #生成静态页面至public目录</span><br><span class="line">hexo s #开启预览(可以访问localhost:4000</span><br><span class="line">hexo d #部署</span><br></pre></td></tr></table></figure></p>
-<p><a href="http://hexo.io/zh-cn/" target="_blank" rel="external">Hexo官方文档</a></p>
-]]></content>
-    </entry>
+    <summary type="html">
     
-    <entry>
-      <title><![CDATA[Android分享：Crash跟踪系统]]></title>
-      <url>http://yoursite.com/2015/05/21/Android%E5%88%86%E4%BA%AB%EF%BC%9ACrash%E8%B7%9F%E8%B8%AA%E7%B3%BB%E7%BB%9F/</url>
-      <content type="html"><![CDATA[<p>国外<br><a href="https://app.crittercism.com/" target="_blank" rel="external">Crittercism</a><br><a href="http://try.crashlytics.com/" target="_blank" rel="external">Crashlytics</a><br><a href="http://www.buganalytics.com/" target="_blank" rel="external">buganalytics</a><br><a href="https://mint.splunk.com/" target="_blank" rel="external">splunk</a><br><a href="http://www.flurry.com/" target="_blank" rel="external">flurry</a><br><a href="http://www.applause.com/mobile-sdk" target="_blank" rel="external">Applause</a><br><a href="http://blog.parse.com/learn/introducing-parse-crash-reporting-2/" target="_blank" rel="external">Parse Crash Reporting</a><br><a href="http://www.itestin.com/" target="_blank" rel="external">Testin Crash Analytics</a></p>
-<p><a href="https://github.com/ACRA/acra" target="_blank" rel="external">Acra</a>允许Android应用自动地发送崩溃信息到自己的服务器<br><a href="https://github.com/bboyfeiyu/android-tech-frontier/tree/master/others/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAAndroid%E5%BA%94%E7%94%A8crashing%E8%B7%9F%E8%B8%AA%E7%B3%BB%E7%BB%9F%EF%BC%8DACRA" target="_blank" rel="external">如何在本地搭建一个Android应用crashing跟踪系统－ACRA</a></p>
-<p>国内<br><a href="http://dev.umeng.com/analytics/reports/errors" target="_blank" rel="external">umeng</a>友盟统计<br><a href="http://bugly.qq.com/" target="_blank" rel="external">Bugly</a> 鹅厂出品<br><a href="http://www.crasheye.cn/" target="_blank" rel="external">Crasheye</a>金山网络出品<br><a href="http://bughd.com/" target="_blank" rel="external">BugHD</a> FIR.im</p>
-]]></content>
-    </entry>
+      &lt;p&gt;在进行反编译之前，需要准备好下面的软件工具(这些文件都放在同一文件下)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://img1.51cto.com/attachment/201110/203951776.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;这些工具的下载地址：&lt;a h
     
-    <entry>
-      <title><![CDATA[一些有用的命令]]></title>
-      <url>http://yoursite.com/2015/05/21/%E4%B8%80%E4%BA%9B%E6%9C%89%E7%94%A8%E7%9A%84%E5%91%BD%E4%BB%A4/</url>
-      <content type="html"><![CDATA[<h3 id="u6279_u91CF_u6DFB_u52A0_u65B0_u6587_u4EF6"><a href="#u6279_u91CF_u6DFB_u52A0_u65B0_u6587_u4EF6" class="headerlink" title="批量添加新文件"></a>批量添加新文件</h3><p>svn add <code>svn st | grep ^? | awk &#39;{print $2}&#39;</code>   </p>
-<h3 id="u6279_u91CF_u5220_u9664_u6587_u4EF6"><a href="#u6279_u91CF_u5220_u9664_u6587_u4EF6" class="headerlink" title="批量删除文件"></a>批量删除文件</h3><p>svn del <code>svn st | grep ^! | awk &#39;{print $2}&#39;</code></p>
-<h3 id="u5220_u9664_u5F53_u524D_u76EE_u5F55_u4E0B_u7684-DS_Store"><a href="#u5220_u9664_u5F53_u524D_u76EE_u5F55_u4E0B_u7684-DS_Store" class="headerlink" title="删除当前目录下的.DS_Store"></a>删除当前目录下的.DS_Store</h3><p>sudo find / -name “.DS_Store” -depth -exec rm {} \;</p>
-<h3 id="u5220_u9664_u6307_u5B9A_u76EE_u5F55_u4E0B_u7684-DS_Store"><a href="#u5220_u9664_u6307_u5B9A_u76EE_u5F55_u4E0B_u7684-DS_Store" class="headerlink" title="删除指定目录下的.DS_Store"></a>删除指定目录下的.DS_Store</h3><p>sudo find /你的目录 “.DS_Store” -depth -exec rm {} \;</p>
-]]></content>
-    </entry>
+    </summary>
     
-    <entry>
-      <title><![CDATA[Ubuntu修改设备名称]]></title>
-      <url>http://yoursite.com/2015/05/21/Ubuntu%E4%BF%AE%E6%94%B9%E8%AE%BE%E5%A4%87%E5%90%8D%E7%A7%B0/</url>
-      <content type="html"><![CDATA[<p>打开终端时候会显示<code>ruijun@ruijun-ubuntu:~/AndroidCode/</code><br>设备名称是@后面的<code>ruijun-ubuntu</code></p>
-<h1 id="u76F4_u63A5_u547D_u4EE4_u884C_u4FEE_u6539"><a href="#u76F4_u63A5_u547D_u4EE4_u884C_u4FEE_u6539" class="headerlink" title="直接命令行修改"></a>直接命令行修改</h1><p>输入下面的命令<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo sed -i <span class="string">'s/当前设备名称/新设备名称/'</span> /etc/hosts</span><br><span class="line">sudo sed -i <span class="string">'s/当前设备名称/新设备名称/'</span> /etc/hostname</span><br><span class="line">或者</span><br><span class="line">hostname 新设备名称</span><br></pre></td></tr></table></figure></p>
-<h1 id="u6587_u672C_u7F16_u8F91_u5668_u4FEE_u6539"><a href="#u6587_u672C_u7F16_u8F91_u5668_u4FEE_u6539" class="headerlink" title="文本编辑器修改"></a>文本编辑器修改</h1><p>输入下面的命令, 在文本编辑器里面修改, 保存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit /etc/hostname /etc/hosts</span><br></pre></td></tr></table></figure></p>
-<p>最后都要重启系统<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shutdown -r now</span><br></pre></td></tr></table></figure></p>
-]]></content>
-    </entry>
+      <category term="Android强化" scheme="http://yoursite.com/categories/Android%E5%BC%BA%E5%8C%96/"/>
     
-    <entry>
-      <title><![CDATA[Android强化：使用AsyncTask时候的疑问]]></title>
-      <url>http://yoursite.com/2015/05/17/Android%E5%BC%BA%E5%8C%96%EF%BC%9AAsyncTask%E2%80%8B%E4%BD%BF%E7%94%A8AsyncTask%E6%97%B6%E5%80%99%E7%9A%84%E7%96%91%E9%97%AE/</url>
-      <content type="html"><![CDATA[<h1 id="u5728_u4F7F_u7528AsyncTask__u7684_u65F6_u5019_uFF0C__u76F8_u4FE1_u5F88_u591A_u4EBA_u90FD_u4F1A_u5B58_u5728_u7591_u95EE_uFF1A"><a href="#u5728_u4F7F_u7528AsyncTask__u7684_u65F6_u5019_uFF0C__u76F8_u4FE1_u5F88_u591A_u4EBA_u90FD_u4F1A_u5B58_u5728_u7591_u95EE_uFF1A" class="headerlink" title="在使用AsyncTask 的时候， 相信很多人都会存在疑问："></a>在使用<code>AsyncTask</code> 的时候， 相信很多人都会存在疑问：</h1><ul>
-<li>异步任务的实例必须在<code>UI线程</code>中创建</li>
-<li>execute(Params… params)方法必须在UI线程中调用</li>
-</ul>
-<p><code>AsyncTask</code>有这些限制，是因为Android<code>单线程模型</code>的问题<br><a id="more"></a></p>
-<h1 id="u5173_u4E8EAsyncTask_u548C_u5355_u7EBF_u7A0B_u6A21_u578B_u7684_u4E00_u4E9B_u8D44_u6599"><a href="#u5173_u4E8EAsyncTask_u548C_u5355_u7EBF_u7A0B_u6A21_u578B_u7684_u4E00_u4E9B_u8D44_u6599" class="headerlink" title="关于AsyncTask和单线程模型的一些资料"></a>关于<code>AsyncTask</code>和<code>单线程模型</code>的一些资料</h1><p><code>AsyncTask</code>详解：</p>
-<ul>
-<li><a href="http://blog.csdn.net/liuhe688/article/details/6532519" target="_blank" rel="external">http://blog.csdn.net/liuhe688/article/details/6532519</a></li>
-<li><a href="http://blog.csdn.net/lmj623565791/article/details/38614699" target="_blank" rel="external">http://blog.csdn.net/lmj623565791/article/details/38614699</a></li>
-<li><a href="http://blog.csdn.net/guolin_blog/article/details/11711405" target="_blank" rel="external">http://blog.csdn.net/guolin_blog/article/details/11711405</a></li>
-</ul>
-<p>单线程模型：</p>
-<ul>
-<li><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2013/0724/1484.html" target="_blank" rel="external">http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2013/0724/1484.html</a></li>
-</ul>
-<p>进程线程的概念：</p>
-<ul>
-<li><a href="http://developer.android.com/guide/components/processes-and-threads.html" target="_blank" rel="external">http://developer.android.com/guide/components/processes-and-threads.html</a></li>
-<li><a href="http://www.cnblogs.com/ghj1976/archive/2011/04/28/2031586.html" target="_blank" rel="external">http://www.cnblogs.com/ghj1976/archive/2011/04/28/2031586.html</a></li>
-<li><a href="http://blog.csdn.net/kesenhoo/article/details/8743215" target="_blank" rel="external">http://blog.csdn.net/kesenhoo/article/details/8743215</a></li>
-</ul>
-<h1 id="u6700_u540E_u5F97_u8BF4_u8BF4AsyncTask_u7684_u5751_u4E86"><a href="#u6700_u540E_u5F97_u8BF4_u8BF4AsyncTask_u7684_u5751_u4E86" class="headerlink" title="最后得说说AsyncTask的坑了"></a>最后得说说<code>AsyncTask</code>的坑了</h1><ul>
-<li>在3.0以前，最大支持128个线程的并发，10个任务的等待。在3.0以后，无论有多少任务，都会在其内部单线程执行；</li>
-<li><a href="http://rincliu.com/blog/2013/07/26/asynctask/" target="_blank" rel="external">解决 Android 中 AsyncTask 的多线程阻塞问题</a></li>
-</ul>
-]]></content>
-    </entry>
     
-    <entry>
-      <title><![CDATA[Android Tips：没有Root权限，获取databases文件和traces文件的方法]]></title>
-      <url>http://yoursite.com/2015/05/17/Android%20Tips%EF%BC%9A%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E5%92%8Ctraces%E6%96%87%E4%BB%B6%E7%9A%84%E6%96%B9%E6%B3%95/</url>
-      <content type="html"><![CDATA[<ul>
-<li><code>cmd</code>打开dos窗口，进入到sdk目录下的platform-tools</li>
-</ul>
-<p><code>cd</code> D:\Tools\adt-bundle-windows-x86_64-20130219\sdk\platform-tools</p>
-<ul>
-<li><p>敲入<code>adb shell</code></p>
-</li>
-<li><p>使用拷贝命令，将databases文件或者traces文件拷贝到sdcard下</p>
-</li>
-</ul>
-<p>databases ： <code>cp</code> /data/data/包名/databases/  sdcard\<br>traces ： <code>cp</code> /data/anr/traces/  sdcard\</p>
-]]></content>
-    </entry>
+      <category term="Android强化" scheme="http://yoursite.com/tags/Android%E5%BC%BA%E5%8C%96/"/>
     
-    <entry>
-      <title><![CDATA[Android开源：开源项目网站收集]]></title>
-      <url>http://yoursite.com/2015/05/17/Android%E5%BC%80%E6%BA%90%EF%BC%9A%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E7%BD%91%E7%AB%99%E6%94%B6%E9%9B%86/</url>
-      <content type="html"><![CDATA[<ul>
-<li><a href="https://android-arsenal.com/" target="_blank" rel="external">android-arsenal</a></li>
-<li><a href="http://www.jcodecraeer.com/" target="_blank" rel="external">泡在网上的日子</a></li>
-<li><a href="http://square.github.io/" target="_blank" rel="external">Square</a></li>
-<li><a href="https://github.com/Trinea/android-open-project" target="_blank" rel="external">android-open-project</a></li>
-<li><a href="https://github.com/snowdream/awesome-android/blob/master/README.md" target="_blank" rel="external">awesome-android</a></li>
-<li><a href="http://www.zhihu.com/question/19804692" target="_blank" rel="external">知乎：有哪些优秀的 Android 应用开源项目、特效、设计资料推荐？</a></li>
-<li><a href="http://jacsonlee.github.io/Blog/?Android/getopensource" target="_blank" rel="external">jacsonlee</a></li>
-<li><a href="http://alamkanak.github.io/android-libraries-and-resources/" target="_blank" rel="external">Android Libraries and Resources</a></li>
-<li><a href="https://android-libs.com/" target="_blank" rel="external">android-libs</a></li>
-<li><a href="http://www.akaifa.com/" target="_blank" rel="external">爱开发</a></li>
-</ul>
-]]></content>
-    </entry>
+      <category term="apktool" scheme="http://yoursite.com/tags/apktool/"/>
     
-    <entry>
-      <title><![CDATA[Git学习资料汇总]]></title>
-      <url>http://yoursite.com/2015/05/17/Git%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99%E6%B1%87%E6%80%BB/</url>
-      <content type="html"><![CDATA[<p><img src="http://i1.tietuku.com/0fdf84cd8c01c4c2.jpg" alt=""></p>
-<ul>
-<li><a href="http://sixrevisions.com/web-development/easy-git-tutorial/" target="_blank" rel="external">怎么快速开始使用Git</a></li>
-<li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">廖雪峰Git教程</a></li>
-<li><a href="https://try.github.io/levels/1/challenges/1" target="_blank" rel="external">试试Git – 15分钟的Git交互教程</a><a id="more"></a></li>
-<li><a href="http://rypress.com/tutorials/git/tips-and-tricks" target="_blank" rel="external">提示和技巧（Ry的Git教学）是常见Git功能的实践教程</a></li>
-<li><a href="http://rogerdudler.github.io/git-guide/" target="_blank" rel="external">Git简单指南</a></li>
-<li><a href="http://gitready.com/" target="_blank" rel="external">Git Ready是一个收藏有许多简单而简短的Git提示的网站</a></li>
-<li><a href="http://www.git-tower.com/blog/git-cheat-sheet/" target="_blank" rel="external">Git作弊码</a></li>
-<li><a href="http://www.git-tower.com/learn/" target="_blank" rel="external">Git Tower学习区是一个在我的网站上的Git学习资源列表</a></li>
-<li><a href="http://git-scm.com/docs/gittutorial" target="_blank" rel="external">Git官方教程</a></li>
-<li><a href="https://www.youtube.com/playlist?list=PLg7s6cbtAD165JTRsXh8ofwRw0PqUnkVH" target="_blank" rel="external">Training: Git Basics (视频)是YouTube上的一个视频列表</a></li>
-<li><a href="http://git-scm.com/book/en/v2" target="_blank" rel="external">Pro Git一本让你深入了解Git的在线书籍</a></li>
-<li><a href="http://snowdream86.gitbooks.io/github-cheat-sheet/content/zh/" target="_blank" rel="external">GitHub秘籍</a></li>
-<li><a href="http://www.worldhello.net/gotgithub/index.html" target="_blank" rel="external">GotGitHub</a></li>
-<li><a href="https://ruby-china.org/topics/15737" target="_blank" rel="external">写出好的 commit message</a></li>
-<li><a href="http://gitbook.liuhui998.com/index.html" target="_blank" rel="external">Git Community Book 中文版</a></li>
-<li><a href="http://jslite.io/2015/04/01/git%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/" target="_blank" rel="external">git使用笔记</a></li>
-</ul>
-]]></content>
-    </entry>
+      <category term="反编译" scheme="http://yoursite.com/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
     
-    <entry>
-      <title><![CDATA[Android Tips：AndroidStudio使用中遇到的问题汇总]]></title>
-      <url>http://yoursite.com/2015/05/17/Android%20Tips%EF%BC%9AAndroidStudio%E4%BD%BF%E7%94%A8%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</url>
-      <content type="html"><![CDATA[<h2 id="Android_Studio_u6BCF_u6B21_u542F_u52A8_u90FD_u8981_u5728fetching_Android_sdk_compoment_information"><a href="#Android_Studio_u6BCF_u6B21_u542F_u52A8_u90FD_u8981_u5728fetching_Android_sdk_compoment_information" class="headerlink" title="Android Studio每次启动都要在fetching Android sdk compoment information"></a><strong>Android Studio每次启动都要在fetching Android sdk compoment information</strong></h2><ul>
-<li>进入刚安装的AndroidStudio目录下的bin目录。找到idea.properties文件，用文本编辑器打开。</li>
-<li>在idea.properties文件末尾添加一行： disable.android.first.run=true ，然后保存文件。</li>
-<li>关闭Android Studio后重新启动，便可进入界面。</li>
-</ul>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Markdown 基本语法]]></title>
-      <url>http://yoursite.com/2015/05/16/Markdown-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</url>
-      <content type="html"><![CDATA[<h1 id="u6211_u662F_u5927_u6807_u9898"><a href="#u6211_u662F_u5927_u6807_u9898" class="headerlink" title="我是大标题"></a>我是大标题</h1><p>格式：标题下 + ======</p>
-<h2 id="u6211_u662F_u4E2D_u6807_u9898"><a href="#u6211_u662F_u4E2D_u6807_u9898" class="headerlink" title="我是中标题"></a>我是中标题</h2><p>格式：标题下 + —–</p>
-<h3 id="u6211_u662F_u5C0F_u6807_u9898"><a href="#u6211_u662F_u5C0F_u6807_u9898" class="headerlink" title="我是小标题"></a>我是小标题</h3><p>格式：### + 空格 + 标题内容</p>
-<a id="more"></a>
-<h3 id="u6211_u662F_u5355_u884C_u6587_u672C"><a href="#u6211_u662F_u5355_u884C_u6587_u672C" class="headerlink" title="我是单行文本"></a>我是单行文本</h3><h3 id="u6211_u662F_u591A_u884C_u6587_u672C"><a href="#u6211_u662F_u591A_u884C_u6587_u672C" class="headerlink" title="我是多行文本"></a>我是多行文本</h3><p>每一个的末尾 + 两个Tab    </p>
-<h3 id="u6211_u662F_u6BB5_u4EE3_u7801"><a href="#u6211_u662F_u6BB5_u4EE3_u7801" class="headerlink" title="我是段代码"></a>我是段代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">printf(&#34;Hello Markdown !&#34;) // &#20195;&#30721;&#26159;&#35201;&#34987;```&#22260;&#36215;&#26469;</span><br></pre></td></tr></table></figure>
-<h3 id="u94FE_u63A5"><a href="#u94FE_u63A5" class="headerlink" title="链接"></a>链接</h3><p><em>格式：[xxx] + (url)<br>  <a href="http://fresco-cn.org/" target="_blank" rel="external">Fresco中文文档</a>   
-</em><a href="http://fresco-cn.org/" target="_blank" rel="external">http://fresco-cn.org/</a></p>
-<h3 id="u663E_u793A_u56FE_u7247"><a href="#u663E_u793A_u56FE_u7247" class="headerlink" title="显示图片"></a>显示图片</h3><p>格式：![介绍文字] + (url)<br><img src="http://www.baidu.com/img/bdlogo.png" alt="百度Logo" title="baidu"></p>
-<h3 id="u70B9_u51FB_u56FE_u7247_u8FDB_u5165_u7279_u5B9A_u7F51_u5740"><a href="#u70B9_u51FB_u56FE_u7247_u8FDB_u5165_u7279_u5B9A_u7F51_u5740" class="headerlink" title="点击图片进入特定网址"></a>点击图片进入特定网址</h3><p>格式：[介绍文字] + (url)<br><a href="http://www.baidu.com/" target="_blank" rel="external">百度Logo</a></p>
-]]></content>
-    </entry>
-    
+  </entry>
   
-  
-</search>
+</feed>
