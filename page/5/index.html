@@ -531,8 +531,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/05/21/svn批量操作命令/" itemprop="url">
-                  svn批量操作命令
+                <a class="post-title-link" href="/2015/05/21/一些有用的命令/" itemprop="url">
+                  一些有用的命令
                 </a>
               
             
@@ -575,8 +575,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/05/21/svn批量操作命令/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/21/svn批量操作命令/" itemprop="commentsCount"></span>
+                <a href="/2015/05/21/一些有用的命令/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/21/一些有用的命令/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -601,9 +601,10 @@
       
         
           
-            <h1 id="u6279_u91CF_u6DFB_u52A0_u65B0_u6587_u4EF6"><a href="#u6279_u91CF_u6DFB_u52A0_u65B0_u6587_u4EF6" class="headerlink" title="批量添加新文件"></a>批量添加新文件</h1><p>svn add <code>svn st | grep ^? | awk &#39;{print $2}&#39;</code>   </p>
-<h1 id="u6279_u91CF_u5220_u9664_u6587_u4EF6"><a href="#u6279_u91CF_u5220_u9664_u6587_u4EF6" class="headerlink" title="批量删除文件"></a>批量删除文件</h1><p>svn del <code>svn st | grep ^! | awk &#39;{print $2}&#39;</code></p>
-<p>svn ci -m “提交说明”</p>
+            <h3 id="u6279_u91CF_u6DFB_u52A0_u65B0_u6587_u4EF6"><a href="#u6279_u91CF_u6DFB_u52A0_u65B0_u6587_u4EF6" class="headerlink" title="批量添加新文件"></a>批量添加新文件</h3><p>svn add <code>svn st | grep ^? | awk &#39;{print $2}&#39;</code>   </p>
+<h3 id="u6279_u91CF_u5220_u9664_u6587_u4EF6"><a href="#u6279_u91CF_u5220_u9664_u6587_u4EF6" class="headerlink" title="批量删除文件"></a>批量删除文件</h3><p>svn del <code>svn st | grep ^! | awk &#39;{print $2}&#39;</code></p>
+<h3 id="u5220_u9664_u5F53_u524D_u76EE_u5F55_u4E0B_u7684-DS_Store"><a href="#u5220_u9664_u5F53_u524D_u76EE_u5F55_u4E0B_u7684-DS_Store" class="headerlink" title="删除当前目录下的.DS_Store"></a>删除当前目录下的.DS_Store</h3><p>sudo find / -name “.DS_Store” -depth -exec rm {} \;</p>
+<h3 id="u5220_u9664_u6307_u5B9A_u76EE_u5F55_u4E0B_u7684-DS_Store"><a href="#u5220_u9664_u6307_u5B9A_u76EE_u5F55_u4E0B_u7684-DS_Store" class="headerlink" title="删除指定目录下的.DS_Store"></a>删除指定目录下的.DS_Store</h3><p>sudo find /你的目录 “.DS_Store” -depth -exec rm {} \;</p>
 
           
         
@@ -975,11 +976,11 @@
               </span>
             
               <span class="links-of-author-item">
-                <a href="mailto:lingdududu@163.com" target="_blank" title="mail">
+                <a href="mailto:lingdududu@163.com" target="_blank" title="Mail">
                   
                     <i class="fa fa-fw fa-globe"></i>
                   
-                  mail
+                  Mail
                 </a>
               </span>
             
