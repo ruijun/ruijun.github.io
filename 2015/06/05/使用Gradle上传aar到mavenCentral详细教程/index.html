@@ -1,0 +1,1023 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Sonatype,aar,maven," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="折腾了几天，终于在Android Studio上使用了Gradle成功上传aar到mavenCentral。心情相当爽，决定总结上传的步骤以及遇到的问题。
+具体步骤
+注册Sonatype帐号, 创建一个JIRA ticket
+使用GnuPG生成密钥
+配置Gradle脚本, 属性文件
+上传library
+部署release版本, 发布">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Gradle上传aar到mavenCentral详细教程">
+<meta property="og:url" content="http://yoursite.com/2015/06/05/使用Gradle上传aar到mavenCentral详细教程/index.html">
+<meta property="og:site_name" content="ruijun's blog">
+<meta property="og:description" content="折腾了几天，终于在Android Studio上使用了Gradle成功上传aar到mavenCentral。心情相当爽，决定总结上传的步骤以及遇到的问题。
+具体步骤
+注册Sonatype帐号, 创建一个JIRA ticket
+使用GnuPG生成密钥
+配置Gradle脚本, 属性文件
+上传library
+部署release版本, 发布">
+<meta property="og:image" content="http://yoursite.com/img/maven_1.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_2.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_3.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_9.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_10.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_11.png">
+<meta property="og:image" content="http://yoursite.com/img/maven_12.png">
+<meta property="og:updated_time" content="2016-08-02T01:31:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Gradle上传aar到mavenCentral详细教程">
+<meta name="twitter:description" content="折腾了几天，终于在Android Studio上使用了Gradle成功上传aar到mavenCentral。心情相当爽，决定总结上传的步骤以及遇到的问题。
+具体步骤
+注册Sonatype帐号, 创建一个JIRA ticket
+使用GnuPG生成密钥
+配置Gradle脚本, 属性文件
+上传library
+部署release版本, 发布">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/06/05/使用Gradle上传aar到mavenCentral详细教程/"/>
+
+  <title> 使用Gradle上传aar到mavenCentral详细教程 | ruijun's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?0b6be6bd2aa30eb47ed600c52cf2c168";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ruijun's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">以梦为马，不负韶华</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用Gradle上传aar到mavenCentral详细教程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-05T22:23:02+08:00" content="2015-06-05">
+              2015-06-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Maven/" itemprop="url" rel="index">
+                    <span itemprop="name">Maven</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          <span id="post-count">
+            &nbsp; | &nbsp; 字数&nbsp; <span class="post-count">2,588</span>
+          </span>
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/05/使用Gradle上传aar到mavenCentral详细教程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/05/使用Gradle上传aar到mavenCentral详细教程/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>折腾了几天，终于在Android Studio上使用了Gradle成功上传aar到mavenCentral。心情相当爽，决定总结上传的步骤以及遇到的问题。</p>
+<h1 id="u5177_u4F53_u6B65_u9AA4"><a href="#u5177_u4F53_u6B65_u9AA4" class="headerlink" title="具体步骤"></a>具体步骤</h1><ul>
+<li>注册Sonatype帐号, 创建一个JIRA ticket</li>
+<li>使用GnuPG生成密钥</li>
+<li>配置Gradle脚本, 属性文件</li>
+<li>上传library</li>
+<li>部署release版本, 发布</li>
+</ul>
+<a id="more"></a>
+<h2 id="u6CE8_u518CSonatype_u5E10_u53F7_2C__u521B_u5EFA_u4E00_u4E2AJIRA_ticket"><a href="#u6CE8_u518CSonatype_u5E10_u53F7_2C__u521B_u5EFA_u4E00_u4E2AJIRA_ticket" class="headerlink" title="注册Sonatype帐号, 创建一个JIRA ticket"></a>注册Sonatype帐号, 创建一个JIRA ticket</h2><p>在<a href="https://issues.sonatype.org/secure/Dashboard.jspa" target="_blank" rel="external">Sonatype JIRA</a>注册完帐号后打开<a href="https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&amp;pid=10134" target="_blank" rel="external">Create Issue</a>创建一个JIRA ticket。</p>
+<ul>
+<li>Summary:项目名称(Characterview)</li>
+<li>Description:项目描述（可不填）</li>
+<li>Group Id:(com.github.ruijun)</li>
+<li>Project URL：库的开源地址（<a href="https://github.com/ruijun/Characterview）" target="_blank" rel="external">https://github.com/ruijun/Characterview）</a></li>
+<li>SCM url：库的开源地址（<a href="https://github.com/ruijun/Characterview.git）" target="_blank" rel="external">https://github.com/ruijun/Characterview.git）</a></li>
+<li>Username(s)：填写自己的名字（ruijun）</li>
+</ul>
+<p>填完上面的内容，点击<code>create</code>就创建了属于你的<code>JIRA ticket</code>。这时候，你可以看到状态为UNRESOLVED，还不能正常使用。需要等待两个工作日的审核时间，等issue会变成RESOLVED才能正常使用。</p>
+<h3 id="u9047_u5230_u7684_u95EE_u9898"><a href="#u9047_u5230_u7684_u95EE_u9898" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>创建JIRA ticket，Group Id一定要填写正确，我第一次创建的时候，Group id填写为<code>com.ruijun</code>。后来审核没有通过，下面是没有通过的原因：</p>
+<p><img src="/img/maven_1.png" alt=""></p>
+<p>按照<a href="http://central.sonatype.org/pages/choosing-your-coordinates.html" target="_blank" rel="external">Choosing your Coordinates</a>域名反转的规则：</p>
+<ul>
+<li>www.springframework.org -&gt; org.springframework</li>
+<li>oness.sf.net -&gt; net.sf.oness</li>
+<li>github.com/yourusername -&gt; com.github.yourusername</li>
+</ul>
+<p>将Group Id改为com.github.ruijun，改完之后再等两天的时间了，issue变成RESOLVED。到这里第一个步骤完成了。</p>
+<h2 id="u4F7F_u7528GnuPG_u751F_u6210_u5BC6_u94A5"><a href="#u4F7F_u7528GnuPG_u751F_u6210_u5BC6_u94A5" class="headerlink" title="使用GnuPG生成密钥"></a>使用GnuPG生成密钥</h2><p>需要对上传的library加密和签名，GPG用于生成签名，管理密钥。</p>
+<ul>
+<li>下载<a href="http://gpg4win.org/" target="_blank" rel="external">GPG</a>， 安装， 验证<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpg --version&#10;gpg (GnuPG) 2.0.27 (Gpg4win 2.2.4)&#10;libgcrypt 1.6.3&#10;Copyright (C) 2015 Free Software Foundation, Inc.&#10;License GPLv3+: GNU GPL version 3 or later &#60;http://gnu.org/licenses/gpl.html&#62;&#10;This is free software: you are free to change and redistribute it.&#10;There is NO WARRANTY, to the extent permitted by law.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>如果出现上面版本信息，证明安装成功，否则。。。</p>
+<ul>
+<li>生成密钥<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpg --gen-key</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>生成密钥的时候，按照图里标注的填好就可以了。</p>
+<p><img src="/img/maven_2.png" alt=""></p>
+<p>最后会弹出一个对话框，需要输入<code>passphrase</code>，输入完成保存即可。一定要记住<code>passphrase</code>，后面配置Gradle脚本需要用到。</p>
+<p><img src="/img/maven_3.png" alt=""></p>
+<ul>
+<li>查看密钥  </li>
+</ul>
+<p>// 查看公钥<br>gpg –list-keys</p>
+<h2 id="C_3A/Users/ruijun/AppData/Roaming/gnupg/pubring-gpg"><a href="#C_3A/Users/ruijun/AppData/Roaming/gnupg/pubring-gpg" class="headerlink" title="C:/Users/ruijun/AppData/Roaming/gnupg/pubring.gpg"></a>C:/Users/ruijun/AppData/Roaming/gnupg/pubring.gpg</h2><p>pub   2048R/F445638E 2015-05-30<br>uid       [ultimate] ruijun (letterplus) <a href="/&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#108;&#x69;&#110;&#x67;&#100;&#x75;&#100;&#117;&#x64;&#117;&#64;&#49;&#x36;&#x33;&#46;&#99;&#x6f;&#109;">&#108;&#x69;&#110;&#x67;&#100;&#x75;&#100;&#117;&#x64;&#117;&#64;&#49;&#x36;&#x33;&#46;&#99;&#x6f;&#109;</a><br>sub   2048R/8567F9D3 2015-05-30</p>
+<p>// 查看私钥<br>gpg –list-secret-keys</p>
+<h2 id="C_3A/Users/ruijun/AppData/Roaming/gnupg/secring-gpg"><a href="#C_3A/Users/ruijun/AppData/Roaming/gnupg/secring-gpg" class="headerlink" title="C:/Users/ruijun/AppData/Roaming/gnupg/secring.gpg"></a>C:/Users/ruijun/AppData/Roaming/gnupg/secring.gpg</h2><p>sec   2048R/F445638E 2015-05-30<br>uid                  ruijun (letterplus) <a href="/&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x6c;&#105;&#110;&#103;&#100;&#117;&#100;&#117;&#x64;&#x75;&#x40;&#49;&#x36;&#51;&#46;&#99;&#111;&#109;">&#x6c;&#105;&#110;&#103;&#100;&#117;&#100;&#117;&#x64;&#x75;&#x40;&#49;&#x36;&#51;&#46;&#99;&#111;&#109;</a><br>ssb   2048R/8567F9D3 2015-05-30<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#35201;&#35760;&#20303;`keyId F445638E`&#37324;&#38754;&#30340;`F445638E`&#21644;`&#31169;&#38053;&#36335;&#24452;`&#65292;&#19968;&#20250;&#19978;&#20256;&#23494;&#38053;&#21644;&#37197;&#32622;&#38656;&#35201;&#29992;&#21040;&#12290;&#10;&#10;* &#19978;&#20256;&#20844;&#38053;</span><br></pre></td></tr></table></figure></p>
+<p>$ gpg –keyserver hkp://pool.sks-keyservers.net –send-keys F445638E</p>
+<p>gpg: sending key F874D485 to hkp server pool.sks-keyserver.net<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;## &#37197;&#32622;Gradle&#33050;&#26412;, Gradle&#23646;&#24615;&#10;* &#19979;&#36733;Chris[gradle-mvn-push](https://github.com/chrisbanes/gradle-mvn-push.git)&#33050;&#26412;&#25918;&#21040;project&#26681;&#30446;&#24405;&#19979;&#10;&#10;* &#37197;&#32622;project&#19979;&#38754;&#30340;gradle.properties&#10;&#10;![](/img/maven_4.png)&#10;&#10;&#25105;&#37197;&#32622;&#26159;&#37233;&#26679;&#23376;&#30340;</span><br></pre></td></tr></table></figure></p>
+<p>VERSION_NAME=1.0(版本名称)<br>VERSION_CODE=1(版本号)<br>GROUP=com.github.ruijun(前面创建JIRA ticket的Group id)</p>
+<p>POM_DESCRIPTION=Android Character View(library描述)<br>POM_URL=<a href="https://github.com/ruijun/Characterview.git(library地址" target="_blank" rel="external">https://github.com/ruijun/Characterview.git(library地址</a>)<br>POM_SCM_URL=<a href="https://github.com/ruijun/Characterview.git(library地址" target="_blank" rel="external">https://github.com/ruijun/Characterview.git(library地址</a>)<br>POM_SCM_CONNECTION=scm:<a href="https://github.com/ruijun/Characterview.git(library地址" target="_blank" rel="external">https://github.com/ruijun/Characterview.git(library地址</a>)<br>POM_SCM_DEV_CONNECTION=scm:<a href="https://github.com/ruijun/Characterview.git(library地址" target="_blank" rel="external">https://github.com/ruijun/Characterview.git(library地址</a>)<br>POM_LICENCE_NAME=The Apache Software License, Version 2.0<br>POM_LICENCE_URL=<a href="http://www.apache.org/licenses/LICENSE-2.0.txt" target="_blank" rel="external">http://www.apache.org/licenses/LICENSE-2.0.txt</a><br>POM_DEVELOPER_ID=ruijun(Sonatype帐号username)<br>POM_DEVELOPER_NAME=liangruijun(名字，可以随便填一个)<br>POM_DEVELOPER_EMAIL=lingdududu@163.com(邮箱)<br>POM_DEVELOPER_URL=<a href="http://blog.liangruijun.com(可以选择不填" target="_blank" rel="external">http://blog.liangruijun.com(可以选择不填</a>)</p>
+<p>(这两项可以不写)<br>SNAPSHOT_REPOSITORY_URL=<a href="https://oss.sonatype.org/content/repositories/snapshots" target="_blank" rel="external">https://oss.sonatype.org/content/repositories/snapshots</a><br>RELEASE_REPOSITORY_URL=<a href="https://oss.sonatype.org/service/local/staging/deploy/maven2" target="_blank" rel="external">https://oss.sonatype.org/service/local/staging/deploy/maven2</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#32593;&#19978;&#26377;&#20123;&#37197;&#32622;&#26159;POM_GROUP_ID&#32780;&#19981;&#26159;GROUP&#65292;&#20854;&#23454;&#36825;&#20010;&#21517;&#23383;&#33258;&#24049;&#21487;&#20197;&#20462;&#25913;&#65292;&#20462;&#25913;&#23436;&#21518;&#20877;&#22312;gradle-mvn-push.gradle&#20570;&#30456;&#24212;&#30340;&#20462;&#25913;&#21363;&#21487;&#12290;&#10;&#10;* &#37197;&#32622;Project&#26500;&#24314;&#33050;&#26412;&#10;&#10;![](/img/maven_5.png)</span><br></pre></td></tr></table></figure></p>
+<p>buildscript {<br>    repositories {<br>        jcenter()<br>    }<br>    dependencies {<br>        classpath ‘com.android.tools.build:gradle:1.2.3’<br>    }<br>}</p>
+<p>allprojects {<br>    version = VERSION_NAME<br>    group = GROUP</p>
+<pre><code>repositories {
+    jcenter()
+}
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;* &#37197;&#32622;Module&#30340;gradle.properties&#10;&#10;![](/img/maven_6.png)</span><br></pre></td></tr></table></figure></p>
+<p>POM_NAME=Android CharacterView Library<br>POM_ARTIFACT_ID=characterView<br>POM_PACKAGING=aar<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#19978;&#38754;&#30340;&#37197;&#32622;&#23601;&#34920;&#26126;&#20102;&#36825;&#20010;library&#23545;&#24212;&#30340;&#20381;&#36182;&#20026;&#10;&#10;&#62; GROUP:POM_ARTIFACT_ID:VERSION_NAME&#65288;com.github.ruijun:characterView:1.0&#65289;&#10;&#10;&#10;* &#25913;Module&#30446;&#24405;&#30340;build.gradle&#10;&#10;![](/img/maven_7.png)&#10;&#10;&#22312;&#26411;&#23614;&#28155;&#21152;</span><br></pre></td></tr></table></figure></p>
+<p>apply from: ‘../gradle-mvn-push.gradle’<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;* &#37197;&#32622;&#20840;&#23616;&#23646;&#24615;&#10;&#36827;&#20837;C:\Users\username\\.gradle&#19979;&#65292;&#22914;&#26524;&#27809;&#26377;gradle.properties&#65292;&#21487;&#20197;&#26032;&#24314;&#19968;&#20010;&#65292;&#22312;&#25991;&#20214;&#37324;&#38754;&#28155;&#21152;&#10;&#10;![](/img/maven_8.png)</span><br></pre></td></tr></table></figure></p>
+<p>NEXUS_USERNAME=ruijun(Sonatype帐号username)<br>NEXUS_PASSWORD=password(密码)</p>
+<p>signing.keyId=F445638E(密钥的Key id)<br>signing.password=passphrase(上面提到的passphrase)<br>signing.secretKeyRingFile=C:/Users/ruijun/AppData/Roaming/gnupg/secring.gpg(私钥文件路径)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## &#19978;&#20256;library&#10;&#19978;&#38754;&#30340;&#37197;&#32622;&#37117;&#23436;&#25104;&#21518;&#65292;&#22312;Android Studio&#30340;Terminal&#36755;&#20837;&#65306;</span><br></pre></td></tr></table></figure></p>
+<p>gradle uploadArchives<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;### &#36935;&#21040;&#30340;&#38382;&#39064;&#10;&#25105;&#22312;&#19978;&#20256;&#30340;&#36807;&#31243;&#20013;&#65292;&#20986;&#29616;&#20102;&#19979;&#38754;&#30340;&#38382;&#39064;</span><br></pre></td></tr></table></figure></p>
+<p>Execution failed for task ‘:library:uploadArchives’.</p>
+<blockquote>
+<p>Could not publish configuration ‘archives’<br>Error deploying artifact ‘com.github.ruijun:characterview:aar’: Error deploying artifact: Authorization failed: Access denied to: <a href="https://oss.sonatype.org/service/local/staging/deploy" target="_blank" rel="external">https://oss.sonatype.org/service/local/staging/deploy</a><br>/maven2/com/github/ruijun/characterview/1.0/characterview-1.0.aar<br>```<br>谷歌好久都没有找到解决方法，最后在sonatype提问，发现是权限的问题。管理员帮我修复后，再次上传就成功了。</p>
+</blockquote>
+<p><img src="/img/maven_9.png" alt=""></p>
+<h2 id="u90E8_u7F72release_u7248_u672C_2C__u53D1_u5E03"><a href="#u90E8_u7F72release_u7248_u672C_2C__u53D1_u5E03" class="headerlink" title="部署release版本, 发布"></a>部署release版本, 发布</h2><p>登录<a href="https://oss.sonatype.org/#welcome" target="_blank" rel="external">Sonatype Nexus</a>，选择左侧面板选择Staging Repositories。</p>
+<p><img src="/img/maven_10.png" alt=""></p>
+<p>在出现的选项卡右上角的搜索框输入你的username或者group Id进行搜索<br>如果搜索结果Profile不是Group Id的话，后续的close，release操作都会失败。</p>
+<p><img src="/img/maven_11.png" alt=""></p>
+<p>出现这个原因是上面的GROUP配置有误。GROUP应该配置为Group Id,一定要记住。可以点击列表上面的Drop按钮删除这个repository，然后重新配置Group再上传。重新配置上传后，再次搜索，结果如下，证明已经正确，可以开始close。</p>
+<p><img src="/img/maven_12.png" alt=""></p>
+<p>成功close之后，可以点击Release按钮正式发布repository，没什么问题的话，两小时左右就可以在 <a href="http://search.maven.org/" target="_blank" rel="external">search.maven.org</a> 搜到你的library了。</p>
+<h2 id="u5907_u6CE8"><a href="#u5907_u6CE8" class="headerlink" title="备注"></a>备注</h2><p>Library：<a href="https://github.com/ruijun/Characterview" target="_blank" rel="external">Characterview</a><br>JIRA ticket：<a href="https://issues.sonatype.org/browse/OSSRH-15833" target="_blank" rel="external">OSSRH-15833</a>（这个是成功的） <a href="https://issues.sonatype.org/browse/OSSRH-15808" target="_blank" rel="external">OSSRH-15808</a>(这个是失败的)</p>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p>审核过程会浪费点时间，也会遇到各种各样的问题，不过sonatype 服务绝对是五星级的，将遇到的问题在Comment描述，都会得到解决办法，注册邮箱也会收到相应的通知。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Sonatype/" rel="tag">#Sonatype</a>
+          
+            <a href="/tags/aar/" rel="tag">#aar</a>
+          
+            <a href="/tags/maven/" rel="tag">#maven</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/01/Android分享：Google-I-O-2015-为-Android-开发者带来了哪些福利？/" rel="next" title="Android Tips：Google I/O 2015 为 Android 开发者带来了哪些福利？">
+                <i class="fa fa-chevron-left"></i> Android Tips：Google I/O 2015 为 Android 开发者带来了哪些福利？
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/07/Android分享：AndroidStudio有用的插件/" rel="prev" title="Android分享：AndroidStudio有用的插件">
+                Android分享：AndroidStudio有用的插件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/06/05/使用Gradle上传aar到mavenCentral详细教程/"
+     data-title="使用Gradle上传aar到mavenCentral详细教程"
+     data-content=""
+     data-url="http://yoursite.com/2015/06/05/使用Gradle上传aar到mavenCentral详细教程/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/06/05/使用Gradle上传aar到mavenCentral详细教程/"
+           data-title="使用Gradle上传aar到mavenCentral详细教程" data-url="http://yoursite.com/2015/06/05/使用Gradle上传aar到mavenCentral详细教程/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200"
+               alt="liangruijun" />
+          <p class="site-author-name" itemprop="name">liangruijun</p>
+          <p class="site-description motion-element" itemprop="description">以梦为马，不负韶华</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ruijun" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/liangruijun" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-comments"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:lingdududu@163.com" target="_blank" title="邮箱">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  邮箱
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.trinea.cn/" title="Trinea的博客" target="_blank">Trinea的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://stormzhang.com/" title="stormzhang的博客" target="_blank">stormzhang的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://hukai.me/" title="胡凯的博客" target="_blank">胡凯的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/luoshengyang" title="老罗Android之旅" target="_blank">老罗Android之旅</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lmj623565791" title="鸿洋的博客" target="_blank">鸿洋的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.devtf.cn/" title="开发技术前线" target="_blank">开发技术前线</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.androidweekly.cn/" title="Android开发技术周报" target="_blank">Android开发技术周报</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jcodecraeer.com/" title="泡在网上的日子" target="_blank">泡在网上的日子</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gank.io/" title="Gank" target="_blank">Gank</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u5177_u4F53_u6B65_u9AA4"><span class="nav-number">1.</span> <span class="nav-text">具体步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#u6CE8_u518CSonatype_u5E10_u53F7_2C__u521B_u5EFA_u4E00_u4E2AJIRA_ticket"><span class="nav-number">1.1.</span> <span class="nav-text">注册Sonatype帐号, 创建一个JIRA ticket</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#u9047_u5230_u7684_u95EE_u9898"><span class="nav-number">1.1.1.</span> <span class="nav-text">遇到的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u4F7F_u7528GnuPG_u751F_u6210_u5BC6_u94A5"><span class="nav-number">1.2.</span> <span class="nav-text">使用GnuPG生成密钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C_3A/Users/ruijun/AppData/Roaming/gnupg/pubring-gpg"><span class="nav-number">1.3.</span> <span class="nav-text">C:/Users/ruijun/AppData/Roaming/gnupg/pubring.gpg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C_3A/Users/ruijun/AppData/Roaming/gnupg/secring-gpg"><span class="nav-number">1.4.</span> <span class="nav-text">C:/Users/ruijun/AppData/Roaming/gnupg/secring.gpg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u90E8_u7F72release_u7248_u672C_2C__u53D1_u5E03"><span class="nav-number">1.5.</span> <span class="nav-text">部署release版本, 发布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5907_u6CE8"><span class="nav-number">1.6.</span> <span class="nav-text">备注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u603B_u7ED3"><span class="nav-number">1.7.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liangruijun</span>
+</div>
+
+<!-- <div class="busuanzi">
+  <span id="busuanzi_container_site_pv">
+    总访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+
+  <span id="busuanzi_container_site_uv">
+    &nbsp; | &nbsp; 访客数<span id="busuanzi_value_site_uv"></span>人
+  </span>
+</div> -->
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"liangruijun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

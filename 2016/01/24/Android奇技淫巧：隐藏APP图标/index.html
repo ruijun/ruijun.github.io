@@ -1,0 +1,929 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android奇技淫巧," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="背景最近碰到个需求，需要在桌面隐藏APP的图标。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android奇技淫巧：隐藏APP图标">
+<meta property="og:url" content="http://yoursite.com/2016/01/24/Android奇技淫巧：隐藏APP图标/index.html">
+<meta property="og:site_name" content="ruijun's blog">
+<meta property="og:description" content="背景最近碰到个需求，需要在桌面隐藏APP的图标。">
+<meta property="og:updated_time" content="2016-08-02T01:26:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android奇技淫巧：隐藏APP图标">
+<meta name="twitter:description" content="背景最近碰到个需求，需要在桌面隐藏APP的图标。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/01/24/Android奇技淫巧：隐藏APP图标/"/>
+
+  <title> Android奇技淫巧：隐藏APP图标 | ruijun's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?0b6be6bd2aa30eb47ed600c52cf2c168";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ruijun's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">以梦为马，不负韶华</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android奇技淫巧：隐藏APP图标
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-24T22:36:41+08:00" content="2016-01-24">
+              2016-01-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android奇技淫巧/" itemprop="url" rel="index">
+                    <span itemprop="name">Android奇技淫巧</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          <span id="post-count">
+            &nbsp; | &nbsp; 字数&nbsp; <span class="post-count">1,969</span>
+          </span>
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/24/Android奇技淫巧：隐藏APP图标/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/24/Android奇技淫巧：隐藏APP图标/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="u80CC_u666F"><a href="#u80CC_u666F" class="headerlink" title="背景"></a>背景</h3><p>最近碰到个需求，需要在桌面隐藏APP的图标。</p>
+<a id="more"></a>
+<h3 id="u4ECB_u7ECD"><a href="#u4ECB_u7ECD" class="headerlink" title="介绍"></a>介绍</h3><p>我在网上查查了，发现有几种方式  </p>
+<ol>
+<li>AndroidManifest.xml文件中在入口Activity的intent-filter里去掉category android:name=”android.intent.category.LAUNCHER或者将LAUNCHER改为DEFAULT  </li>
+<li>在程序中加入下面的代码<br>PackageManager p = getPackageManager();<br>p.setComponentEnabledSetting(getComponentName(), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);  </li>
+<li>去掉android:icon=”@drawable/ic_launcher”中的资源啊</li>
+</ol>
+<h4 id="u7136_u800C_u8BD5_u4E86_u4E4B_u540E_uFF0C_u53D1_u73B0_u8FD9_u51E0_u79CD_u65B9_u6CD5_u5E76_u6CA1_u6709_u4EC0_u4E48_u5375_u7528_uFF0C_u4F1A_u5E26_u6765_u542F_u52A8_u4E0D_u4E86_u7A0B_u5E8F_uFF0C_u7A0B_u5E8F_u65E0_u6CD5_u6B63_u5E38_u4F7F_u7528_u7684_u95EE_u9898_7E_7E"><a href="#u7136_u800C_u8BD5_u4E86_u4E4B_u540E_uFF0C_u53D1_u73B0_u8FD9_u51E0_u79CD_u65B9_u6CD5_u5E76_u6CA1_u6709_u4EC0_u4E48_u5375_u7528_uFF0C_u4F1A_u5E26_u6765_u542F_u52A8_u4E0D_u4E86_u7A0B_u5E8F_uFF0C_u7A0B_u5E8F_u65E0_u6CD5_u6B63_u5E38_u4F7F_u7528_u7684_u95EE_u9898_7E_7E" class="headerlink" title="然而试了之后，发现这几种方法并没有什么卵用，会带来启动不了程序，程序无法正常使用的问题~~"></a>然而试了之后，发现这几种方法并没有什么卵用，会带来启动不了程序，程序无法正常使用的问题~~</h4><h4 id="u6700_u540E_u53D1_u73B0_u4E86_u4E00_u79CD_u5B8C_u7F8E_u89E3_u51B3_u65B9_u6CD5"><a href="#u6700_u540E_u53D1_u73B0_u4E86_u4E00_u79CD_u5B8C_u7F8E_u89E3_u51B3_u65B9_u6CD5" class="headerlink" title="最后发现了一种完美解决方法"></a>最后发现了一种完美解决方法</h4><p>在manifest的入口activity里面intent-filter中设置data<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;data android:host=”ruijun.com” android:scheme=”http” /&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="u539F_u7406"><a href="#u539F_u7406" class="headerlink" title="原理"></a>原理</h3><p>研究过<code>Launcher</code>的童鞋应该都知道<code>LoaderTask.loadAllAppsByBatch</code>有那么一段<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">LoaderTask</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">	......</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">loadAllAppsByBatch</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		......</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 此处是关键代码</span></span><br><span class="line">		<span class="comment">// 设置Intent的action为ACTION_MAIN，category为CATEGORY_LAUNCHER  </span></span><br><span class="line">    		<span class="comment">// 这样就过滤出桌面上显示的启动项了</span></span><br><span class="line">    		<span class="comment">// 注意这里是没有匹配data的</span></span><br><span class="line">		<span class="keyword">final</span> Intent mainIntent = <span class="keyword">new</span> Intent(Intent.ACTION_MAIN, <span class="keyword">null</span>);</span><br><span class="line">		mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">final</span> PackageManager packageManager = mContext.getPackageManager();</span><br><span class="line">		List&lt;ResolveInfo&gt; apps = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> N = Integer.MAX_VALUE;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> startIndex;</span><br><span class="line">		<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">int</span> batchSize = -<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">while</span> (i &lt; N &amp;&amp; !mStopped) &#123;</span><br><span class="line">			<span class="keyword">if</span> (i == <span class="number">0</span>) &#123;</span><br><span class="line">				mAllAppsList.clear();</span><br><span class="line">				......</span><br><span class="line">				<span class="comment">// 查询得到结果</span></span><br><span class="line">				apps = packageManager.queryIntentActivities(mainIntent, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">				......</span><br><span class="line"></span><br><span class="line">				Collections.sort(apps,</span><br><span class="line">					<span class="keyword">new</span> ResolveInfo.DisplayNameComparator(packageManager));</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			startIndex = i;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; i&lt;N &amp;&amp; j&lt;batchSize; j++) &#123;</span><br><span class="line">				<span class="comment">// This builds the icon bitmaps.</span></span><br><span class="line">				mAllAppsList.add(<span class="keyword">new</span> ApplicationInfo(apps.get(i), mIconCache));</span><br><span class="line">				i++;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">final</span> <span class="keyword">boolean</span> first = i &lt;= batchSize;</span><br><span class="line">			<span class="keyword">final</span> Callbacks callbacks = tryGetCallbacks(oldCallbacks);</span><br><span class="line">			<span class="keyword">final</span> ArrayList&lt;ApplicationInfo&gt; added = mAllAppsList.added;</span><br><span class="line">			mAllAppsList.added = <span class="keyword">new</span> ArrayList&lt;ApplicationInfo&gt;();</span><br><span class="line"></span><br><span class="line">			mHandler.post(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">					<span class="keyword">final</span> <span class="keyword">long</span> t = SystemClock.uptimeMillis();</span><br><span class="line">					<span class="keyword">if</span> (callbacks != <span class="keyword">null</span>) &#123;</span><br><span class="line">						<span class="keyword">if</span> (first) &#123;</span><br><span class="line">							callbacks.bindAllApplications(added);</span><br><span class="line">						&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">							callbacks.bindAppsAdded(added);</span><br><span class="line">						&#125;</span><br><span class="line">						......</span><br><span class="line">					&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">						......</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line"></span><br><span class="line">			......</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		......</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>因为入口Activity加入了data，这里只是匹配了Action，Category。所以就匹配不了该Activity了，下面的apps就不含这个该Activity的信息。  </p>
+<p><code>Launcher</code>还有那么一段：<code>Launcher.bindAllApplications</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * A package was installed.</span><br><span class="line"> *</span><br><span class="line"> * Implementation of the method from LauncherModel.Callbacks.</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bindAppsAdded</span><span class="params">(ArrayList&lt;ApplicationInfo&gt; apps)</span> </span>&#123;</span><br><span class="line">    setLoadOnResume();</span><br><span class="line">    removeDialog(DIALOG_CREATE_SHORTCUT);</span><br><span class="line">    mAllAppsGrid.addApps(apps);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>由于满足不了上面的过滤匹配条件，mAllAppsGrid.setApps(apps)apps中不含有该入口Activity，桌面也就看不到我们的APP图标了。</p>
+<h3 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h3><p>关于Launcher分析，可以看下这几篇文章<br><a href="http://blog.csdn.net/chenshaoyang0011/article/details/7831617" target="_blank" rel="external">Android系统默认Home应用程序（Launcher）的启动过程源代码分析</a><br><a href="http://blog.csdn.net/yanbober/article/details/50525559" target="_blank" rel="external">Android M Launcher3主流程源码浅析</a><br><a href="http://blog.csdn.net/chenshaoyang0011/article/details/7831617" target="_blank" rel="external">Android 4.0 Launcher2源码分析——Launcher内容加载详细过程</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android奇技淫巧/" rel="tag">#Android奇技淫巧</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/24/Android分享：如何高效率开发App/" rel="next" title="Android分享：如何高效率开发App">
+                <i class="fa fa-chevron-left"></i> Android分享：如何高效率开发App
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/24/随笔所想/" rel="prev" title="随笔所想">
+                随笔所想 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/01/24/Android奇技淫巧：隐藏APP图标/"
+     data-title="Android奇技淫巧：隐藏APP图标"
+     data-content=""
+     data-url="http://yoursite.com/2016/01/24/Android奇技淫巧：隐藏APP图标/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/24/Android奇技淫巧：隐藏APP图标/"
+           data-title="Android奇技淫巧：隐藏APP图标" data-url="http://yoursite.com/2016/01/24/Android奇技淫巧：隐藏APP图标/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200"
+               alt="liangruijun" />
+          <p class="site-author-name" itemprop="name">liangruijun</p>
+          <p class="site-description motion-element" itemprop="description">以梦为马，不负韶华</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ruijun" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/liangruijun" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-comments"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:lingdududu@163.com" target="_blank" title="邮箱">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  邮箱
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.trinea.cn/" title="Trinea的博客" target="_blank">Trinea的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://stormzhang.com/" title="stormzhang的博客" target="_blank">stormzhang的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://hukai.me/" title="胡凯的博客" target="_blank">胡凯的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/luoshengyang" title="老罗Android之旅" target="_blank">老罗Android之旅</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lmj623565791" title="鸿洋的博客" target="_blank">鸿洋的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.devtf.cn/" title="开发技术前线" target="_blank">开发技术前线</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.androidweekly.cn/" title="Android开发技术周报" target="_blank">Android开发技术周报</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jcodecraeer.com/" title="泡在网上的日子" target="_blank">泡在网上的日子</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gank.io/" title="Gank" target="_blank">Gank</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u80CC_u666F"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u4ECB_u7ECD"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u7136_u800C_u8BD5_u4E86_u4E4B_u540E_uFF0C_u53D1_u73B0_u8FD9_u51E0_u79CD_u65B9_u6CD5_u5E76_u6CA1_u6709_u4EC0_u4E48_u5375_u7528_uFF0C_u4F1A_u5E26_u6765_u542F_u52A8_u4E0D_u4E86_u7A0B_u5E8F_uFF0C_u7A0B_u5E8F_u65E0_u6CD5_u6B63_u5E38_u4F7F_u7528_u7684_u95EE_u9898_7E_7E"><span class="nav-number">2.1.</span> <span class="nav-text">然而试了之后，发现这几种方法并没有什么卵用，会带来启动不了程序，程序无法正常使用的问题~~</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u6700_u540E_u53D1_u73B0_u4E86_u4E00_u79CD_u5B8C_u7F8E_u89E3_u51B3_u65B9_u6CD5"><span class="nav-number">2.2.</span> <span class="nav-text">最后发现了一种完美解决方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u539F_u7406"><span class="nav-number">3.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u53C2_u8003"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liangruijun</span>
+</div>
+
+<!-- <div class="busuanzi">
+  <span id="busuanzi_container_site_pv">
+    总访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+
+  <span id="busuanzi_container_site_uv">
+    &nbsp; | &nbsp; 访客数<span id="busuanzi_value_site_uv"></span>人
+  </span>
+</div> -->
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"liangruijun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
