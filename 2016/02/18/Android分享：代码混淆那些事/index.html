@@ -1,0 +1,951 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android分享,proguard," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言&amp;emsp;&amp;emsp;ProGuard是一个开源的Java代码混淆器。它可以混淆Android项目里面的java代码，对的，你没看错，仅仅是java代码。它是无法混淆Native代码，资源文件drawable、xml等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android分享：代码混淆那些事">
+<meta property="og:url" content="http://yoursite.com/2016/02/18/Android分享：代码混淆那些事/index.html">
+<meta property="og:site_name" content="ruijun's blog">
+<meta property="og:description" content="前言&amp;emsp;&amp;emsp;ProGuard是一个开源的Java代码混淆器。它可以混淆Android项目里面的java代码，对的，你没看错，仅仅是java代码。它是无法混淆Native代码，资源文件drawable、xml等。">
+<meta property="og:updated_time" content="2016-08-02T01:27:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android分享：代码混淆那些事">
+<meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;ProGuard是一个开源的Java代码混淆器。它可以混淆Android项目里面的java代码，对的，你没看错，仅仅是java代码。它是无法混淆Native代码，资源文件drawable、xml等。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/02/18/Android分享：代码混淆那些事/"/>
+
+  <title> Android分享：代码混淆那些事 | ruijun's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?0b6be6bd2aa30eb47ed600c52cf2c168";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ruijun's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">以梦为马，不负韶华</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android分享：代码混淆那些事
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-18T21:33:42+08:00" content="2016-02-18">
+              2016-02-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android分享/" itemprop="url" rel="index">
+                    <span itemprop="name">Android分享</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          <span id="post-count">
+            &nbsp; | &nbsp; 字数&nbsp; <span class="post-count">3,058</span>
+          </span>
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/02/18/Android分享：代码混淆那些事/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/18/Android分享：代码混淆那些事/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h3><p>&emsp;&emsp;<a href="http://proguard.sourceforge.net/" target="_blank" rel="external">ProGuard</a>是一个开源的Java代码混淆器。它可以混淆Android项目里面的java代码，对的，你没看错，仅仅是java代码。它是无法混淆Native代码，资源文件drawable、xml等。</p>
+<a id="more"></a>
+<h3 id="ProGuard_u4F5C_u7528"><a href="#ProGuard_u4F5C_u7528" class="headerlink" title="ProGuard作用"></a>ProGuard作用</h3><ul>
+<li>压缩: 移除无效的类、属性、方法等</li>
+<li>优化: 优化字节码，并删除未使用的结构</li>
+<li>混淆: 将类名、属性名、方法名混淆为难以读懂的字母，比如a,b,c</li>
+</ul>
+<h3 id="u6DF7_u6DC6_u6CE8_u610F_u4E8B_u9879"><a href="#u6DF7_u6DC6_u6CE8_u610F_u4E8B_u9879" class="headerlink" title="混淆注意事项"></a>混淆注意事项</h3><h4 id="u4E0D_u80FD_u6DF7_u6DC6"><a href="#u4E0D_u80FD_u6DF7_u6DC6" class="headerlink" title="不能混淆"></a>不能混淆</h4><ul>
+<li>在AndroidManifest中配置的类，比如四大组件</li>
+<li>JNI调用的方法</li>
+<li>反射用到的类</li>
+<li>WebView中JavaScript调用的方法</li>
+<li>Layout文件引用到的自定义View</li>
+<li>一些引入的第三方库（一般都会有混淆说明的）<br>这里推荐两个开源项目，里面收集了一些第三方库的混淆规则<br><a href="https://github.com/krschultz/android-proguard-snippets" target="_blank" rel="external">android-proguard-snippets</a> 和<br><a href="https://github.com/msdx/android-proguard-cn" target="_blank" rel="external">android-proguard-cn</a><blockquote>
+<p>不难理解，混淆之后，类名会变成a,b,c这种，通过包名+类名自然就会找不到该类了， 所以就会出现ClassNotFoundException异常<br><a href="http://www.itnose.net/detail/6043297.html" target="_blank" rel="external">http://www.itnose.net/detail/6043297.html</a></p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Log_u5904_u7406"><a href="#Log_u5904_u7406" class="headerlink" title="Log处理"></a>Log处理</h4><p>我们都知道，使用Log的时候，需要用到TAG，然而TAG我们一般都会写成：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">private static final String TAG = MainActivity.class.getSimpleName()</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">这时候MainActivity如何被混淆的话，log输出信息就会变成V/a:xxxxxxx，所以为了让log输出信息维持原状，可以将TAG处理成固定的字符串：  </span><br><span class="line">```java</span><br><span class="line">private static final String TAG = "MainActivity"</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">正好Android Studio里面的Live Templates</span><br><span class="line">![](/img/proguard_1.png)</span><br><span class="line"></span><br><span class="line">能让轻轻松松的声明TAG  </span><br><span class="line">![](/img/proguard_2.gif)</span><br><span class="line"></span><br><span class="line">关于Log处理，推荐一篇文章：https://www.zybuluo.com/shark0017/note/163330</span><br><span class="line"></span><br><span class="line">#### Crash信息处理</span><br><span class="line">代码混淆的时候记得加上在混淆文件里面记得加上这句：  </span><br><span class="line">``# keep住源文件以及行号``  </span><br><span class="line">``-keepattributes SourceFile,LineNumberTable``</span><br><span class="line"></span><br><span class="line">否则你看到的崩溃信息就会变成这样子（图片来自bugly）  </span><br><span class="line">![](/img/proguard_3.png)</span><br><span class="line"></span><br><span class="line">这里推荐bugly的一篇文章： http://bugly.qq.com/bbs/forum.php?mod=viewthread&amp;tid=26&amp;extra=page%3D1</span><br><span class="line"></span><br><span class="line">### ProGuard使用</span><br><span class="line">#### 常用语法</span><br><span class="line">1. 保留  </span><br><span class="line">-keep &#123;Modifier&#125; &#123;class_specification&#125; 保护指定的类文件和类的成员  </span><br><span class="line">-keepclassmembers &#123;modifier&#125; &#123;class_specification&#125; 保护指定类的成员，如果此类受到保护他们会保护的更好  </span><br><span class="line">-keepclasseswithmembers &#123;class_specification&#125; 保护指定的类和类的成员，但条件是所有指定的类和类成员是要存在。  </span><br><span class="line">-keepnames &#123;class_specification&#125; 保护指定的类和类的成员的名称（如果他们不会压缩步骤中删除）  </span><br><span class="line">-keepclassmembernames &#123;class_specification&#125; 保护指定的类的成员的名称（如果他们不会压缩步骤中删除）  </span><br><span class="line">-keepclasseswithmembernames &#123;class_specification&#125; 保护指定的类和类的成员的名称，如果所有指定的类成员出席（在压缩步骤之后）    </span><br><span class="line">-printseeds &#123;filename&#125; 列出类和类的成员-keep选项的清单，标准输出到给定的文件  </span><br><span class="line"></span><br><span class="line">2. 压缩  </span><br><span class="line">-dontshrink 不压缩输入的类文件  </span><br><span class="line">-printusage &#123;filename&#125;  </span><br><span class="line">-whyareyoukeeping &#123;class_specification&#125;  </span><br><span class="line"></span><br><span class="line">3. 优化  </span><br><span class="line">-dontoptimize 不优化输入的类文件  </span><br><span class="line">-assumenosideeffects &#123;class_specification&#125; 优化时假设指定的方法，没有任何副作用  </span><br><span class="line">-allowaccessmodification 优化时允许访问并修改有修饰符的类和类的成员</span><br><span class="line"></span><br><span class="line">4. 混淆  </span><br><span class="line">-dontobfuscate 不混淆输入的类文件  </span><br><span class="line">-obfuscationdictionary &#123;filename&#125; 使用给定文件中的关键字作为要混淆方法的名称  </span><br><span class="line">-overloadaggressively 混淆时应用侵入式重载  </span><br><span class="line">-useuniqueclassmembernames 确定统一的混淆类的成员名称来增加混淆  </span><br><span class="line">-flattenpackagehierarchy &#123;package_name&#125; 重新包装所有重命名的包并放在给定的单一包中  </span><br><span class="line">-repackageclass &#123;package_name&#125; 重新包装所有重命名的类文件中放在给定的单一包中   </span><br><span class="line">-dontusemixedcaseclassnames 混淆时不会产生形形色色的类名    </span><br><span class="line">-keepattributes &#123;attribute_name,…&#125; 保护给定的可选属性，例如LineNumberTable,   LocalVariableTable, SourceFile, Deprecated, Synthetic, Signature, and   InnerClasses.  </span><br><span class="line">-renamesourcefileattribute &#123;string&#125; 设置源文件中给定的字符串常量  </span><br><span class="line"></span><br><span class="line">5. 通配符匹配规则  </span><br><span class="line"></span><br><span class="line">| 通配符| 规则 |</span><br><span class="line">| -------- | -------- |</span><br><span class="line">| ？  | 匹配单个字符   |</span><br><span class="line">| *  | 匹配类名中的任何部分，但不包含额外的包名  |</span><br><span class="line">| **  | 匹配类名中的任何部分，并且可以包含额外的包名  |</span><br><span class="line">| %  | 匹配任何基础类型的类型名  |</span><br><span class="line">| *** | 匹配任意类型名 ,包含基础类型/非基础类型 |</span><br><span class="line">| ... | 匹配任意数量、任意类型的参数 |</span><br><span class="line">| &lt;init&gt;	| 匹配任何构造器 |</span><br><span class="line">| &lt;ifield&gt; | 匹配任何字段名|</span><br><span class="line">| &lt;imethod&gt; | 匹配任何方法|</span><br><span class="line">| *(当用在类内部时)	| 匹配任何字段和方法|</span><br><span class="line">| $	| 指内部类 |</span><br><span class="line"></span><br><span class="line">&gt; 更详细的语法请戳:http://proguard.sourceforge.net/manual/usage.html#classspecification</span><br><span class="line"></span><br><span class="line">#### Android Studio中使用方法</span><br><span class="line">按照上面的语法规则编写proguard-rules.pro后，需要在build.gradle中配置，需要混淆的时候，需要设置minifyEnabled为true</span><br><span class="line">```java</span><br><span class="line">buildTypes &#123;</span><br><span class="line">    debug &#123;</span><br><span class="line">        minifyEnabled false</span><br><span class="line">    &#125;</span><br><span class="line">    release &#123;</span><br><span class="line">        signingConfig signingConfigs.release</span><br><span class="line">        minifyEnabled true</span><br><span class="line">        proguardFiles 'proguard-rules.pro'</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="ProGuard_u7684_u8F93_u51FA_u6587_u4EF6_u8BF4_u660E"><a href="#ProGuard_u7684_u8F93_u51FA_u6587_u4EF6_u8BF4_u660E" class="headerlink" title="ProGuard的输出文件说明"></a>ProGuard的输出文件说明</h4><p>混淆后，会在/build/proguard/目录下输出下面的文件</p>
+<ul>
+<li>dump.txt 描述apk文件中所有类文件间的内部结构。</li>
+<li>mapping.txt 列出了原始的类，方法，和字段名与混淆后代码之间的映射。</li>
+<li>seeds.txt 列出了未被混淆的类和成员</li>
+<li>usage.txt 列出了从apk中删除的代码<br>当我们需要处理crash log的时候，就可以通过mapping.txt的映射关系找到对应的类，方法，字段等。方法如下：<br>sdk\tools\proguard\bin 目录下有个retrace工具可以将混淆后的报错堆栈解码成正常的类名<br>window下为retrace.bat，linux和mac为retrace.sh，</li>
+</ul>
+<p>使用方法如下：</p>
+<ol>
+<li>将crash log保存为yourfilename.txt</li>
+<li>拿到版本发布时生成的mapping.txt</li>
+<li>执行命令retrace.bat -verbose mapping.txt yourfilename.txt</li>
+</ol>
+<p>所以我们每次打包版本都需要保存最新的mapping.txt文件。如果要使用到第三方的crash统计平台，比如bugly，还需要我们上传APP版本对应的mapping.txt.每次都要保存最新的mapping文件，那不就很麻烦？放心，gradle会帮到你，只需要在bulid.gradle加入下面的一句。每次我们编译的时候，都会自动帮你保存mapping文件到本地的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">applicationVariants.all &#123; variant -&gt;</span><br><span class="line">        variant.outputs.each &#123; output -&gt;</span><br><span class="line">            <span class="keyword">if</span> (variant.getBuildType().isMinifyEnabled()) &#123;</span><br><span class="line">                variant.assemble.doLast&#123;</span><br><span class="line">                        copy &#123;</span><br><span class="line">                            from variant.mappingFile</span><br><span class="line">                            into <span class="string">"$&#123;projectDir&#125;/mappings"</span></span><br><span class="line">                            rename &#123; String fileName -&gt;</span><br><span class="line">                                <span class="string">"mapping-$&#123;variant.name&#125;.txt"</span></span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ......</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h3><p><a href="https://blog.gmem.cc/proguard-study-note" target="_blank" rel="external">https://blog.gmem.cc/proguard-study-note</a><br><a href="http://developer.android.com/intl/zh-cn/tools/help/proguard.html" target="_blank" rel="external">http://developer.android.com/intl/zh-cn/tools/help/proguard.html</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android分享/" rel="tag">#Android分享</a>
+          
+            <a href="/tags/proguard/" rel="tag">#proguard</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/16/Android分享：录制屏幕并制作GIF文件/" rel="next" title="Android分享：录制屏幕并制作GIF文件">
+                <i class="fa fa-chevron-left"></i> Android分享：录制屏幕并制作GIF文件
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/02/测试Next标签/" rel="prev" title="测试Next标签">
+                测试Next标签 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/02/18/Android分享：代码混淆那些事/"
+     data-title="Android分享：代码混淆那些事"
+     data-content=""
+     data-url="http://yoursite.com/2016/02/18/Android分享：代码混淆那些事/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/02/18/Android分享：代码混淆那些事/"
+           data-title="Android分享：代码混淆那些事" data-url="http://yoursite.com/2016/02/18/Android分享：代码混淆那些事/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200"
+               alt="liangruijun" />
+          <p class="site-author-name" itemprop="name">liangruijun</p>
+          <p class="site-description motion-element" itemprop="description">以梦为马，不负韶华</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ruijun" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/liangruijun" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-comments"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:lingdududu@163.com" target="_blank" title="邮箱">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  邮箱
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.trinea.cn/" title="Trinea的博客" target="_blank">Trinea的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://stormzhang.com/" title="stormzhang的博客" target="_blank">stormzhang的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://hukai.me/" title="胡凯的博客" target="_blank">胡凯的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/luoshengyang" title="老罗Android之旅" target="_blank">老罗Android之旅</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lmj623565791" title="鸿洋的博客" target="_blank">鸿洋的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.devtf.cn/" title="开发技术前线" target="_blank">开发技术前线</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.androidweekly.cn/" title="Android开发技术周报" target="_blank">Android开发技术周报</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jcodecraeer.com/" title="泡在网上的日子" target="_blank">泡在网上的日子</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gank.io/" title="Gank" target="_blank">Gank</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u524D_u8A00"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ProGuard_u4F5C_u7528"><span class="nav-number">2.</span> <span class="nav-text">ProGuard作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u6DF7_u6DC6_u6CE8_u610F_u4E8B_u9879"><span class="nav-number">3.</span> <span class="nav-text">混淆注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u4E0D_u80FD_u6DF7_u6DC6"><span class="nav-number">3.1.</span> <span class="nav-text">不能混淆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Log_u5904_u7406"><span class="nav-number">3.2.</span> <span class="nav-text">Log处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ProGuard_u7684_u8F93_u51FA_u6587_u4EF6_u8BF4_u660E"><span class="nav-number">3.3.</span> <span class="nav-text">ProGuard的输出文件说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u53C2_u8003"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liangruijun</span>
+</div>
+
+<!-- <div class="busuanzi">
+  <span id="busuanzi_container_site_pv">
+    总访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+
+  <span id="busuanzi_container_site_uv">
+    &nbsp; | &nbsp; 访客数<span id="busuanzi_value_site_uv"></span>人
+  </span>
+</div> -->
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"liangruijun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

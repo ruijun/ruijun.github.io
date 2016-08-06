@@ -1,0 +1,1025 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android分享," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言&amp;emsp;&amp;emsp;关于如何高效率开发App，开发前需要做哪些准备呢？之前在知乎和segmentfault回到过类似的问题，在这里按划分功能模块—设计APP框架—APP质量把关—内测，正式发布的流程来总结。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android分享：如何高效率开发App">
+<meta property="og:url" content="http://yoursite.com/2016/01/24/Android分享：如何高效率开发App/index.html">
+<meta property="og:site_name" content="ruijun's blog">
+<meta property="og:description" content="前言&amp;emsp;&amp;emsp;关于如何高效率开发App，开发前需要做哪些准备呢？之前在知乎和segmentfault回到过类似的问题，在这里按划分功能模块—设计APP框架—APP质量把关—内测，正式发布的流程来总结。">
+<meta property="og:updated_time" content="2016-08-02T01:35:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android分享：如何高效率开发App">
+<meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;关于如何高效率开发App，开发前需要做哪些准备呢？之前在知乎和segmentfault回到过类似的问题，在这里按划分功能模块—设计APP框架—APP质量把关—内测，正式发布的流程来总结。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/01/24/Android分享：如何高效率开发App/"/>
+
+  <title> Android分享：如何高效率开发App | ruijun's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?0b6be6bd2aa30eb47ed600c52cf2c168";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ruijun's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">以梦为马，不负韶华</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-tags " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android分享：如何高效率开发App
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-24T21:35:25+08:00" content="2016-01-24">
+              2016-01-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android分享/" itemprop="url" rel="index">
+                    <span itemprop="name">Android分享</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          <span id="post-count">
+            &nbsp; | &nbsp; 字数&nbsp; <span class="post-count">1,873</span>
+          </span>
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/24/Android分享：如何高效率开发App/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/24/Android分享：如何高效率开发App/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp;关于如何高效率开发App，开发前需要做哪些准备呢？之前在知乎和segmentfault回到过类似的问题，在这里按划分功能模块—设计APP框架—APP质量把关—内测，正式发布的流程来总结。</p>
+<a id="more"></a>
+<h3 id="1_uFF09_u529F_u80FD_u6A21_u5757"><a href="#1_uFF09_u529F_u80FD_u6A21_u5757" class="headerlink" title="1）功能模块"></a>1）功能模块</h3><h4 id="u7F51_u7EDC_u6A21_u5757"><a href="#u7F51_u7EDC_u6A21_u5757" class="headerlink" title="网络模块"></a>网络模块</h4><ul>
+<li><a href="https://github.com/square/okhttp" target="_blank" rel="external">okhttp</a></li>
+<li><a href="https://github.com/loopj/android-async-http" target="_blank" rel="external">android-async-http</a></li>
+<li><a href="https://developer.android.com/intl/ja/training/volley/index.html" target="_blank" rel="external">volley</a></li>
+<li><a href="https://github.com/square/retrofit" target="_blank" rel="external">retrofit</a></li>
+</ul>
+<h4 id="u4E8B_u4EF6_u603B_u7EBF"><a href="#u4E8B_u4EF6_u603B_u7EBF" class="headerlink" title="事件总线"></a>事件总线</h4><ul>
+<li><a href="https://github.com/square/otto" target="_blank" rel="external">otto</a></li>
+<li><a href="https://github.com/greenrobot/EventBus" target="_blank" rel="external">EventBus</a></li>
+</ul>
+<h4 id="u4F9D_u8D56_u6CE8_u5165"><a href="#u4F9D_u8D56_u6CE8_u5165" class="headerlink" title="依赖注入"></a>依赖注入</h4><ul>
+<li><a href="https://github.com/square/dagger" target="_blank" rel="external">Dagger</a></li>
+<li><a href="https://github.com/roboguice/roboguice" target="_blank" rel="external">RoboGuice</a></li>
+<li><a href="https://github.com/JakeWharton/butterknife" target="_blank" rel="external">ButterKnife</a></li>
+</ul>
+<h4 id="u56FE_u7247_u6A21_u5757"><a href="#u56FE_u7247_u6A21_u5757" class="headerlink" title="图片模块"></a>图片模块</h4><ul>
+<li><a href="https://github.com/facebook/fresco" target="_blank" rel="external">Fresco</a></li>
+<li><a href="https://github.com/bumptech/glide" target="_blank" rel="external">Glide</a></li>
+<li><a href="https://github.com/square/picasso" target="_blank" rel="external">picasso</a></li>
+<li><a href="https://github.com/nostra13/Android-Universal-Image-Loader" target="_blank" rel="external">Android-Universal-Image-Loader</a></li>
+</ul>
+<h4 id="u6570_u636E_u5E93_u6A21_u5757"><a href="#u6570_u636E_u5E93_u6A21_u5757" class="headerlink" title="数据库模块"></a>数据库模块</h4><ul>
+<li><a href="https://github.com/greenrobot/greenDAO" target="_blank" rel="external">greenDao</a></li>
+<li><a href="https://github.com/j256/ormlite-android" target="_blank" rel="external">ormlite</a></li>
+<li><a href="https://github.com/LitePalFramework/LitePal" target="_blank" rel="external">LitePal</a></li>
+</ul>
+<h4 id="u54CD_u5E94_u5F0F_u7F16_u7A0B"><a href="#u54CD_u5E94_u5F0F_u7F16_u7A0B" class="headerlink" title="响应式编程"></a>响应式编程</h4><ul>
+<li><a href="https://github.com/ReactiveX/RxJava" target="_blank" rel="external">RxJava</a></li>
+<li><a href="https://github.com/ReactiveX/RxAndroid" target="_blank" rel="external">RxAndroid</a></li>
+</ul>
+<h4 id="u65E5_u5FD7_u8F93_u51FA"><a href="#u65E5_u5FD7_u8F93_u51FA" class="headerlink" title="日志输出"></a>日志输出</h4><ul>
+<li><a href="https://github.com/orhanobut/logger" target="_blank" rel="external">logger</a></li>
+<li><a href="https://github.com/liaohuqiu/android-CLog" target="_blank" rel="external">android-CLog</a></li>
+<li><a href="https://github.com/ZhaoKaiQiang/KLog" target="_blank" rel="external">KLog</a></li>
+<li><a href="https://github.com/noties/Debug" target="_blank" rel="external">Debug</a></li>
+<li><a href="https://github.com/pengwei1024/LogUtils" target="_blank" rel="external">LogUtils</a></li>
+</ul>
+<h4 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h4><ul>
+<li><a href="https://github.com/alibaba/fastjson" target="_blank" rel="external">fastjson</a></li>
+<li><a href="https://github.com/google/gson" target="_blank" rel="external">gson</a></li>
+<li><a href="https://github.com/FasterXML/jackson" target="_blank" rel="external">jackson</a></li>
+<li><a href="https://github.com/bluelinelabs/LoganSquare" target="_blank" rel="external">LoganSquare</a></li>
+</ul>
+<h3 id="2_uFF09_u67B6_u6784_u8BBE_u8BA1"><a href="#2_uFF09_u67B6_u6784_u8BBE_u8BA1" class="headerlink" title="2）架构设计"></a>2）架构设计</h3><blockquote>
+<p>这个肯定得了解下MVC，MVP，MVVM还有设计模式这些，这里有几个开源项目推荐下</p>
+</blockquote>
+<ul>
+<li><a href="https://github.com/chrisbanes/philm" target="_blank" rel="external">philm</a><br>Movie collection and information app for Android.</li>
+</ul>
+<ul>
+<li><p><a href="https://github.com/liuling07/SimpleNews" target="_blank" rel="external">SimpleNews</a><br>基于Material Design和MVP的新闻客户端</p>
+</li>
+<li><p><a href="https://github.com/maoruibin/GankDaily" target="_blank" rel="external">GankDaily</a><br>A application show technical information every working days, use MVP pattern.</p>
+</li>
+<li><p><a href="https://github.com/SkillCollege/SimplifyReader" target="_blank" rel="external">SimplifyReader</a><br>一款基于Google Material Design设计开发的Android客户端</p>
+</li>
+<li><p><a href="https://github.com/SilenceDut/NBAPlus" target="_blank" rel="external">NBAPlus</a><br>A concise APP about NBA News and Event with RxJava and EventBus</p>
+</li>
+<li><p><a href="https://github.com/yydcdut/PhotoNoter" target="_blank" rel="external">PhotoNoter</a><br>Material Design风格的开源照片笔记。(MVP+Dagger2+RxJava+Dex分包异步加载)</p>
+</li>
+<li><p><a href="https://github.com/drakeet/Meizhi" target="_blank" rel="external">Meizhi</a><br>gank.io unofficial client, RxJava &amp; Retrofit</p>
+</li>
+</ul>
+<h3 id="3_uFF09_u5D29_u6E83_u7EDF_u8BA1_u5E73_u53F0"><a href="#3_uFF09_u5D29_u6E83_u7EDF_u8BA1_u5E73_u53F0" class="headerlink" title="3）崩溃统计平台"></a>3）崩溃统计平台</h3><blockquote>
+<p>对APP崩溃统计是必须的啦，Crittercism和Crashlytics有时候需要梯子，你懂的。ACRA需要自己来搭建。</p>
+</blockquote>
+<ul>
+<li><a href="http://bugly.qq.com/" target="_blank" rel="external">腾讯bugly</a></li>
+<li><a href="http://www.crasheye.cn/" target="_blank" rel="external">金山Crasheye</a></li>
+<li><a href="https://app.crittercism.com/" target="_blank" rel="external">Crittercism</a></li>
+<li><a href="http://try.crashlytics.com/" target="_blank" rel="external">Crashlytics</a></li>
+<li><a href="https://github.com/ACRA/acra" target="_blank" rel="external">ACRA</a>:<a href="https://github.com/bboyfeiyu/android-tech-frontier/tree/master/others/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAAndroid%E5%BA%94%E7%94%A8crashing%E8%B7%9F%E8%B8%AA%E7%B3%BB%E7%BB%9F%EF%BC%8DACRA" target="_blank" rel="external">搭建方法</a></li>
+</ul>
+<h3 id="4_uFF09_u6D4B_u8BD5_u76F8_u5173"><a href="#4_uFF09_u6D4B_u8BD5_u76F8_u5173" class="headerlink" title="4）测试相关"></a>4）测试相关</h3><ul>
+<li><p><a href="https://testerhome.com/" target="_blank" rel="external">testerhome</a><br>支付宝Monkey老师推荐的测试社区，里面有很多干货</p>
+</li>
+<li><p><a href="https://bugtags.com/" target="_blank" rel="external">bugtags</a><br>新一代的、专为移动测试而生的缺陷发现及管理工具</p>
+</li>
+<li><p><a href="http://www.testin.cn/" target="_blank" rel="external">testin</a><br>免费移动App真机云测试平台</p>
+</li>
+<li><p><a href="https://github.com/NetEase/Emmagee" target="_blank" rel="external">Emmagee</a><br>网易出品的，是监控指定被测应用在使用过程中占用机器的CPU、内存、流量资源的性能测试小工具。</p>
+</li>
+<li><p><a href="https://github.com/TencentOpen/GT" target="_blank" rel="external">GT</a><br>腾讯出品的，对APP进行快速的性能测试(CPU、内存、流量、电量、帧率/流畅度等等)、开发日志的查看、Crash日志查看、  网络数据包的抓取、APP内部参数的调试、真机代码耗时统计等</p>
+</li>
+<li><p><a href="https://github.com/hotchemi/awesome-android-testing" target="_blank" rel="external">awesome-android-testing</a><br>收集了不少测试用到的library.</p>
+</li>
+</ul>
+<h3 id="5_uFF09APP_u5185_u6D4B_uFF0C_u5206_u53D1"><a href="#5_uFF09APP_u5185_u6D4B_uFF0C_u5206_u53D1" class="headerlink" title="5）APP内测，分发"></a>5）APP内测，分发</h3><blockquote>
+<p>APP开发完成了，想通过链接方式发给别人使用测试，下面两个平台可以帮到你</p>
+</blockquote>
+<ul>
+<li><a href="http://fir.im/" target="_blank" rel="external">FIR.im</a></li>
+<li><a href="http://www.pgyer.com/" target="_blank" rel="external">蒲公英</a></li>
+</ul>
+<h3 id="6_uFF09_u5176_u4ED6"><a href="#6_uFF09_u5176_u4ED6" class="headerlink" title="6）其他"></a>6）其他</h3><ul>
+<li><p><a href="https://github.com/square/leakcanary" target="_blank" rel="external">leakcanary</a><br>检查内存泄露，square出名，必属精品</p>
+</li>
+<li><p><a href="https://github.com/moduth/blockcanary" target="_blank" rel="external">blockcanary</a><br>检测UI卡顿， 阿里工程师出品  </p>
+</li>
+<li><p><a href="https://github.com/palaima/DebugDrawer" target="_blank" rel="external">DebugDrawer</a><br>帮你快速的在debug版本分析，诊断问题</p>
+</li>
+<li><p><a href="https://github.com/romainguy/ViewServer" target="_blank" rel="external">ViewServer</a><br>当你用真机调试连不上Hierarchy Viewer，它可以帮助你完美解决问题</p>
+</li>
+<li><p><a href="https://github.com/mortenjust/androidtool-mac" target="_blank" rel="external">androidtool-mac</a><br>可在mac上对Android手机和智能手表进行一键截屏、录制视频和安装APK等操作</p>
+</li>
+</ul>
+<h2 id="u540E_u8BDD"><a href="#u540E_u8BDD" class="headerlink" title="后话"></a>后话</h2><p>&emsp;&emsp;虽然这些开源库好用，能让你快速的开发出一款APP。但使用前最好要了它们存在的一些bug和坑，遇到问题可以给作者提issue，能摸索清楚原理更好了。还有就是不要过于追求开源库，过多引入会导致你的代码臃肿，更会造成65535方法数限制的问题，这时你得用<a href="http://developer.android.com/intl/zh-cn/reference/android/support/multidex/MultiDex.html" target="_blank" rel="external">Multidex</a>来解决问题了，在这里可以查询你apk的方法数<a href="http://inloop.github.io/apk-method-count/" target="_blank" rel="external">apk-method-count</a>。</p>
+<p>&emsp;&emsp;另外打个小广告，推荐下自己的：<a href="https://github.com/ruijun/Android-Dev-Favorites" target="_blank" rel="external">Android-Dev-Favorites</a>，里面收集了Android开发的干货，并且会不定期更新哦。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android分享/" rel="tag">#Android分享</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/18/Android Tips：compileSdkVersion,minSdkVersion,targetSdkVersion,buildToolsVersion含义/" rel="next" title="Android Tips：compileSdkVersion,minSdkVersion,targetSdkVersion,buildToolsVersion含义">
+                <i class="fa fa-chevron-left"></i> Android Tips：compileSdkVersion,minSdkVersion,targetSdkVersion,buildToolsVersion含义
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/24/Android奇技淫巧：隐藏APP图标/" rel="prev" title="Android奇技淫巧：隐藏APP图标">
+                Android奇技淫巧：隐藏APP图标 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/01/24/Android分享：如何高效率开发App/"
+     data-title="Android分享：如何高效率开发App"
+     data-content=""
+     data-url="http://yoursite.com/2016/01/24/Android分享：如何高效率开发App/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/24/Android分享：如何高效率开发App/"
+           data-title="Android分享：如何高效率开发App" data-url="http://yoursite.com/2016/01/24/Android分享：如何高效率开发App/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://en.gravatar.com/userimage/61908532/c381a0c6f956213947e545681faae5e4.jpg?size=200"
+               alt="liangruijun" />
+          <p class="site-author-name" itemprop="name">liangruijun</p>
+          <p class="site-description motion-element" itemprop="description">以梦为马，不负韶华</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ruijun" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/liangruijun" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-comments"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:lingdududu@163.com" target="_blank" title="邮箱">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  邮箱
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.trinea.cn/" title="Trinea的博客" target="_blank">Trinea的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://stormzhang.com/" title="stormzhang的博客" target="_blank">stormzhang的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://hukai.me/" title="胡凯的博客" target="_blank">胡凯的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/luoshengyang" title="老罗Android之旅" target="_blank">老罗Android之旅</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lmj623565791" title="鸿洋的博客" target="_blank">鸿洋的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.devtf.cn/" title="开发技术前线" target="_blank">开发技术前线</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.androidweekly.cn/" title="Android开发技术周报" target="_blank">Android开发技术周报</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jcodecraeer.com/" title="泡在网上的日子" target="_blank">泡在网上的日子</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gank.io/" title="Gank" target="_blank">Gank</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#u524D_u8A00"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1_uFF09_u529F_u80FD_u6A21_u5757"><span class="nav-number">1.1.</span> <span class="nav-text">1）功能模块</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u7F51_u7EDC_u6A21_u5757"><span class="nav-number">1.1.1.</span> <span class="nav-text">网络模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u4E8B_u4EF6_u603B_u7EBF"><span class="nav-number">1.1.2.</span> <span class="nav-text">事件总线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u4F9D_u8D56_u6CE8_u5165"><span class="nav-number">1.1.3.</span> <span class="nav-text">依赖注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u56FE_u7247_u6A21_u5757"><span class="nav-number">1.1.4.</span> <span class="nav-text">图片模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u6570_u636E_u5E93_u6A21_u5757"><span class="nav-number">1.1.5.</span> <span class="nav-text">数据库模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u54CD_u5E94_u5F0F_u7F16_u7A0B"><span class="nav-number">1.1.6.</span> <span class="nav-text">响应式编程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u65E5_u5FD7_u8F93_u51FA"><span class="nav-number">1.1.7.</span> <span class="nav-text">日志输出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSON"><span class="nav-number">1.1.8.</span> <span class="nav-text">JSON</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2_uFF09_u67B6_u6784_u8BBE_u8BA1"><span class="nav-number">1.2.</span> <span class="nav-text">2）架构设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3_uFF09_u5D29_u6E83_u7EDF_u8BA1_u5E73_u53F0"><span class="nav-number">1.3.</span> <span class="nav-text">3）崩溃统计平台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4_uFF09_u6D4B_u8BD5_u76F8_u5173"><span class="nav-number">1.4.</span> <span class="nav-text">4）测试相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5_uFF09APP_u5185_u6D4B_uFF0C_u5206_u53D1"><span class="nav-number">1.5.</span> <span class="nav-text">5）APP内测，分发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6_uFF09_u5176_u4ED6"><span class="nav-number">1.6.</span> <span class="nav-text">6）其他</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u540E_u8BDD"><span class="nav-number">2.</span> <span class="nav-text">后话</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liangruijun</span>
+</div>
+
+<!-- <div class="busuanzi">
+  <span id="busuanzi_container_site_pv">
+    总访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+
+  <span id="busuanzi_container_site_uv">
+    &nbsp; | &nbsp; 访客数<span id="busuanzi_value_site_uv"></span>人
+  </span>
+</div> -->
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"liangruijun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
