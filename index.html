@@ -4,7 +4,8 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Home page of ruijun</title>
+    <title>ruijun的主页</title>
+    <link rel="icon" type="image/x-icon" href="avatar.jpg">
     <link rel="stylesheet" type="text/css" href="assets/css/main.css"/>
 </head>
 
@@ -12,7 +13,8 @@
 <div class="vi">
     <div class="sidebar">
         <div class="header">
-            <h1>ruijun小栈</h1>
+            <img class="avatar" src="avatar.jpg" alt="" width="128" height="128"/>
+            <h1>ruijun的主页</h1>
             <div class="quote">
                 <p class="quote-text animate-init">以梦为马，不负韶华。</p>
             </div>
@@ -21,15 +23,11 @@
             <a href="https://github.com/ruijun" class="animate-init">GitHub</a>
             <a href="http://blog.liangruijun.com" class="animate-init">Blog</a>
             <a href="https://www.zhihu.com/people/liangruijun" class="animate-init">Zhihu</a>
-<!--             <p>
-                <a href="http://dudu.zhihu.com/circle/257517" class="animate-init">
-                    复制粘贴加调试
-                </a>
-            </p> -->
+            <a href="mailto:lingdududu@163.com" class="animate-init">Mail</a>
         </div>
         <div class="location">
             <i class="location-icon"></i>
-            <span class="location-text animate-init">Zhuhai - Guangdong</span>
+            <span class="location-text animate-init">Zhuhai · Guangdong</span>
         </div>
         <div class="relocating">
             Navigating to: <span class="relocate-location"></span>...
@@ -74,17 +72,6 @@
 
         function animationQuote() {}
 
-        $(document.body).on('keydown', function (event) {
-            // Press 'b' key
-            if (event.which === 66) {
-                $('.relocate-location').text('Bookmark Page');
-                $('.relocating').css('opacity', 1);
-
-                window.setTimeout(function () {
-                    window.location.href = '/bookmarks.html';
-                }, 1000);
-            }
-        });
     });
 </script>
 </body>
